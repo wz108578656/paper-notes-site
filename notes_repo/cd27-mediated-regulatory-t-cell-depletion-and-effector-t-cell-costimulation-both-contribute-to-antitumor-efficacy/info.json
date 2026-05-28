@@ -1,0 +1,19 @@
+{
+  "index": "cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy",
+  "paper_title": "CD27-Mediated Regulatory T Cell Depletion and Effector T Cell Costimulation Both Contribute to Antitumor Efficacy",
+  "metadata": {
+    "authors": [
+      "Anna Wasiuk",
+      "James Testa",
+      "Jeff Weidlick",
+      "et al."
+    ],
+    "affiliations": [
+      "Celldex Therapeutics, Inc."
+    ],
+    "venue": "J Immunol",
+    "year": 2017,
+    "doi": "10.4049/jimmunol.1700606"
+  },
+  "description": "该研究揭示了靶向CD27的免疫疗法通过双重机制发挥抗肿瘤作用：激动性信号激活效应T细胞，以及通过Fc受体介导的耗竭作用清除调节性T细胞（Treg）。使用不同IgG亚型的抗CD27抗体（1F5）证明，mIgG2a亚型能有效清除Treg并降低其抑制功能，在皮下肿瘤模型中效果显著；而mIgG1亚型则通过强效共刺激快速清除脾脏淋巴瘤，但导致T细胞耗竭。临床候选药物varlilumab (hIgG1) 兼具两种活性，在多种模型中均表现出良好的抗肿瘤效果。"
+}
