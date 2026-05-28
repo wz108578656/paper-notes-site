@@ -1,5 +1,7 @@
 # CD27-Mediated Regulatory T Cell Depletion and Effector T Cell Costimulation Both Contribute to Antitumor Efficacy 论文解析
 
+[:octicons-file-pdf-16: 下载论文原文 (PDF)](paper_notes.pdf){:download="CD27_paper.pdf"} &nbsp;|&nbsp; [DOI: 10.4049/jimmunol.1700606](https://doi.org/10.4049/jimmunol.1700606){:target="_blank"}
+
 ## 0. 论文基本信息
 
 **作者 (Authors)**: Anna Wasiuk, James Testa, Jeff Weidlick, et al.
@@ -34,14 +36,14 @@
 - **免疫记忆的形成**：
   - 经 **1F5mIgG2a** 或 **1F5hIgG1** 治愈的小鼠能有效抵抗肿瘤的二次攻击，表明形成了 **持久的抗肿瘤免疫记忆**。
 
-![](images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
-![](images/13d8cdef11a105c4934a231af2c7fec915c9ffea288d9ee5dc9d59e4c50a25da.jpg)
-![](images/abb31a28255d0dcbfec50d554b8435e98c9a172878c0bef12e312b2fd6063a9c.jpg)
-![](images/74392b6d77b7ef566a577e9ad9a1a3c5e1998e3858637139598f32bf4db4c28d.jpg)
-![](images/9b50c3f6798a413008ba664d60cccfc7bfb141adc2045e78acc0df554db50f27.jpg)
-![](images/b887e4c1c0142a8dc4bab87155fe07c9692898175fec99b8743290e882046db8.jpg) *A*
-![](images/5d79f08c14e05fcf86b139567a823a3550d28cc87d5bf3b53f665404a9122b23.jpg)
-![](images/711c018650376bdfd89384d2e8cac74ffcbfda058d101c78e699baff95351238.jpg)
+![](../images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
+![](../images/13d8cdef11a105c4934a231af2c7fec915c9ffea288d9ee5dc9d59e4c50a25da.jpg)
+![](../images/abb31a28255d0dcbfec50d554b8435e98c9a172878c0bef12e312b2fd6063a9c.jpg)
+![](../images/74392b6d77b7ef566a577e9ad9a1a3c5e1998e3858637139598f32bf4db4c28d.jpg)
+![](../images/9b50c3f6798a413008ba664d60cccfc7bfb141adc2045e78acc0df554db50f27.jpg)
+![](../images/b887e4c1c0142a8dc4bab87155fe07c9692898175fec99b8743290e882046db8.jpg) *A*
+![](../images/5d79f08c14e05fcf86b139567a823a3550d28cc87d5bf3b53f665404a9122b23.jpg)
+![](../images/711c018650376bdfd89384d2e8cac74ffcbfda058d101c78e699baff95351238.jpg)
 
 **结论**
 - 靶向 CD27 的免疫治疗通过 **共刺激效应T细胞** 和 **耗竭功能性Treg** 这两种互补机制共同贡献其抗肿瘤疗效。
@@ -67,7 +69,7 @@
 - 研究还揭示了 **varlilumab **(1F5hIgG1) 兼具适度的激动和耗竭活性，因此在所有测试的肿瘤模型中均表现出良好的广谱抗肿瘤活性。其作用模式可通过 **调整剂量** 来调控：低剂量偏向激动，高剂量偏向耗竭。
 - 该研究首次明确证明，对于 CD27 靶向治疗，**Treg 耗竭** 与 **效应 T 细胞共刺激** 同样重要，甚至在某些情况下更为关键。这为优化 CD27 靶向免疫疗法的临床设计（如剂量、给药方案）提供了重要的理论依据。
 
-![](images/6dc27e6b76a82620c89307251fafb75b1950e4c2a4b9318df9f3119ece2caaca.jpg)
+![](../images/6dc27e6b76a82620c89307251fafb75b1950e4c2a4b9318df9f3119ece2caaca.jpg)
 
 ---
 
@@ -91,10 +93,10 @@
     - **调节性T细胞 (Treg) 分析**: 重点评估不同抗体变体对 **Treg** 数量、表型和**抑制功能 (suppressive activity)** 的影响，并与经典的 **CD25** 耗竭抗体 **PC.61** 进行对比。
     - **功能验证实验**: 包括 **Treg抑制功能测定**、**肿瘤再挑战实验**（验证免疫记忆）以及**治疗时机实验**（预处理 vs. 后处理），以确认观察到的免疫学变化与抗肿瘤疗效之间的因果关系。
 
-![](images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
-![](images/13d8cdef11a105c4934a231af2c7fec915c9ffea288d9ee5dc9d59e4c50a25da.jpg)
-![](images/abb31a28255d0dcbfec50d554b8435e98c9a172878c0bef12e312b2fd6063a9c.jpg)
-![](images/74392b6d77b7ef566a577e9ad9a1a3c5e1998e3858637139598f32bf4db4c28d.jpg)
+![](../images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
+![](../images/13d8cdef11a105c4934a231af2c7fec915c9ffea288d9ee5dc9d59e4c50a25da.jpg)
+![](../images/abb31a28255d0dcbfec50d554b8435e98c9a172878c0bef12e312b2fd6063a9c.jpg)
+![](../images/74392b6d77b7ef566a577e9ad9a1a3c5e1998e3858637139598f32bf4db4c28d.jpg)
 
 ---
 **核心发现与结论**
@@ -154,8 +156,8 @@
   - **解释模型依赖性疗效**：阐明了为何 **1F5mIgG1** 对主要在脾脏生长的 **BCL1 lymphoma** 最有效（脾脏富含 FcγRIIB+ B 细胞，利于交联激动），而 **1F5mIgG2a** 对皮下实体瘤（如 E.G7, Colon26）更有效（通过耗竭 Tregs 改变肿瘤微环境）。
   - **指导临床开发**：为临床候选药物 **varlilumab **(1F5hIgG1) 的作用机制提供了深刻见解。Varlilumab 表现出 **balanced agonistic and depleting activities**（平衡的激动与耗竭活性），其具体偏向可通过 **dose and regimen**（剂量和方案）进行调节（低剂量偏向激动，高剂量偏向耗竭），这为优化临床用药策略提供了理论依据。
 
-![](images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
-![](images/f612673da78c5605f2f27a4d2dc8225d3423cbde4e58810cda96dc3e6ea170e4.jpg)
+![](../images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
+![](../images/f612673da78c5605f2f27a4d2dc8225d3423cbde4e58810cda96dc3e6ea170e4.jpg)
 
 **不同抗体变体的功能特性对比**
 
@@ -176,8 +178,8 @@
 - **抗肿瘤疗效差异**：在 E.G7 和 CT26 肿瘤模型中，**1F5mIgG2a 的治愈率显著高于 PC.61**。甚至二者联用可产生 **synergistic effect**（协同效应），达到 95% 的治愈率。
 - **根本原因推测**：CD27 的表达水平与 Treg 的抑制功能正相关。1F5mIgG2a 优先清除了 **CD27<sup>hi</sup>** 的、最具抑制功能的 Treg 亚群，而 PC.61 的耗竭可能不够精准，甚至可能富集了更具功能的 Treg。
 
-![](images/9fa0ec6db57baae08ab8dd1d776943214bc7c622a35c8e0d7c4a59f2f6f2685c.jpg)
-![](images/168ed7cde1862b33c6706cd24078d571efa2d947942cf1594348befb1b3ff33d.jpg)
+![](../images/9fa0ec6db57baae08ab8dd1d776943214bc7c622a35c8e0d7c4a59f2f6f2685c.jpg)
+![](../images/168ed7cde1862b33c6706cd24078d571efa2d947942cf1594348befb1b3ff33d.jpg)
 
 ### 2. Dual Mechanism of Action (Agonism vs. Depletion)
 
@@ -197,7 +199,7 @@
     - 凋亡相关分子（Fas, active Caspase-3）上调，抗凋亡分子（Bcl-2）下调。
   - **抗肿瘤效果**：在**BCL1淋巴瘤模型**（主要在脾脏生长）中效果最佳，因为脾脏富含表达FcγRIIB的B细胞，为抗体交联提供了理想微环境。但在皮下实体瘤模型中效果有限，因其引发的免疫反应短暂且无法形成有效记忆。
 
-![](images/22cb014623f387db97d88cd9be4d578d968280c1634b819f6d38fdd826dfd4ed.jpg)
+![](../images/22cb014623f387db97d88cd9be4d578d968280c1634b819f6d38fdd826dfd4ed.jpg)
 
 - **mIgG2a亚型**（1F5mIgG2a）
   - **FcγR结合特性**：主要与**激活性FcγRs**（如FcγRI, FcγRIII, FcγRIV）结合，这些受体在NK细胞、巨噬细胞等效应细胞上表达。
@@ -208,7 +210,7 @@
     - 同时提供**适度的共刺激信号**，增强效应T细胞的功能，但强度远低于mIgG1，因此避免了严重的耗竭和凋亡。
   - **抗肿瘤效果**：在**E.G7、Colon26等皮下实体瘤模型**中表现出卓越的疗效，能够实现长期治愈。其机制在于解除Treg介导的免疫抑制，同时维持一个功能健全的效应T细胞池。
 
-![](images/30a9c711816d25ee383f327b97978ab7c4168ccd25c6d21121728a505eccbec5.jpg)
+![](../images/30a9c711816d25ee383f327b97978ab7c4168ccd25c6d21121728a505eccbec5.jpg)
 
 ---
 **人源IgG1亚型**（1F5hIgG1 / varlilumab）
@@ -255,24 +257,24 @@
   - **作用机制**：主要与表达于B细胞等上的**抑制性FcγRIIB**结合。这种结合不触发ADCC/ADCP等效应功能，但能高效地**交联**（cross-link）抗体，从而最大化其**激动活性**（agonistic activity），强烈共刺激T细胞。
   - **疗效表现**：在**系统性BCL1淋巴瘤模型**中效果最佳。BCL1主要在脾脏生长，而脾脏富含高表达FcγRIIB的B细胞，为抗体交联提供了理想环境。
   - **免疫学后果**：诱导了极其**强大而广泛的免疫激活**，包括CD8+ T细胞、NK细胞和树突状细胞（DCs）的显著扩增与活化。
-    - ![](images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
-    - ![](images/13d8cdef11a105c4934a231af2c7fec915c9ffea288d9ee5dc9d59e4c50a25da.jpg)
+    - ![](../images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
+    - ![](../images/13d8cdef11a105c4934a231af2c7fec915c9ffea288d9ee5dc9d59e4c50a25da.jpg)
   - **负面效应**：强烈的CD27信号导致效应T细胞发生**终末分化**（terminal differentiation）、**耗竭**（exhaustion）和**活化诱导的细胞死亡**（AICD）。
     - 表现为短寿命效应细胞（SLECs）比例剧增，而中央记忆T细胞（Tcm）减少。
     - 耗竭标志物（PD-1, Tim-3, Lag-3）共表达上调，凋亡分子（Fas, active Caspase-3）水平升高，抗凋亡分子（Bcl-2）水平下降。
-    - ![](images/abb31a28255d0dcbfec50d554b8435e98c9a172878c0bef12e312b2fd6063a9c.jpg)
-    - ![](images/e78653599da4aa8b94664c41ffd73723ab62c5ae4c11c30ea475c0ee2b8bf3e2.jpg)
+    - ![](../images/abb31a28255d0dcbfec50d554b8435e98c9a172878c0bef12e312b2fd6063a9c.jpg)
+    - ![](../images/e78653599da4aa8b94664c41ffd73723ab62c5ae4c11c30ea475c0ee2b8bf3e2.jpg)
   - **最终结果**：虽然能快速清除BCL1肿瘤，但由于T细胞过早耗竭和凋亡，**无法形成有效的长期免疫记忆**，因此在需要持久免疫应答的**皮下实体瘤模型**（如E.G7, Colon26）中效果有限。
 
 - **mIgG2a同种型 (1F5mIgG2a)**：
   - **作用机制**：主要与表达于NK细胞、巨噬细胞等上的**激活性FcγRs**（如FcγRIV）结合，从而介导强大的**抗体依赖性细胞介导的细胞毒性**（ADCC）和**吞噬作用**（ADCP），导致靶细胞**耗竭**（depleting activity）。
   - **疗效表现**：在**皮下实体瘤模型**（如E.G7胸腺瘤、Colon26结肠癌）中效果卓越，能实现长期生存甚至治愈。
   - **关键靶点**：该同种型能**选择性地耗竭高表达CD27的调节性T细胞**（Treg）。由于Treg通常比效应T细胞表达更高水平的CD27，因此成为优先被清除的目标。
-    - ![](images/74392b6d77b7ef566a577e9ad9a1a3c5e1998e3858637139598f32bf4db4c28d.jpg)
+    - ![](../images/74392b6d77b7ef566a577e9ad9a1a3c5e1998e3858637139598f32bf4db4c28d.jpg)
   - **双重优势**：
     - **数量减少**：显著降低了Treg的绝对数量。
     - **功能削弱**：残余的Treg**抑制活性**（suppressive activity）显著降低，这可能是由于最具抑制功能的Treg亚群被优先清除。
-    - ![](images/9b50c3f6798a413008ba664d60cccfc7bfb141adc2045e78acc0df554db50f27.jpg)
+    - ![](../images/9b50c3f6798a413008ba664d60cccfc7bfb141adc2045e78acc0df554db50f27.jpg)
   - **最终结果**：通过解除Treg介导的免疫抑制，并辅以适度的共刺激作用，在肿瘤微环境中营造了有利于效应T细胞发挥功能的环境，从而有效控制并清除皮下肿瘤。
 
 ---
@@ -287,7 +289,7 @@
 | **Colon26** | 皮下接种 | **1F5mIgG2a** | 肿瘤消退，高比例长期治愈 | **Treg耗竭**（解除免疫抑制） |
 | **CT26 / B16-MUC1** | 皮下接种 | **1F5hIgG1** (varlilumab) | 部分有效 | **激动与耗竭的平衡** |
 
-- ![](images/cb7145fd0690e41b44620f769bc3b9c739dde1a141143ea829f6aee40d8394d6.jpg)
+- ![](../images/cb7145fd0690e41b44620f769bc3b9c739dde1a141143ea829f6aee40d8394d6.jpg)
 
 ---
 **人源IgG1同种型 (Varlilumab, 1F5hIgG1) 的平衡作用**
@@ -318,9 +320,9 @@
   - 相反，**PC.61**处理后的残余Treg，其抑制能力**不仅未减弱，反而更强**，超过了对照组Treg的抑制水平。
 - 这一发现直接解释了为何**1F5mIgG2a**在E.G7和CT26肿瘤模型中展现出比**PC.61**更优越的抗肿瘤效果。
 
-![](images/9b50c3f6798a413008ba664d60cccfc7bfb141adc2045e78acc0df554db50f27.jpg)
-![](images/df337ab803e98ef4c4c4d0cb946d51a1a8c0c06fcc7ec4c720aa9e818eefc888.jpg)
-![](images/30a9c711816d25ee383f327b97978ab7c4168ccd25c6d21121728a505eccbec5.jpg)
+![](../images/9b50c3f6798a413008ba664d60cccfc7bfb141adc2045e78acc0df554db50f27.jpg)
+![](../images/df337ab803e98ef4c4c4d0cb946d51a1a8c0c06fcc7ec4c720aa9e818eefc888.jpg)
+![](../images/30a9c711816d25ee383f327b97978ab7c4168ccd25c6d21121728a505eccbec5.jpg)
 
 **功能损伤的潜在机制与表型关联**
 
@@ -360,7 +362,7 @@
   - 由于 **regulatory T cells (Tregs)** 表面 **CD27 表达水平 (CD27hi)** 显著高于其他 T 细胞亚群，它们成为抗体介导的细胞毒性作用的 **preferential target (优先靶标)**。
   - 结果导致 **Treg 数量** 和 **Treg suppressive activity (抑制活性)** 的显著下降。
 
-![](images/aafc9a7d5a93035e3dbbfdbb8f77f67f893aafd61a0482e3ab8a4343ef03acd3.jpg)
+![](../images/aafc9a7d5a93035e3dbbfdbb8f77f67f893aafd61a0482e3ab8a4343ef03acd3.jpg)
 
 **输入输出关系及在整体研究中的作用**
 
@@ -393,20 +395,20 @@
 
 - **不同同种型抗体展现出模型依赖性的抗肿瘤疗效**：
   - 在 **BCL1淋巴瘤模型** 中，**1F5mIgG1** 效果最佳，而 **1F5mIgG2a** 完全无效。这表明在该模型中，强烈的共刺激信号是关键。
-    ![](images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
+    ![](../images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
   - 在 **皮下肿瘤模型（如E.G7, Colon26）** 中，**1F5mIgG2a** 表现出卓越的治愈效果，而 **1F5mIgG1** 效果不佳。这表明在这些模型中，Treg耗竭是主导机制。
-    ![](images/ca8b4079caf25b84d33c8fa033498b9f744f6f95fde0c20c1e572418cbd61679.jpg)
-    ![](images/7b44cb6d7cea4849258efc8354ebe966e4b4e4666b34089ef1074110ede16435.jpg)
+    ![](../images/ca8b4079caf25b84d33c8fa033498b9f744f6f95fde0c20c1e572418cbd61679.jpg)
+    ![](../images/7b44cb6d7cea4849258efc8354ebe966e4b4e4666b34089ef1074110ede16435.jpg)
 - **1F5mIgG1诱导强烈的免疫激活但伴随T细胞耗竭**：
   - **1F5mIgG1** 能最有效地扩增抗原特异性CD8+ T细胞，并激活NK细胞和树突状细胞（DCs）。
-    ![](images/cb7145fd0690e41b44620f769bc3b9c739dde1a141143ea829f6aee40d8394d6.jpg)
+    ![](../images/cb7145fd0690e41b44620f769bc3b9c739dde1a141143ea829f6aee40d8394d6.jpg)
   - 然而，这种强烈的激活导致CD8+ T细胞发生 **终末分化 (SLECs增加)**、**耗竭 (PD-1, Tim-3, Lag-3共表达)** 和 **凋亡 (Fas, aCasp3上调; Bcl-2下调)**，从而限制了其在需要持久免疫应答的皮下肿瘤模型中的疗效。
-    ![](images/abb31a28255d0dcbfec50d554b8435e98c9a172878c0bef12e312b2fd6063a9c.jpg)
+    ![](../images/abb31a28255d0dcbfec50d554b8435e98c9a172878c0bef12e312b2fd6063a9c.jpg)
 - **1F5mIgG2a通过选择性耗竭功能性Treg发挥作用**：
   - **1F5mIgG2a** 能显著降低Treg的数量，尤其是在外周淋巴结（pLNs）和肿瘤微环境中。
-    ![](images/74392b6d77b7ef566a577e9ad9a1a3c5e1998e3858637139598f32bf4db4c28d.jpg)
+    ![](../images/74392b6d77b7ef566a577e9ad9a1a3c5e1998e3858637139598f32bf4db4c28d.jpg)
   - 更重要的是，残留的Treg **抑制功能显著受损**，这与仅减少Treg数量的PC.61抗体形成鲜明对比。
-    ![](images/9b50c3f6798a413008ba664d60cccfc7bfb141adc2045e78acc0df554db50f27.jpg)
+    ![](../images/9b50c3f6798a413008ba664d60cccfc7bfb141adc2045e78acc0df554db50f27.jpg)
 - **Varlilumab (1F5hIgG1) 兼具双重活性**：
   - 在较低剂量下，主要表现为 **共刺激活性**；在较高剂量下，**耗竭活性**更为显著。
   - 这种平衡的特性使其在所有测试的肿瘤模型中均表现出良好的广谱抗肿瘤活性。
@@ -416,16 +418,16 @@
 - **Fc受体结合能力的消融**：
   - 引入 **D265A突变** 的 **1F5mIgG1_D265A** 完全丧失了与所有FcγR的结合能力。
   - 在BCL1模型中，该突变体 **完全失去了抗肿瘤疗效**，证明FcγR介导的交联对于1F5mIgG1的共刺激活性至关重要。
-    ![](images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
+    ![](../images/f6ebb06d7d9e59d6238b86dce4894c956893e2d49c100673ffd616a64a0e0952.jpg)
 - **治疗时机的消融（预处理 vs. 后处理）**：
   - 在E.G7模型中，**1F5mIgG2a** 无论是在肿瘤接种前（预处理）还是接种后（后处理）给药，均能产生相似的治愈效果。
   - 这表明其核心机制（Treg耗竭）不依赖于已存在的肿瘤抗原，而是通过解除免疫抑制来允许后续的抗肿瘤免疫应答发生。
-    ![](images/b887e4c1c0142a8dc4bab87155fe07c9692898175fec99b8743290e882046db8.jpg) *A*
+    ![](../images/b887e4c1c0142a8dc4bab87155fe07c9692898175fec99b8743290e882046db8.jpg) *A*
 - **与PC.61的对比消融**：
   - **1F5mIgG2a** 的抗肿瘤效果 **优于** 传统的Treg耗竭抗体 **PC.61**。
   - 两者联合使用甚至能产生 **协同效应**，达到95%的治愈率。
   - 这一“消融”实验凸显了 **CD27靶向耗竭Treg的独特优势**：不仅减少数量，更关键的是削弱了残留Treg的功能，而PC.61处理后的残留Treg反而更具抑制性。
-    ![](images/9fa0ec6db57baae08ab8dd1d776943214bc7c622a35c8e0d7c4a59f2f6f2685c.jpg)
+    ![](../images/9fa0ec6db57baae08ab8dd1d776943214bc7c622a35c8e0d7c4a59f2f6f2685c.jpg)
 
 ---
 

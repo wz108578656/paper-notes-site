@@ -42,4 +42,4 @@ title="点击搜索"
 
 ## 最近更新
 
-- [CD27-Mediated Regulatory T Cell Depletion and Effector T Cell Costimulation Both Contribute to Antitumor Efficacy](../notes_repo/cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/) — paper_notes
+- [CD27-Mediated Regulatory T Cell Depletion and Effector T Cell Costimulation Both Contribute to Antitumor Efficacy](notes_repo/cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/index.md) — paper_notes
