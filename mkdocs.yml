@@ -2,50 +2,57 @@ site_name: Paper Notes
 site_url: https://wz108578656.github.io/paper-notes-site/
 repo_url: https://github.com/wz108578656/paper-notes-site
 edit_uri: ''
+
 extra:
   generator: false
+
 theme:
   name: material
   language: zh
   features:
-  - navigation.sections
-  - navigation.top
-  - navigation.indexes
-  - search.suggest
-  - search.highlight
-  - content.code.copy
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
   palette:
-  - scheme: default
-    primary: black
-    accent: amber
-    toggle:
-      icon: material/brightness-7
-      name: 切换到深色模式
-  - scheme: slate
-    primary: black
-    accent: amber
-    toggle:
-      icon: material/brightness-4
-      name: 切换到浅色模式
+    - scheme: default
+      primary: black
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: 切换到深色模式
+    - scheme: slate
+      primary: black
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: 切换到浅色模式
   logo: assets/logo.png
   favicon: assets/logo.png
+
 markdown_extensions:
-- admonition
-- pymdownx.details
-- pymdownx.superfences
-- pymdownx.highlight:
-    anchor_linenums: true
-- pymdownx.tabbed:
-    alternate_style: true
-- toc:
-    permalink: true
+  - attr_list
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
 extra_css:
-- stylesheets/extra.css
+  - stylesheets/extra.css
+
 extra_javascript:
-- javascripts/body_class.js
+  - javascripts/body_class.js
+
 nav:
-- Home: index.md
-- Recent:
-  - Recent: collections/Recent/index.md
-  - notes_repo/cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/index.md
-  - notes_repo/cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/ELI5_notes/index.md
+  - Home: index.md
+  - Recent:
+      - Recent: collections/Recent/index.md
+      - CD27 (论文笔记): notes_repo/cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/index.md
+      - CD27 (通俗版): notes_repo/cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/ELI5_notes/index.md

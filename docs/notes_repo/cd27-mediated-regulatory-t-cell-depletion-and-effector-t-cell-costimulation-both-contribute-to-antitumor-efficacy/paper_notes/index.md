@@ -1,6 +1,6 @@
 # CD27-Mediated Regulatory T Cell Depletion and Effector T Cell Costimulation Both Contribute to Antitumor Efficacy 论文解析
 
-[:octicons-file-pdf-16: 下载论文原文 (PDF)](original.pdf){:download="CD27_original.pdf"} &nbsp;|&nbsp; [DOI: 10.4049/jimmunol.1700606](https://doi.org/10.4049/jimmunol.1700606){:target="_blank"}
+[📄 下载论文原文 (PDF)](original.pdf){:download="CD27_original.pdf"} &nbsp;|&nbsp; [DOI: 10.4049/jimmunol.1700606](https://doi.org/10.4049/jimmunol.1700606){:target="_blank"}
 
 ## 0. 论文基本信息
 
