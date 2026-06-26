@@ -1,0 +1,21 @@
+{
+  "index": "a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators",
+  "paper_title": "A Configurable RISC-V Co-Processor with Instruction-Controlled Stream-Based Accelerators",
+  "metadata": {
+    "authors": [
+      "Rohan Krishna Vijayaraghavan",
+      "Ahmed Kamaleldin",
+      "Matthias Nickel",
+      "Lester Kalms",
+      "Diana Göhringer"
+    ],
+    "affiliations": [
+      "Technische Universität Dresden",
+      "Center of Scalable Data Analytics and Artificial Intelligence (ScaDS.AI), Technische Universität Dresden"
+    ],
+    "venue": "ACM Trans. Reconfig. Technol. Syst.",
+    "year": 2026,
+    "doi": null
+  },
+  "description": "提出一种模块化RISC-V协处理器，可集成多个流式加速器IP，通过定制指令集和可扩展单周期互连实现高效数据移动。引入前向单元（FWU）支持IP间直接数据流，避免内存回写；增强计算单元地址队列实现非连续访问。采用异步FIFO解耦时钟域，使加速器频率独立于核心。在RFSoC 4x2上原型验证，8×8配置下频率达333 MHz，资源消耗低于3% LUT。ShuffleNet-V2案例显示，相比独立HLS IP，LUT减少51%，BRAM减少25%，功耗降低27%，延迟相当。"
+}
