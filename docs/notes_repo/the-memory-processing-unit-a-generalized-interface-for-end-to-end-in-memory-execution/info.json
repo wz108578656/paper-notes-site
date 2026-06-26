@@ -1,0 +1,20 @@
+{
+  "index": "the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution",
+  "paper_title": "The Memory Processing Unit: A Generalized Interface for End-to-End In-Memory Execution",
+  "metadata": {
+    "authors": [
+      "Minh S. Q. Truong",
+      "Yiqiu Sun",
+      "Dawei Xiong",
+      "et al."
+    ],
+    "affiliations": [
+      "University of Illinois Urbana-Champaign",
+      "Carnegie Mellon University"
+    ],
+    "venue": "MICRO",
+    "year": 2021,
+    "doi": null
+  },
+  "description": "提出内存处理单元（MPU），一种与微架构无关的接口，用于通用存内计算（PUM）。MPU通过新的指令集、ensemble执行模型和控制路径，解决了现有PUM方案依赖CPU、编程复杂和缺乏系统软件支持的问题。在21个数据密集型核上，相比先前PUM工作平均性能/能效提升1.79×/3.23×，相比NVIDIA RTX 4090 GPU提升67×/47×，并首次实现了复杂端到端应用的纯PUM执行。"
+}

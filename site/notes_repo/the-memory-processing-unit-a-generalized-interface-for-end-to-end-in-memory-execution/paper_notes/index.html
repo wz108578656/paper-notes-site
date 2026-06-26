@@ -1,0 +1,1511 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://wz108578656.github.io/paper-notes-site/notes_repo/the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/paper_notes/">
+      
+      
+        <link rel="prev" href="../../../collections/Recent/">
+      
+      
+        <link rel="next" href="../ELI5_notes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>MPU (论文笔记) - Paper Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="Paper Notes" class="md-header__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Paper Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MPU (论文笔记)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Paper Notes" class="md-nav__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    Paper Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../collections/Recent/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recent
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Recent
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 论文基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 背景知识与核心贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心技术和实现细节
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 核心技术和实现细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 技术架构概览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-memory-processing-unit-mpu-isa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Memory Processing Unit (MPU) ISA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ensemble-execution-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ensemble Execution Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-register-file-holder-rfh-abstraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Register File Holder (RFH) Abstraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-mpu-control-path-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. MPU Control Path Hardware
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-simd-gating-with-lane-masking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. SIMD Gating with Lane Masking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实验方法与实验结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 论文基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 背景知识与核心贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心技术和实现细节
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 核心技术和实现细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 技术架构概览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-memory-processing-unit-mpu-isa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Memory Processing Unit (MPU) ISA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ensemble-execution-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ensemble Execution Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-register-file-holder-rfh-abstraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Register File Holder (RFH) Abstraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-mpu-control-path-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. MPU Control Path Hardware
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-simd-gating-with-lane-masking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. SIMD Gating with Lane Masking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实验方法与实验结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution">The Memory Processing Unit: A Generalized Interface for End-to-End In-Memory Execution 论文解析<a class="headerlink" href="#the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution" title="Permanent link">&para;</a></h1>
+<p><a download="26hpca_mpu.pdf" href="26hpca_mpu.pdf">📄 下载论文原文 (PDF)</a> &nbsp;|&nbsp; <a href="26hpca_mpu.pdf" target="_blank">🔗 在线阅读</a> &nbsp;|&nbsp; <a href="https://doi.org/10.1109/hpca68181.2026.11408599" target="_blank">DOI: 10.1109/hpca68181.2026.11408599</a></p>
+<h2 id="0">0. 论文基本信息<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<p><strong>作者 (Authors)</strong>: Minh S. Q. Truong, Yiqiu Sun, Dawei Xiong, et al.</p>
+<p><strong>发表期刊/会议 (Journal/Conference)</strong>: MICRO</p>
+<p><strong>发表年份 (Publication Year)</strong>: 2021</p>
+<p><strong>研究机构 (Affiliations)</strong>: University of Illinois Urbana-Champaign, Carnegie Mellon University</p>
+<hr />
+<h2 id="1">1. 摘要<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p><strong>目的</strong></p>
+<ul>
+<li>解决现有 <strong>Processing-using-memory (PUM)</strong> 架构的三大核心瓶颈：</li>
+<li>过度依赖 <strong>host CPU</strong> 执行控制流和标量操作，导致性能严重下降（文中估算慢 <strong>30–40×</strong>）。</li>
+<li>缺乏统一、可扩展的编程接口，迫使程序员深度耦合特定微架构，阻碍了通用软件栈（如编译器、系统库）的发展。</li>
+<li>难以将应用从简单的数据并行内核扩展到复杂的 <strong>end-to-end applications</strong>。</li>
+</ul>
+<p><strong>方法</strong></p>
+<ul>
+<li>提出 <strong>Memory Processing Unit (MPU)</strong>，一个与微架构无关的 PUM 前端接口层，包含三个核心组件：</li>
+<li><strong>MPU 指令集架构 (ISA)</strong>：提供一套通用指令，支持复杂控制流（如 <code>if-else</code>、动态循环、子程序调用）和任务协调，取代了各 PUM 设计私有的指令集。</li>
+<li><strong>Ensemble Execution Model</strong>：一种新的执行模型，允许程序员动态地将任意位置的 <strong>Vector Register Files (VRFs)</strong> 组合成 <strong>ensemble</strong> 来执行相同任务，从而灵活表达不同粒度的并行性。</li>
+<li><strong>Register File Holder (RFH) 抽象</strong>：封装底层硬件约束（如热密度限制、共享控制单元），由 <strong>MPU runtime</strong> 自动管理调度，对程序员透明。</li>
+<li>设计并实现了完整的 <strong>MPU control path</strong> 硬件，包括 <strong>precoder</strong>、<strong>compute controller (CC)</strong> 和 <strong>data transfer controller (DTC)</strong>，以高效执行 MPU ISA。</li>
+<li>引入 <strong>recipe table</strong> 机制，将通用 MPU 指令动态翻译为后端 PUM 微架构特定的 <strong>micro-ops</strong>。</li>
+<li>通过 <strong>in-VRF masking</strong> 硬件支持高效的 <strong>SIMD predication</strong>，实现数据驱动的复杂控制流。</li>
+<li>开发了高级汇编器 <strong>ezpim</strong>，简化了 MPU 程序的编写。</li>
+</ul>
+<p><img alt="" src="images/7cd45bda0c83833f97e02fe9d25ff958560f9effa1251d403821017c2d503f4a.jpg" /> <em>Fig. 2. MPU overview. A VRF corresponds to one or more memory arrays.</em></p>
+<p><strong>结果</strong></p>
+<ul>
+<li><strong>性能与能效提升</strong>：在 <strong>RACER</strong>、<strong>MIMDRAM</strong> 和 <strong>Duality Cache</strong> 三种不同的 PUM 微架构上，MPU 相比其原始设计（Baseline）取得了显著改进。</li>
+<li>平均性能提升 <strong>1.79×</strong>，平均能效提升 <strong>3.23×</strong>。</li>
+<li>对于包含复杂控制流的内核，提升更为显著（例如 RACER 性能提升 <strong>5.6×</strong>，能效提升 <strong>11.3×</strong>）。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">配置</th>
+<th style="text-align: left;">平均性能提升 (vs. Baseline)</th>
+<th style="text-align: left;">平均能效提升 (vs. Baseline)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>MPU:RACER</strong></td>
+<td style="text-align: left;"><strong>1.79×</strong></td>
+<td style="text-align: left;"><strong>3.23×</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MPU:MIMDRAM</strong></td>
+<td style="text-align: left;"><strong>1.70×</strong></td>
+<td style="text-align: left;"><strong>2.34×</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MPU:DualityCache</strong></td>
+<td style="text-align: left;"><strong>1.12×</strong></td>
+<td style="text-align: left;"><strong>4.07×</strong></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="" src="images/af3bd066d71d96c2d13b9fa1c619fd6b722631fb4eefd4d78fa0e851a559c15a.jpg" /></p>
+<ul>
+<li><strong>对比现代 GPU</strong>：MPU 在数据密集型任务上展现出巨大优势。</li>
+<li><strong>MPU:RACER</strong> 相比 <strong>NVIDIA GeForce RTX 4090</strong> GPU，平均性能提升 <strong>67×</strong>，平均能效提升 <strong>47×</strong>。</li>
+<li><strong>MPU:MIMDRAM</strong> 平均性能提升 <strong>156×</strong>，平均能效提升 <strong>35×</strong>。</li>
+</ul>
+<p><img alt="" src="images/90df5df4e256e0a05c8a673e972650fe8371e18a67b1baeab52649ded55824db.jpg" /></p>
+<ul>
+<li><strong>端到端应用执行</strong>：成功在 PUM 上完整执行了 <strong>LLMEncode</strong>、<strong>BlackScholes</strong> 和 <strong>EditDistance</strong> 三个复杂应用，无需 CPU 干预。</li>
+<li>例如，<strong>MPU:RACER</strong> 执行 <strong>EditDistance</strong> 的速度是 GPU 的 <strong>400×</strong>。</li>
+<li>彻底消除了 Baseline 方案中因频繁 <strong>off-chip communication</strong> 导致的巨大开销。</li>
+</ul>
+<p><img alt="" src="images/157625104444496734649c27fdfab2424382c6e6c200dab67396a2076de101a1.jpg" /></p>
+<p><strong>结论</strong></p>
+<ul>
+<li><strong>MPU</strong> 成功地为通用 <strong>bitwise PUM</strong> 架构提供了一个 <strong>microarchitecture-agnostic</strong> 的标准化接口。</li>
+<li>通过其创新的 <strong>ensemble/RFH</strong> 抽象和配套的控制路径硬件，MPU 实现了 <strong>CPU-free</strong> 的 <strong>end-to-end application execution</strong>，解决了长期制约 PUM 发展的编程性和通用性难题。</li>
+<li>实验结果证明，MPU 不仅大幅提升了现有 PUM 设计的性能和能效，还为其生态系统的建立（如通用编译器和软件工具链）奠定了坚实基础，使 PUM 技术有望从专用加速器走向更广泛的通用计算领域。</li>
+</ul>
+<hr />
+<h2 id="2">2. 背景知识与核心贡献<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p><strong>研究背景</strong>
+- <strong>Processing-using-memory (PUM)</strong>，或称 in-memory computing，旨在通过利用存储单元间的电气交互直接执行计算，从而消除数据在处理器与内存间移动所带来的巨大能耗和延迟开销。
+- 尽管潜力巨大，现有 PUM 研究主要聚焦于设计特定的 datapath 微架构来加速高度并行的计算内核（如矩阵乘法），但这些方案存在严重局限：
+  - 依赖于微架构特有的、类似向量的接口，导致应用中大量非并行或控制流密集的操作必须卸载到外部 <strong>CPU</strong> 执行。
+  - 程序员需要深入了解底层硬件细节才能将应用扩展到整个内存芯片，编程负担极重。
+  - 由于缺乏统一、通用的接口，阻碍了为 PUM 开发通用的系统软件栈（如编译器、运行时库）。</p>
+<p><strong>研究动机</strong>
+- 现有 PUM 方案对 CPU 的强依赖性是其无法处理端到端复杂应用的根本瓶颈。即使仅有少量指令（如文中图1所示，每80条指令中有1条）需要 CPU 参与，也会导致程序整体性能下降 <strong>10.1倍</strong>，对于典型程序，预估 slowdown 高达 <strong>30–40倍</strong>。
+- <img alt="" src="images/b744a2d9f391f1d3bb7338e3bd9485b18351283ae1fefb345794d6ead2f8f870.jpg" />
+- 因此，亟需一个<strong>微架构无关</strong>的通用接口层，既能支持端到端的应用执行，又能简化编程模型，并为跨平台的 PUM 软件生态奠定基础。</p>
+<p><strong>核心贡献</strong>
+- 提出 <strong>Memory Processing Unit (MPU)</strong>，一个面向通用 PUM 的、微架构无关的前端接口层，包含三个核心组件：
+  - <strong>MPU 指令集架构 (ISA)</strong>：提供一套通用指令，支持应用扩展和任务协调，屏蔽底层硬件差异。
+  - <strong>Ensemble Execution Model</strong>：一种新的执行模型，允许程序员动态地将多个 <strong>Vector Register Files (VRFs)</strong> 组合成一个逻辑执行单元（ensemble），该模型能映射到大多数通用 PUM 微架构。
+  - <strong>MPU Control Path</strong>：一个全面的控制路径硬件设计，能够高效地跨多个 ensembles 执行 MPU ISA 二进制文件，并支持脱离 CPU 的复杂端到端应用执行。
+- 通过实验证明，MPU 能够成功映射到多种先前提出的 PUM datapaths（如 DRAM-based MIMDRAM, ReRAM-based RACER, SRAM-based Duality Cache），并在 <strong>21个</strong> 数据密集型内核上，相比这些原始设计，平均实现 <strong>1.79倍</strong> 的性能提升和 <strong>3.23倍</strong> 的能效提升（相较于现代 GPU，提升高达 <strong>67倍/47倍</strong>）。</p>
+<hr />
+<h2 id="3">3. 核心技术和实现细节<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<h3 id="0_1">0. 技术架构概览<a class="headerlink" href="#0_1" title="Permanent link">&para;</a></h3>
+<p><strong>整体技术架构</strong></p>
+<p>本文提出了一种名为 <strong>Memory Processing Unit (MPU)</strong> 的通用接口层，旨在解决现有 Processing-Using-Memory (PUM) 架构在编程模型、应用扩展性和系统软件支持方面的根本性限制。其核心目标是实现 <strong>microarchitecture-agnostic</strong>（微架构无关）的端到端应用执行。</p>
+<ul>
+<li><strong>设计动机</strong>：传统 PUM 方案依赖于特定于微架构的向量接口，导致三个主要问题：</li>
+<li>大量操作必须卸载到 CPU，造成严重的性能瓶颈。</li>
+<li>程序员需手动处理芯片级扩展，负担沉重。</li>
+<li>难以开发通用的系统软件和编程工具链。</li>
+<li><strong>核心理念</strong>：MPU 在底层 PUM 数据通路之上引入一个轻量级的、硬件感知的运行时和控制路径，将复杂的硬件约束与程序员隔离开来，提供一个统一、高级的编程抽象。</li>
+</ul>
+<hr />
+<p><strong>MPU 的三大核心组件</strong></p>
+<p><strong>1. MPU 指令集架构 (ISA)</strong>
+- 定义了一套通用指令集，取代了各 PUM 微架构特有的指令。
+- 包含三类关键指令：
+  - <strong>Ensemble Deployment</strong>: <code>COMPUTE</code>, <code>MOVE</code> 等，用于声明计算或数据传输任务的范围。
+  - <strong>Control Flow</strong>: <code>JUMP_COND</code>, <code>SETMASK</code>, <code>UNMASK</code> 等，支持 <strong>data-driven control flow</strong>（数据驱动的控制流），如动态循环和条件分支。
+  - <strong>Arithmetic &amp; Data Movement</strong>: 标准的算术、逻辑和数据移动指令。
+- 该 ISA 被设计为可由一个通用的硬件解码器翻译成不同后端 PUM 技术（如 DRAM, ReRAM, SRAM）所需的底层 <strong>micro-ops</strong>。</p>
+<p><strong>2. Ensemble Execution Model (集成执行模型)</strong>
+- 这是 MPU 编程的核心抽象。
+- <strong>Ensemble (集成)</strong>: 一个由程序员定义的、执行相同内核代码的 <strong>Vector Register Files (VRFs)</strong> 集合。VRFs 是对底层物理内存阵列的逻辑映射。
+- <strong>Register File Holder (RFH, 寄存器文件持有者)</strong>: 一个封装了硬件物理约束（如热密度限制、共享控制单元）的抽象。一个 RFH 包含一组不能同时激活的 VRFs。
+- <strong>运行时调度</strong>: MPU 运行时负责将程序员定义的、逻辑上无约束的 Ensemble 映射到物理硬件上，并通过调度算法确保不违反任何 RFH 约束，从而实现了 <strong>hardware-agnostic programming</strong>。</p>
+<p><img alt="" src="images/7cd45bda0c83833f97e02fe9d25ff958560f9effa1251d403821017c2d503f4a.jpg" /> <em>Fig. 2. MPU overview. A VRF corresponds to one or more memory arrays.</em></p>
+<p><strong>3. MPU 控制路径 (Control Path)</strong>
+- 这是实现上述抽象的硬件基础，负责高效执行 MPU ISA 二进制文件。
+- 主要包含以下硬件模块：
+  - <strong>Precoder</strong>: 存储程序二进制并分发指令。
+  - <strong>Compute Controller (CC)</strong>: 管理计算 Ensemble 的执行状态。其核心是一个 <strong>recipe table</strong>，用于将通用 MPU 指令高效地解码为后端特定的 micro-op 序列。
+  - <strong>Data Transfer Controller (DTC)</strong>: 处理 VRF 之间的数据移动和 <strong>inter-MPU communication</strong>（MPU 间通信）。
+- <strong>关键技术</strong>:
+  - <strong>SIMD Gating / Lane Masking</strong>: 通过在每个 VRF 中添加 <strong>mask register</strong>，实现了细粒度的 <strong>per-lane predication</strong>（每通道断言），这是支持复杂控制流（如动态循环）的硬件基础。
+  - <strong>Thermal-aware Scheduling</strong>: 调度器根据 RFH 的热约束动态激活 VRFs，确保芯片安全运行。</p>
+<p><img alt="" src="images/c28251c221e50f81e4a8621e81d9ba00d625b75e6ac9f1ce4d0e8deaccdadef7.jpg" /> <em>Fig. 8. MPU control path hardware for an abstracted datapath.</em></p>
+<hr />
+<p><strong>与现有 PUM 数据通路的集成</strong></p>
+<p>MPU 的设计具有高度通用性，论文展示了其如何映射到三种截然不同的 PUM 微架构上：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">PUM Datapath</th>
+<th style="text-align: left;">Underlying Tech</th>
+<th style="text-align: left;">VRF Mapping</th>
+<th style="text-align: left;">RFH Mapping</th>
+<th style="text-align: left;">Constraint Encapsulated</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>RACER</strong></td>
+<td style="text-align: left;">ReRAM</td>
+<td style="text-align: left;">One pipeline (spanning multiple tiles)</td>
+<td style="text-align: left;">One cluster (64 pipelines)</td>
+<td style="text-align: left;">Thermal dissipation limits</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MIMDRAM</strong></td>
+<td style="text-align: left;">DRAM</td>
+<td style="text-align: left;">One DRAM mat</td>
+<td style="text-align: left;">One µPE (controls a group of mats)</td>
+<td style="text-align: left;">Thermal dissipation limits</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Duality Cache</strong></td>
+<td style="text-align: left;">SRAM</td>
+<td style="text-align: left;">One SRAM subarray</td>
+<td style="text-align: left;">One issue window</td>
+<td style="text-align: left;">Shared instruction controller</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="" src="images/7db1600b429e66c0fb3064a666a1f29a878d99736dfa452cb7941068d9b8d9f4.jpg" /> <em>(a) RACER</em></p>
+<hr />
+<p><strong>编程与软件栈</strong></p>
+<ul>
+<li><strong>ezpim</strong>: 一个高级汇编器，允许程序员使用类似高级语言的语法（如 <code>for</code>/<code>while</code> 循环, <code>if</code>/<code>else</code> 分支）编写代码，并自动将其转换为底层的 MPU ISA 指令序列，极大地简化了编程。</li>
+<li><strong>端到端执行</strong>: 通过集成的控制路径和 ISA，MPU 能够在无需主机 CPU 干预的情况下，独立执行包含复杂控制流的完整应用程序。</li>
+</ul>
+<p><img alt="" src="images/1e828554b81443ee1d35a72264af7736a1ddc7b01316851d241b14099d199124.jpg" /> <em>Fig. 7. ezpim code (left) and MPU ISA output (right) for (a) for/while loops, (b) branches, (c) nested branches; (d) MPU complex control support.</em></p>
+<h3 id="1-memory-processing-unit-mpu-isa">1. Memory Processing Unit (MPU) ISA<a class="headerlink" href="#1-memory-processing-unit-mpu-isa" title="Permanent link">&para;</a></h3>
+<p><strong>MPU ISA的核心设计目标与作用</strong></p>
+<ul>
+<li>MPU ISA是一套<strong>微架构无关</strong>的指令集，旨在为各种基于位级操作的PUM（Processing-using-memory）后端提供一个统一的编程接口。</li>
+<li>其核心作用是<strong>支持端到端应用执行</strong>，通过在内存内部处理复杂的控制流和任务协调，消除对主机CPU的依赖，从而避免高昂的数据移动开销。</li>
+<li>该ISA将程序员从底层硬件细节（如特定内存技术的微操作、物理阵列布局、热约束等）中解放出来，提供了一个更高级、更易编程的抽象。</li>
+</ul>
+<p><strong>MPU ISA的关键指令类别与实现原理</strong></p>
+<p>MPU ISA的设计围绕三大核心挑战：<strong>任务并行与协调</strong>、<strong>动态数据驱动的控制流</strong>以及<strong>高效的数据移动</strong>。其指令集也相应地分为几大类。</p>
+<ul>
+<li>
+<p><strong>任务协调与执行模型指令</strong></p>
+<ul>
+<li>MPU引入了<strong>ensemble execution model</strong>（集成执行模型），这是其编程抽象的核心。</li>
+<li><code>COMPUTE &lt;rfhID&gt; &lt;vrfID&gt;</code>：此指令用于<strong>实例化一个compute ensemble</strong>。它告诉MPU运行时，指定的VRF（Vector Register File，映射到物理内存阵列）应被包含在当前的任务组中，并由指定的RFH（Register File Holder，封装了硬件约束如热限制）进行管理。</li>
+<li><code>COMPUTE_DONE</code>：标记一个compute ensemble的结束。</li>
+<li><code>MPU_SYNC</code>：作为一个<strong>fence</strong>指令，用于同步所有已部署的compute ensembles，确保它们在继续执行后续代码前都已完成。这对于管理共享内存语义下的并发任务至关重要。</li>
+<li>这些指令共同构建了一个轻量级的<strong>任务并行</strong>模型，允许程序员动态地将任意数量的VRF分组以执行相同的操作，而无需关心它们的物理位置或硬件约束。</li>
+</ul>
+</li>
+<li>
+<p><strong>动态控制流指令（核心创新）</strong></p>
+<ul>
+<li>为了支持<code>if-else</code>、动态循环等复杂控制流，MPU ISA结合了<strong>硬件辅助的lane masking</strong>（通道掩码）机制。</li>
+<li><strong>实现原理</strong>：MPU控制路径为每个VRF维护一个<strong>mask register</strong>（掩码寄存器）。该寄存器的每一位对应一个vector lane（向量通道/内存单元）。通过控制施加到内存阵列上的电压，可以按位启用或禁用计算，从而实现<strong>predicated execution</strong>（谓词执行）。</li>
+<li><code>SETMASK &lt;rs&gt;</code>：将源寄存器<code>rs</code>（通常是从比较指令结果填充的）的内容复制到当前VRF的mask register中，从而<strong>启动谓词执行</strong>。只有掩码位为1的lane才会参与后续的计算。</li>
+<li><code>GETMASK &lt;rd&gt;</code>：将当前mask register的内容读取到通用数据寄存器<code>rd</code>中。这使得程序员可以在软件中修改掩码，以支持<strong>任意深度的嵌套分支</strong>。</li>
+<li><code>UNMASK</code>：通过将所有掩码位设为1来<strong>禁用谓词执行</strong>，恢复所有lane的活动状态。</li>
+<li><code>JUMP_COND &lt;lineNum&gt;</code>：这是实现<strong>动态循环</strong>的关键指令。它会检查当前mask register。如果所有位都为0（意味着所有lane都已满足退出条件），则顺序执行下一条指令；否则，跳转到指定的<code>lineNum</code>继续循环。MPU控制路径中的<strong>EFI (Evaluation Fetching Infrastructure)</strong> 硬件负责高效地执行此检查。</li>
+<li><code>JUMP &lt;lineNum&gt;</code> 和 <code>RETURN</code>：用于支持<strong>子程序调用</strong>，通过硬件维护的返回地址栈来实现。</li>
+</ul>
+</li>
+<li>
+<p><strong>数据移动与通信指令</strong></p>
+<ul>
+<li><code>MEMCPY &lt;vrfSRC&gt; &lt;rs&gt;, &lt;vrfDES&gt; &lt;rd&gt;</code>：在不同VRF之间复制向量寄存器的内容。此指令只能在<strong>transfer ensemble</strong>（传输集成）的上下文中使用。</li>
+<li><code>MOVE &lt;rfhSRC&gt; &lt;rfhDES&gt;</code> 和 <code>MOVE_DONE</code>：用于界定一个transfer ensemble的开始和结束。<code>MOVE</code>指令设置源和目标RFH对，为后续的<code>MEMCPY</code>操作建立上下文。</li>
+<li><code>SEND &lt;mpuDES&gt;</code>, <code>SEND_DONE</code>, <code>RECV &lt;mpuSRC&gt;</code>：构成一个<strong>显式的message-passing interface</strong>（消息传递接口），用于在多个MPU芯片之间进行可扩展的通信，并保证死锁避免。</li>
+</ul>
+</li>
+</ul>
+<p><strong>MPU ISA在整体架构中的输入输出关系</strong></p>
+<ul>
+<li><strong>输入</strong>：程序员编写的MPU ISA二进制程序（或通过<code>ezpim</code>等高级汇编器生成的程序）。</li>
+<li><strong>处理</strong>：MPU的<strong>控制路径硬件</strong>（包括Precoder, Compute Controller, Data Transfer Controller）负责解释和执行这些指令。<ul>
+<li>Precoder从片上指令存储单元（ISU）中取出指令，并根据指令类型（compute/transfer）将其分发给相应的控制器。</li>
+<li>Compute Controller负责管理compute ensemble的生命周期，利用<strong>recipe table</strong>将通用的MPU ISA指令（如<code>ADD</code>, <code>MUL</code>）动态翻译成后端PUM微架构特定的微操作序列（micro-ops）。</li>
+<li>Data Transfer Controller则串行化地执行transfer ensemble，确保内存一致性。</li>
+</ul>
+</li>
+<li><strong>输出</strong>：在PUM内存阵列上直接完成计算和数据移动，最终结果存储在指定的VRF中，整个过程无需与外部CPU交互。</li>
+</ul>
+<p><img alt="" src="images/1e828554b81443ee1d35a72264af7736a1ddc7b01316851d241b14099d199124.jpg" /> <em>Fig. 7. ezpim code (left) and MPU ISA output (right) for (a) for/while loops, (b) branches, (c) nested branches; (d) MPU complex control support.</em></p>
+<hr />
+<p><strong>MPU ISA指令集概览（部分关键指令）</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指令类别</th>
+<th style="text-align: left;">指令</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Ensemble部署</strong></td>
+<td style="text-align: left;"><code>COMPUTE &lt;rfhID&gt; &lt;vrfID&gt;</code></td>
+<td style="text-align: left;">标记compute ensemble的开始，激活指定VRF</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>COMPUTE_DONE</code></td>
+<td style="text-align: left;">标记compute ensemble的结束</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>MOVE &lt;rfhSRC&gt; &lt;rfhDES&gt;</code></td>
+<td style="text-align: left;">标记transfer ensemble的开始，设置源/目标RFH</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>MOVE_DONE</code></td>
+<td style="text-align: left;">标记transfer ensemble的结束</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>控制流</strong></td>
+<td style="text-align: left;"><code>SETMASK &lt;rs&gt;</code></td>
+<td style="text-align: left;">将rs复制到mask register，启动谓词执行</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>GETMASK &lt;rd&gt;</code></td>
+<td style="text-align: left;">将mask register内容读入rd</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>UNMASK</code></td>
+<td style="text-align: left;">停止谓词执行，启用所有lane</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>JUMP_COND &lt;lineNum&gt;</code></td>
+<td style="text-align: left;">若mask非全0，则跳转（用于动态循环）</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>JUMP &lt;lineNum&gt;</code></td>
+<td style="text-align: left;">无条件跳转（用于子程序调用）</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>RETURN</code></td>
+<td style="text-align: left;">从子程序返回</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>数据移动</strong></td>
+<td style="text-align: left;"><code>MEMCPY ...</code></td>
+<td style="text-align: left;">在VRF间复制数据（仅在transfer ensemble内）</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>SEND/RECV ...</code></td>
+<td style="text-align: left;">MPU间消息传递</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-ensemble-execution-model">2. Ensemble Execution Model<a class="headerlink" href="#2-ensemble-execution-model" title="Permanent link">&para;</a></h3>
+<p><strong>Ensemble Execution Model 的核心设计与实现原理</strong></p>
+<ul>
+<li><strong>基本定义</strong>：Ensemble（集合）是程序员定义的一个逻辑单元，用于将一组物理上可能不连续的 <strong>Vector Register Files (VRFs)</strong> 组合在一起，以执行相同的指令序列。这为程序员提供了一个抽象层，使其无需关心底层硬件的具体物理布局和约束。</li>
+<li><strong>核心目标</strong>：</li>
+<li>允许程序员表达<strong>任意程度的并行性</strong>，从高度并行的向量操作到单个标量操作（通过只包含一个 VRF 的 ensemble 实现）。</li>
+<li>将<strong>硬件约束管理</strong>（如热密度限制、共享控制单元等）从程序员手中剥离，交由 MPU 运行时系统自动处理。</li>
+<li>提供一个<strong>微架构无关</strong>的编程接口，使得为一种 PUM 后端编写的程序可以轻松移植到另一种后端。</li>
+</ul>
+<p><strong>Ensemble 的类型与编程接口</strong></p>
+<ul>
+<li><strong>Compute Ensemble</strong>：用于执行计算密集型任务。</li>
+<li><strong>Header</strong>：通过一条或多条 <code>COMPUTE &lt;rfhID&gt; &lt;vrfID&gt;</code> 指令声明，指定参与该 ensemble 的所有 VRF。</li>
+<li><strong>Body</strong>：包含一系列算术、逻辑或控制流指令（如 <code>ADD</code>, <code>MUL</code>, <code>JUMP_COND</code>），这些指令将被应用于 ensemble 中的所有 VRF。</li>
+<li><strong>Footer</strong>：以 <code>COMPUTE_DONE</code> 指令结束，标志着该 ensemble 执行完毕。</li>
+<li><strong>Transfer Ensemble</strong>：用于在不同 VRF 或不同 MPU 之间进行数据移动和同步。</li>
+<li><strong>Header</strong>：通过 <code>MOVE &lt;rfhSRC&gt; &lt;rfhDES&gt;</code> 指令设置源和目标 RFH 对。</li>
+<li><strong>Body</strong>：使用 <code>MEMCPY</code> 指令在指定的 VRF 对之间复制数据。</li>
+<li><strong>Footer</strong>：以 <code>MOVE_DONE</code> 指令结束。</li>
+<li><strong>运行时语义</strong>：与 GPU 的 SIMT 模型不同，ensemble 中的 VRF <strong>不要求并发执行</strong>。MPU 的调度器会根据硬件约束（通过 RFH 抽象）动态决定哪些 VRF 可以同时激活，从而提供了更大的调度灵活性。</li>
+</ul>
+<p><strong>硬件抽象层：VRF 与 RFH</strong></p>
+<ul>
+<li><strong>Vector Register File (VRF)</strong>：这是对底层物理内存阵列（如 DRAM mat, ReRAM tile）的直接映射。一个 VRF 代表一个可以独立执行向量操作的单元。</li>
+<li><strong>Register File Holder (RFH)</strong>：这是一个关键的硬件约束抽象。一个 RFH 包含一组受共同物理限制的 VRF。</li>
+<li><strong>约束类型</strong>：<ul>
+<li><strong>热密度限制</strong>：例如，在 RACER 中，一个 cluster 内的 64 个 pipeline (VRF) 不能全部同时激活，因此整个 cluster 被映射为一个 RFH。</li>
+<li><strong>资源共享限制</strong>：例如，在 Duality Cache 中，一组 SRAM subarrays (VRFs) 共享同一个指令控制器（loop FSM），因此它们被映射为一个 RFH。</li>
+</ul>
+</li>
+<li><strong>映射示例</strong>：
+  <img alt="" src="images/7db1600b429e66c0fb3064a666a1f29a878d99736dfa452cb7941068d9b8d9f4.jpg" /> <em>(a) RACER</em>
+  <img alt="" src="images/ffdf35908d0837dd7219c3b64ebce17aa9e871636159e0481222fccaea465a73.jpg" />
+  <img alt="" src="images/2b19f784b2a0585d1361d4939ebc41115e8b146aedf36954e0bd7f05a1ebeeb2.jpg" /></li>
+</ul>
+<p><strong>调度算法与运行时管理</strong></p>
+<ul>
+<li><strong>调度目标</strong>：在遵守每个 RFH 的激活限制（例如，每个 RFH 同时只能激活 1 个 VRF）的前提下，最大化硬件利用率。</li>
+<li><strong>调度流程</strong>（基于图10的算法）：</li>
+<li>当一个 ensemble 被提交时，调度器会尝试激活其所有 VRF。</li>
+<li>如果某个 RFH 的激活上限已达到，剩余的 VRF 会被放入该 RFH 的<strong>待机队列 (standby queue)</strong>。</li>
+<li>当前激活的 VRF 完成执行后，调度器会收到硬件中断，并从待机队列中取出 VRF 进行下一轮激活，直到 ensemble 中所有 VRF 都执行完毕。</li>
+<li><strong>热感知调度</strong>：调度器利用供应商提供的功耗模型，动态调整激活的 VRF 数量，确保芯片总功耗在安全范围内。</li>
+</ul>
+<p><strong>在整体 MPU 架构中的作用</strong></p>
+<ul>
+<li><strong>承上启下</strong>：Ensemble 模型是连接高级编程抽象（如 ezpim）和底层 PUM 微架构的桥梁。</li>
+<li><strong>向上</strong>：它为程序员和编译器提供了一个简单、灵活且可扩展的并行编程模型。</li>
+<li><strong>向下</strong>：它通过 RFH 抽象，将多样化的硬件约束统一化，使得 MPU 控制路径（如 Compute Controller）可以用一套通用逻辑来管理所有后端。</li>
+<li><strong>赋能复杂控制流</strong>：通过与 per-lane masking（通过 <code>SETMASK</code>/<code>UNMASK</code> 指令控制）结合，ensemble 模型能够高效地支持数据驱动的动态循环和分支，这是实现 <strong>CPU-free end-to-end execution</strong> 的关键。
+  <img alt="" src="images/1e828554b81443ee1d35a72264af7736a1ddc7b01316851d241b14099d199124.jpg" /> <em>Fig. 7. ezpim code (left) and MPU ISA output (right) for (a) for/while loops, (b) branches, (c) nested branches; (d) MPU complex control support.</em></li>
+<li><strong>简化软件栈开发</strong>：由于二进制文件不再硬编码硬件细节（如 VRF 的物理位置），这为开发可移植的编译器、调试器和性能分析工具奠定了基础。</li>
+</ul>
+<h3 id="3-register-file-holder-rfh-abstraction">3. Register File Holder (RFH) Abstraction<a class="headerlink" href="#3-register-file-holder-rfh-abstraction" title="Permanent link">&para;</a></h3>
+<p><strong>Register File Holder (RFH) Abstraction 的核心设计原理</strong></p>
+<ul>
+<li><strong>RFH 的根本目的</strong>是作为一个<strong>硬件约束的通用封装层</strong>，将底层 PUM 微架构中复杂的物理限制（如热密度、共享控制逻辑）对程序员和编译器隐藏起来。</li>
+<li>它建立在<strong>Vector Register File </strong>(VRF) 之上。一个 VRF 通常直接映射到一个或多个物理内存阵列（mat/subarray/tile），代表了可被编程模型直接寻址的基本计算单元。</li>
+<li>一个 <strong>RFH 则包含一组在物理上紧密耦合、无法完全并行激活的 VRF</strong>。这种耦合源于具体的硬件实现约束。</li>
+</ul>
+<p><strong>RFH 所封装的关键硬件约束类型</strong></p>
+<ul>
+<li><strong>热密度限制 </strong>(Thermal Dissipation Limits)：</li>
+<li>在高密度内存阵列（如 ReRAM, DRAM）中，并行激活过多的 VRF 会导致局部功耗密度过高，超出安全散热阈值。</li>
+<li><strong>RFH 将受同一热域限制的 VRF 分组</strong>，确保运行时调度器不会同时激活超过安全数量的 VRF。</li>
+<li><img alt="" src="images/5c8a31c525a7a063764561b763c79865a08c7a4fbb65d2fd88737b674f0a5e8b.jpg" /></li>
+<li><strong>共享硬件资源限制 </strong>(Shared Hardware Resource Limits)：</li>
+<li>某些微架构中，邻近的 VRF 可能共享关键的控制单元，例如指令控制器、解码器或互连网络端口。</li>
+<li>例如，在 <strong>Duality Cache</strong> 中，一组 SRAM 子阵列共享一个<strong>issue window</strong> 和其内部的<strong>loop FSM</strong>，导致它们无法执行不同的指令流。</li>
+<li><strong>RFH 将共享同一套控制硬件的 VRF 分组</strong>，确保调度器在同一时刻只为该 RFH 分配一个统一的指令流。</li>
+</ul>
+<p><strong>RFH 在不同 PUM 微架构中的具体映射实例</strong></p>
+<p><img alt="" src="images/7db1600b429e66c0fb3064a666a1f29a878d99736dfa452cb7941068d9b8d9f4.jpg" /> <em>(a) RACER</em></p>
+<ul>
+<li><strong>RACER </strong>(ReRAM-based)：</li>
+<li><strong>VRF 映射</strong>：每个 <strong>pipeline</strong>（由多个按位条带化的 tile 组成）映射为一个 VRF。</li>
+<li><strong>RFH 映射</strong>：<strong>一个 cluster</strong>（包含 64 个 pipeline/VRF，并共享一个 <strong>Pipeline Control Circuitry </strong>(PCC)）映射为一个 RFH。这同时满足了热限制和共享 PCC 的约束。</li>
+<li><strong>MIMDRAM </strong>(DRAM-based)：</li>
+<li><strong>VRF 映射</strong>：<strong>单个 DRAM mat</strong> 映射为一个 VRF。</li>
+<li><strong>RFH 映射</strong>：<strong>每个 µPE </strong>(micro-Program processing engine) 控制的一组物理邻近的 mats/VRFs 映射为一个 RFH，以遵守热限制。</li>
+<li><strong>Duality Cache </strong>(SRAM-based)：</li>
+<li><strong>VRF 映射</strong>：<strong>单个 SRAM subarray</strong> 映射为一个 VRF。</li>
+<li><strong>RFH 映射</strong>：<strong>每个 issue window</strong> 及其直接连接的 SRAM subarrays/VRFs 映射为一个 RFH，因为这些 subarrays 共享同一个指令分发和循环控制 FSM。</li>
+</ul>
+<p><strong>RFH 的运行时调度算法与作用</strong></p>
+<ul>
+<li><strong>输入</strong>：程序员定义的 <strong>ensemble</strong>（一个逻辑上要执行相同操作的 VRF 集合，其成员可以来自任意物理位置）。</li>
+<li><strong>处理流程</strong>：</li>
+<li>MPU 运行时接收到 ensemble 后，会将其包含的 VRF 按所属的 <strong>RFH 进行分组</strong>。</li>
+<li>调度器（如图 <img alt="" src="images/c28251c221e50f81e4a8621e81d9ba00d625b75e6ac9f1ce4d0e8deaccdadef7.jpg" /> <em>Fig. 8. MPU control path hardware for an abstracted datapath.</em> 中所示）维护一个 per-RFH 的激活队列和等待队列。</li>
+<li>对于每个 RFH，调度器根据预设的<strong>硬件约束</strong>（例如，<code>Active VRFs Per RFH</code> 参数，在 RACER 中为 1，在 MIMDRAM/Duality Cache 中为 256，见下表）来决定可以同时激活多少个 VRF。</li>
+<li>如果 ensemble 请求激活的 VRF 数量超过了 RFH 的约束上限，多余的 VRF 会被放入<strong>standby queue</strong>（等待队列）。</li>
+<li>当前批次激活的 VRF 执行完成后，调度器会从等待队列中取出下一批 VRF 进行激活，直到整个 ensemble 的所有 VRF 都执行完毕。</li>
+<li><strong>输出</strong>：对底层硬件发出符合物理约束的、分批次的 VRF 激活指令序列，保证了程序的正确性和硬件的安全性。</li>
+</ul>
+<p><strong>系统参数中的 RFH 配置</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">参数</th>
+<th style="text-align: left;">RACER</th>
+<th style="text-align: left;">MIMDRAM</th>
+<th style="text-align: left;">Duality Cache</th>
+<th style="text-align: left;">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Active VRFs Per RFH</strong></td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">256</td>
+<td style="text-align: left;">256</td>
+<td style="text-align: left;">由热或互连约束决定的最大并发 VRF 数</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RFHs Per MPU</strong></td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">由互连网络拓扑决定</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MPUs on Chip</strong></td>
+<td style="text-align: left;">497</td>
+<td style="text-align: left;">450</td>
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">受芯片总面积和 MPU 前端面积限制</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RFH 抽象在整体 MPU 架构中的关键作用</strong></p>
+<ul>
+<li><strong>解耦编程模型与硬件细节</strong>：程序员只需关注逻辑上的 <strong>ensemble</strong> 并行性，无需了解 VRF 的物理布局和激活限制，极大地简化了编程。</li>
+<li><strong>保障硬件安全</strong>：通过运行时强制执行 RFH 约束，自动防止了因过度并行激活而导致的<strong>热失控</strong>风险。</li>
+<li><strong>实现跨平台二进制可移植性</strong>：MPU 二进制文件不包含具体的硬件约束信息。当在不同微架构上运行时，只需加载对应的 RFH/VRF 映射配置，运行时即可自动适配，这是构建通用 PUM 软件栈的基础。</li>
+</ul>
+<h3 id="4-mpu-control-path-hardware">4. MPU Control Path Hardware<a class="headerlink" href="#4-mpu-control-path-hardware" title="Permanent link">&para;</a></h3>
+<p><strong>MPU控制路径硬件架构</strong></p>
+<p>MPU控制路径硬件是实现其微架构无关接口的核心，负责高效执行MPU ISA二进制文件。其设计围绕三个关键组件展开：预解码器（Precoder）、计算控制器（Compute Controller, CC）和数据传输控制器（Data Transfer Controller, DTC），共同协作以管理程序状态、调度执行并处理数据移动。</p>
+<p><img alt="" src="images/c28251c221e50f81e4a8621e81d9ba00d625b75e6ac9f1ce4d0e8deaccdadef7.jpg" /> <em>Fig. 8. MPU control path hardware for an abstracted datapath.</em></p>
+<hr />
+<p><strong>预解码器 (Precoder)</strong></p>
+<ul>
+<li><strong>核心功能</strong>：作为指令分发的前端，负责从片上存储中获取指令并将其路由到正确的控制单元。</li>
+<li><strong>关键组件</strong>：</li>
+<li><strong>指令存储单元 (ISU)</strong>：用于在芯片上存储完整的MPU程序二进制文件。其具体实现技术（如SRAM或与PUM相同的技术）由硬件设计者根据平台需求决定。</li>
+<li><strong>取指单元 (Fetcher)</strong>：使用程序计数器（PC）从ISU中检索下一条或多条指令。它利用<strong>ensemble</strong>头尾的元数据来确定应将指令体分发给哪个控制单元（CC或DTC）。</li>
+<li><strong>作用</strong>：解耦了指令获取与具体执行逻辑，为后续的并行任务调度奠定了基础。</li>
+</ul>
+<hr />
+<p><strong>计算控制器 (Compute Controller, CC)</strong></p>
+<p>计算控制器是执行<strong>compute ensemble</strong>的核心，其内部包含多个协同工作的子模块。</p>
+<ul>
+<li><strong>激活板 (Activation Board)</strong>：</li>
+<li>包含一个针对MPU中每个VRF的使能位掩码。</li>
+<li>在ensemble启动时，CC根据元数据启用特定的VRF，确保只有目标硬件单元被激活。</li>
+<li><strong>回放缓冲区 (Playback Buffer)</strong>：</li>
+<li>存储从预解码器接收到的计算指令序列。</li>
+<li><strong>关键作用</strong>：支持指令序列的重放，这对于两种场景至关重要：(1) 当硬件约束（如热限制）阻止所有VRF同时并发执行时；(2) 在执行包含动态循环的指令时，需要反复迭代。</li>
+<li><strong>指令到微操作解码器 (I2M)</strong>：</li>
+<li><strong>通用性设计</strong>：这是一个<strong>universal I2M</strong>，能够将MPU ISA中的通用指令翻译成后端特定PUM微架构所需的底层微操作（micro-ops）。</li>
+<li><strong>基于配方表 (Recipe Table) 的优化</strong>：<ul>
+<li>配方表是一个并行查找表，存储了每条计算指令对应的微操作序列模板（recipes）。这些模板包含微操作但不包含具体的寄存器地址。</li>
+<li><strong>模板填充器 (Template Filler)</strong>：在运行时，根据当前激活的VRF信息，将具体的VRF地址填入模板，生成完整的、可执行的微操作序列。</li>
+<li><strong>容量优化机制</strong>（见图9）：</li>
+<li><strong>指针表 (Pointer Table)</strong>：允许多个recipe共享公共的子序列，减少冗余存储。</li>
+<li><strong>模板查找表 (Template Lookup Table)</strong>：作为二级缓存，动态地将常用recipe从二进制存储加载到容量有限的主配方表中。</li>
+<li><strong>跨CC共享</strong>：多个CC可以共享同一个配方表硬件，以节省面积和功耗。</li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="images/ccddaf101fe56756a31389bbbf4ea41a83d7cd3d1eed2d015d96387fa5084a05.jpg" /> <em>Fig. 9. Example of an optimized recipe table implementation.</em></p>
+<ul>
+<li><strong>复杂控制流支持</strong>：</li>
+<li><strong>向量通道掩码 (Vector Lane Masking)</strong>：通过在每个VRF的数据路径电压供应线上增加一个<strong>mask register</strong>来实现。该寄存器的每一位控制对应通道（lane）是否接收执行操作所需的电压，从而实现硬件级的通道使能/禁用。</li>
+<li><strong>评估取指基础设施 (EFI)</strong>：位于CC与数据路径之间。当执行<code>JUMP_COND</code>等控制指令时，EFI会读取mask register的内容。如果所有位均为0（即所有通道都已退出循环），则跳转不被执行；否则，程序计数器更新到跳转目标，继续执行。</li>
+</ul>
+<hr />
+<p><strong>数据传输控制器 (Data Transfer Controller, DTC)</strong></p>
+<p>DTC专门负责处理<strong>transfer ensemble</strong>和<strong>inter-MPU通信</strong>，确保数据移动的一致性和效率。</p>
+<ul>
+<li><strong>目标映射 (Target Map)</strong>：</li>
+<li>在transfer ensemble的头部，DTC接收源RFH/VRF和目标RFH/VRF的地址对，并将其存储在目标映射中。</li>
+<li>对于具有电路交换网络的PUM微架构，此阶段还可用于预先建立网络路径。</li>
+<li><strong>数据缓冲区 (Data Buffer)</strong>：</li>
+<li>可选但关键的组件，用于在传输过程中暂存数据。</li>
+<li><strong>主要用途</strong>：<ul>
+<li>促进长距离数据传输。</li>
+<li>支持复杂的数据预处理操作，如广播（broadcast）、转置（transpose）或向量移位（vector shift）。</li>
+<li>作为<strong>inter-MPU消息传递</strong>的缓冲区。</li>
+</ul>
+</li>
+<li><strong>Inter-MPU控制器</strong>：</li>
+<li>当遇到<code>SEND</code>或<code>RECV</code>指令时被激活。</li>
+<li>发送方流程：(1) 通过目标映射从后端请求数据；(2) 等待数据填充到数据缓冲区；(3) 将数据发送至目标MPU。</li>
+</ul>
+<hr />
+<p><strong>调度算法与硬件</strong></p>
+<p>MPU的调度器是确保安全、高效执行的关键，尤其需要处理PUM架构固有的<strong>power density</strong>（功率密度）约束。</p>
+<ul>
+<li><strong>热感知调度算法</strong>（见图10）：</li>
+<li>调度器持续跟踪每个<strong>RF holder (RFH)</strong> 中已激活的VRF数量。</li>
+<li>如果某个RFH达到其预设的最大激活VRF上限，剩余的VRF会被放入<strong>standby queue</strong>（待命队列）。</li>
+<li>当当前激活的VRF完成执行后，调度器会停用它们，并从待命队列中激活下一批VRF，严格遵守RFH的硬件约束。</li>
+<li>这一过程循环往复，直到整个ensemble执行完毕。</li>
+</ul>
+<p><img alt="" src="images/157625104444496734649c27fdfab2424382c6e6c200dab67396a2076de101a1.jpg" /></p>
+<ul>
+<li><strong>输入输出关系</strong>：</li>
+<li><strong>输入</strong>：MPU ISA二进制文件、硬件约束参数（如每个RFH的最大激活VRF数）。</li>
+<li><strong>输出</strong>：一系列经过调度、解码并最终在PUM后端执行的微操作序列，以及协调好的数据移动操作。</li>
+<li><strong>在整体中的作用</strong>：MPU控制路径硬件将程序员友好的、微架构无关的MPU ISA抽象，无缝地转化为针对特定PUM后端（如RACER、MIMDRAM）的高效、安全且符合物理约束的底层操作，从而实现了<strong>end-to-end application execution</strong>（端到端应用执行）的目标，并显著提升了性能和能效。</li>
+</ul>
+<h3 id="5-simd-gating-with-lane-masking">5. SIMD Gating with Lane Masking<a class="headerlink" href="#5-simd-gating-with-lane-masking" title="Permanent link">&para;</a></h3>
+<p><strong>SIMD Gating with Lane Masking 的实现原理</strong></p>
+<ul>
+<li>该机制的核心在于将传统的 <strong>SIMD (Single Instruction, Multiple Data)</strong> 执行模型与<strong>每通道（per-lane）的动态控制能力</strong>相结合，从而突破了传统向量处理器在处理<strong>数据驱动控制流</strong>（如 if-else、while 循环）时的局限性。</li>
+<li>其硬件基础是为每个 <strong>VRF (Vector Register File)</strong> 引入一个专用的 <strong>mask register (掩码寄存器)</strong>。这个寄存器的每一位直接对应 VRF 中的一个 <strong>lane (通道)</strong>。</li>
+<li><strong>mask register</strong> 被物理地集成到内存阵列的电压供给线上。当某一位为 <code>1</code> 时，对应的 <strong>lane</strong> 接收执行操作所需的电压，正常参与计算；当为 <code>0</code> 时，该 <strong>lane</strong> 被<strong>电源门控（power gated）</strong>，即被禁用，不参与当前指令的执行。</li>
+<li>这种在<strong>内存原位（in-memory）</strong> 实现的门控机制，避免了将控制信息传回外部 CPU 或复杂控制单元的开销，实现了真正的 <strong>CPU-free execution</strong>。</li>
+</ul>
+<p><strong>算法流程与关键指令</strong></p>
+<ul>
+<li><strong>分支（Branches）处理流程</strong>：</li>
+<li>程序员使用 <code>CMPxx</code> (如 <code>CMPEQ</code>, <code>CMPGT</code>) 指令对向量数据进行比较，结果（一个 per-lane 的布尔值）被存入一个特殊的 <strong>conditional register (条件寄存器)</strong>。</li>
+<li>通过 <code>SETMASK &lt;rs&gt;</code> 指令，可以将 <strong>conditional register</strong> 或任意通用寄存器 <code>rs</code> 中的数据加载到 <strong>mask register</strong> 中，从而激活或禁用特定的 lanes。</li>
+<li>在 <code>if</code> 分支体中，只有 mask 为 <code>1</code> 的 lanes 会执行后续指令。</li>
+<li>对于 <code>else</code> 分支，可以通过软件逻辑先保存当前 mask，然后对其取反再 <code>SETMASK</code>，或者直接在 else 体前设置新的 mask。</li>
+<li><code>UNMASK</code> 指令用于清除所有 mask 位（设为 <code>1</code>），重新启用所有 lanes，通常用于分支结束。</li>
+<li><strong>动态循环（Dynamic Loops）处理流程</strong>：</li>
+<li>循环体由 <code>JUMP_COND &lt;lineNum&gt;</code> 指令控制。</li>
+<li>每次循环迭代后，程序会更新 <strong>mask register</strong>，将满足退出条件的 lanes 对应的 mask 位设为 <code>0</code>。</li>
+<li>当执行 <code>JUMP_COND</code> 时，<strong>EFI (Evaluation Fetching Infrastructure)</strong> 硬件模块会被触发。</li>
+<li><strong>EFI</strong> 会从 <strong>mask register</strong> 中读取当前的掩码值，并检查是否<strong>所有位都为 <code>0</code></strong>。<ul>
+<li>如果<strong>全为 <code>0</code></strong>，说明所有 lanes 都已退出循环，<code>JUMP_COND</code> 不执行跳转，程序顺序执行下一条指令。</li>
+<li>如果<strong>存在 <code>1</code></strong>，说明仍有 lanes 在循环中，<code>JUMP_COND</code> 将程序计数器（PC）跳转回循环体起始行 <code>lineNum</code>，继续下一轮迭代。</li>
+</ul>
+</li>
+<li>这种机制支持<strong>任意嵌套深度</strong>的循环和分支，因为程序员可以通过 <code>GETMASK</code> 指令将当前 <strong>mask register</strong> 的内容读回一个通用寄存器进行保存和修改，从而管理不同嵌套层级的控制状态。</li>
+</ul>
+<p><img alt="" src="images/1e828554b81443ee1d35a72264af7736a1ddc7b01316851d241b14099d199124.jpg" /> <em>Fig. 7. ezpim code (left) and MPU ISA output (right) for (a) for/while loops, (b) branches, (c) nested branches; (d) MPU complex control support.</em></p>
+<p><strong>参数设置与硬件协同</strong></p>
+<ul>
+<li><strong>Mask Register 宽度</strong>：其宽度与 VRF 的 <strong>vector width</strong> 严格一致，范围从几十到数千位，以匹配底层 PUM 技术（如 DRAM, ReRAM）的并行度。</li>
+<li><strong>EFI (Evaluation Fetching Infrastructure)</strong>：这是一个轻量级的硬件逻辑单元，位于 <strong>Compute Controller (CC)</strong> 和 PUM 后端之间。它的唯一功能是高效地读取 <strong>mask register</strong> 并执行“是否全零”的逻辑判断，决策延迟极低。</li>
+<li><strong>Recipe Table 协同</strong>：在指令解码阶段，<strong>I2M (Instruction-to-Micro-op) decoder</strong> 会利用 <strong>recipe table</strong> 将 MPU ISA 指令（如 <code>ADD</code>）翻译成底层微操作序列。这个过程与 lane masking 是正交的——<strong>masking 决定了哪些 lanes 参与执行，而 I2M 决定了执行什么操作</strong>。</li>
+</ul>
+<p><strong>输入输出关系及在整体架构中的作用</strong></p>
+<ul>
+<li><strong>输入</strong>：</li>
+<li><strong>数据输入</strong>：存储在 VRF 中的向量数据。</li>
+<li><strong>控制输入</strong>：由 <code>CMPxx</code> 等指令生成的 <strong>conditional register</strong> 值，或由程序逻辑计算出的任意掩码值。</li>
+<li><strong>输出</strong>：</li>
+<li><strong>数据输出</strong>：经过 predicated execution（谓词执行）后的部分更新的向量结果。</li>
+<li><strong>控制输出</strong>：由 <strong>EFI</strong> 产生的布尔信号，用于决定 <code>JUMP_COND</code> 是否跳转，从而驱动程序流。</li>
+<li><strong>在 MPU 整体架构中的作用</strong>：</li>
+<li><strong>赋能复杂控制流</strong>：这是 MPU 能够实现 <strong>end-to-end application execution</strong> 的关键技术。它使得 PUM 不再局限于执行简单的、无分支的内核（kernels），而是能够处理包含复杂逻辑的真实世界应用。</li>
+<li><strong>提升编程抽象</strong>：通过 <code>ezpim</code> 等高级汇编器，程序员可以用类似高级语言的 <code>if/else</code> 和 <code>for/while</code> 语法编写代码，底层细节由 MPU 自动转换为 mask 操作和 <code>JUMP_COND</code> 指令，极大降低了编程负担。</li>
+<li><strong>维持高能效</strong>：由于控制流决策完全在内存内部完成，避免了与外部 CPU 频繁通信带来的巨大性能和能耗开销。论文图1指出，即使只有 1/80 的指令需要 CPU，也会导致 <strong>10.1×</strong> 的性能下降。SIMD gating 机制正是解决此问题的关键。</li>
+</ul>
+<hr />
+<h2 id="4">4. 实验方法与实验结果<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p><strong>实验设置</strong></p>
+<ul>
+<li><strong>评估平台</strong>：研究在三种不同的 PUM (Processing-Using-Memory) 微架构上评估了 MPU (Memory Processing Unit)，分别是基于 ReRAM 的 <strong>RACER</strong>、基于 DRAM 的 <strong>MIMDRAM</strong> 和基于 SRAM 的 <strong>Duality Cache</strong>。</li>
+<li><strong>对比基线</strong>：</li>
+<li><strong>Baseline</strong>：指原始的 PUM 架构，它们依赖外部 <strong>host CPU</strong> 来执行控制流等非 PUM 指令。</li>
+<li><strong>GPU</strong>：使用现代高性能的 <strong>NVIDIA GeForce RTX 4090</strong> 作为通用加速器的代表进行对比。</li>
+<li><strong>CPU</strong>：也与 <strong>Intel Xeon Gold 6544Y</strong> 进行了比较，但因 GPU 性能更优，论文中省略了 CPU 结果。</li>
+<li><strong>芯片面积约束</strong>：所有 PUM 架构均采用 <strong>iso-area</strong>（等面积）比较原则，即芯片总面积固定为 <strong>4 cm²</strong>。集成 MPU 前端逻辑后，会相应减少后端 PUM 阵列的数量以保持总面积不变。</li>
+<li><strong>工作负载</strong>：</li>
+<li><strong>21 个数据密集型 kernels</strong>：分为四类：基础 kernels、分支密集型 kernels、stencil kernels 和包含复杂控制流的 kernels。</li>
+<li><strong>3 个端到端应用</strong>：<strong>LLMEncode</strong>（大语言模型编码器）、<strong>BlackScholes</strong>（金融期权定价模型）和 <strong>EditDistance</strong>（基因组测序中的编辑距离算法）。</li>
+<li><strong>模拟与建模</strong>：</li>
+<li>开发了名为 <strong>MASTODON</strong> 的周期精确模拟器，用于模拟 MPU 及其后端。</li>
+<li>MPU 关键组件在 <strong>15 nm CMOS</strong> 工艺下进行了综合，目标频率为 <strong>1 GHz</strong>。</li>
+<li>GPU 结果通过在真实 <strong>RTX 4090</strong> 硬件上运行高度优化的 CUDA 代码获得。</li>
+</ul>
+<p><strong>结果数据分析</strong></p>
+<ul>
+<li><strong>MPU 相对于 Baseline 的改进</strong>：</li>
+<li><strong>性能</strong>：MPU 在所有三种后端上均实现了显著加速。平均而言，<strong>MPU:RACER</strong> 提升 <strong>1.79×</strong>，<strong>MPU:MIMDRAM</strong> 提升 <strong>1.69×</strong>，<strong>MPU:DualityCache</strong> 提升 <strong>1.12×</strong>。</li>
+<li><strong>能效</strong>：MPU 带来了巨大的能量节省。平均而言，<strong>MPU:RACER</strong> 节省 <strong>3.23×</strong> 能量，<strong>MPU:MIMDRAM</strong> 节省 <strong>2.34×</strong>，<strong>MPU:DualityCache</strong> 节省 <strong>4.07×</strong>。</li>
+<li>改进的主要来源是 <strong>消除了与 host CPU 的频繁通信开销</strong>，尤其是在处理包含复杂控制流（如动态循环、嵌套分支）的应用时，Baseline 性能急剧下降，而 MPU 能够在内存内独立完成。</li>
+</ul>
+<p><img alt="" src="images/af3bd066d71d96c2d13b9fa1c619fd6b722631fb4eefd4d78fa0e851a559c15a.jpg" /></p>
+<ul>
+<li><strong>MPU 相对于 GPU 的优势</strong>：</li>
+<li><strong>性能</strong>：MPU 架构展现出压倒性优势。<strong>MPU:RACER</strong> 平均比 RTX 4090 快 <strong>67×</strong>，<strong>MPU:MIMDRAM</strong> 快 <strong>156×</strong>。</li>
+<li><strong>能效</strong>：优势更为惊人。<strong>MPU:RACER</strong> 平均节省 <strong>47×</strong> 能量，<strong>MPU:MIMDRAM</strong> 节省 <strong>35×</strong>。</li>
+<li>这证明了即使是最先进的 GPU，在处理这些高度数据并行但控制流复杂的任务时，也无法匹敌专为内存内计算设计的 MPU 架构。</li>
+</ul>
+<p><img alt="" src="images/90df5df4e256e0a05c8a673e972650fe8371e18a67b1baeab52649ded55824db.jpg" /></p>
+<ul>
+<li><strong>端到端应用分析</strong>：</li>
+<li><strong>Baseline 的致命弱点</strong>：其性能严重依赖于计算块的大小。对于 <strong>EditDistance</strong> 这种需要频繁 CPU-PUM 交互的应用，Baseline 甚至比 GPU 慢 <strong>7.72×</strong>。</li>
+<li><strong>MPU 的全面胜利</strong>：由于完全消除了片外通信，MPU 在 <strong>LLMEncode</strong> 和 <strong>EditDistance</strong> 上分别实现了最高 <strong>545×</strong> 的速度提升。</li>
+<li><strong>能效反转</strong>：Baseline 在 <strong>BlackScholes</strong> 和 <strong>EditDistance</strong> 上的能耗甚至 <strong>高于 GPU</strong>，而 MPU 则实现了 <strong>5.4× 至 14.2×</strong> 的能效提升。</li>
+</ul>
+<p><img alt="" src="images/d1197b7fc93e59bffd6b7364c3690fb5da922fd59ddff9c5808209a62a566918.jpg" />
+<img alt="" src="images/0bacd4113cff1017745dfc67e9ab89f7b1da29ee39776ef7c6175d1876813736.jpg" /></p>
+<p><strong>消融实验与关键洞察</strong></p>
+<ul>
+<li><strong>MPU 开销分析</strong>：</li>
+<li>MPU 前端逻辑（控制路径）的面积开销为 <strong>0.123 mm²</strong>，在 RACER 芯片上约占总面积的 <strong>13%</strong>。</li>
+<li>其功耗占系统总功耗的 <strong>40.2%</strong>，主要消耗在存储单元（如 playback buffer, recipe table）上。</li>
+<li>对于简单的、无控制流的 <strong>basic kernels</strong>，MPU 由于减少了后端阵列数量，会带来轻微的 <strong>3.1%</strong> 性能下降，这验证了其开销是真实存在的，但在复杂应用中被巨大收益所掩盖。</li>
+</ul>
+<p><img alt="" src="images/7b541686a208d0dbfe6738ab830ec662136118f8817e869cb978ed4b53e0cc78.jpg" /></p>
+<ul>
+<li><strong>不同后端表现差异的原因</strong>：</li>
+<li><strong>MPU:DualityCache</strong> 改进较小，原因有二：(1) 它与 CPU 集成在同一芯片上，通信开销本就较低；(2) <strong>SRAM 密度低</strong>导致片上容量有限（仅 0.2GB），大量时间花在与外部内存的数据传输上，限制了 MPU 的优势发挥。</li>
+<li><strong>控制流支持的关键作用</strong>：</li>
+<li>论文通过一个简化研究（Figure 1）指出，即使只有 <strong>1/80</strong> 的指令需要 CPU，也会导致 <strong>10.1×</strong> 的整体减速。</li>
+<li>MPU 通过引入 <strong>lane masking</strong>、<strong>conditional register</strong> 和 <strong>JUMP_COND</strong> 等硬件/ISA 特性，成功地将控制流执行完全保留在内存内，这是其性能飞跃的根本原因。</li>
+</ul>
+<p><img alt="" src="images/b744a2d9f391f1d3bb7338e3bd9485b18351283ae1fefb345794d6ead2f8f870.jpg" /></p>
+<ul>
+<li><strong>编程效率提升</strong>：</li>
+<li>通过高级汇编器 <strong>ezpim</strong>，端到端应用的代码量大幅减少。例如，<strong>EditDistance</strong> 的代码从 <strong>5428</strong> 行减少到 <strong>120</strong> 行，<strong>BlackScholes</strong> 从 <strong>1059</strong> 行减少到 <strong>383</strong> 行。</li>
+<li>这证明了 MPU 抽象（如 ensemble, RFH）极大地简化了针对复杂 PUM 硬件的编程。</li>
+</ul>
+<p><img alt="" src="images/157625104444496734649c27fdfab2424382c6e6c200dab67396a2076de101a1.jpg" /></p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/body_class.js"></script>
+      
+    
+  </body>
+</html>
