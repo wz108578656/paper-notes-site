@@ -1,0 +1,1019 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://wz108578656.github.io/paper-notes-site/notes_repo/a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/ELI5_notes/">
+      
+      
+        <link rel="prev" href="../paper_notes/">
+      
+      
+        <link rel="next" href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/paper_notes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>RISC-V Co-Processor (通俗版) - Paper Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="Paper Notes" class="md-header__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Paper Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RISC-V Co-Processor (通俗版)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Paper Notes" class="md-nav__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    Paper Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../collections/Recent/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recent
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Recent
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 整体创新点通俗解读
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-custom-instruction-set-extension-via-xif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Custom Instruction Set Extension via XIF
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-multi-bank-scratchpad-memory-with-lsu-and-dtcm-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Multi-bank Scratchpad Memory with LSU and DTCM Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-scalable-single-cycle-interconnect-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Scalable Single-Cycle Interconnect Network
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-compute-unit-with-address-queue-for-non-sequential-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Compute Unit with Address Queue for Non-Sequential Access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-forwarding-unit-for-direct-cu-to-cu-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Forwarding Unit for Direct CU-to-CU Streaming
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-dual-clock-domain-decoupling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Dual-Clock Domain Decoupling
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 整体创新点通俗解读
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-custom-instruction-set-extension-via-xif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Custom Instruction Set Extension via XIF
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-multi-bank-scratchpad-memory-with-lsu-and-dtcm-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Multi-bank Scratchpad Memory with LSU and DTCM Mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-scalable-single-cycle-interconnect-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Scalable Single-Cycle Interconnect Network
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-compute-unit-with-address-queue-for-non-sequential-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Compute Unit with Address Queue for Non-Sequential Access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-forwarding-unit-for-direct-cu-to-cu-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Forwarding Unit for Direct CU-to-CU Streaming
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-dual-clock-domain-decoupling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Dual-Clock Domain Decoupling
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators">A Configurable RISC-V Co-Processor with Instruction-Controlled Stream-Based Accelerators 通俗讲解<a class="headerlink" href="#a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators" title="Permanent link">&para;</a></h1>
+<h3 id="0">0. 整体创新点通俗解读<a class="headerlink" href="#0" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>之前做法的困境</strong>：要在RISC-V系统中集成多个硬件加速器，要么走<strong>松散耦合</strong>（通过总线/AXI连接），此时控制加速器需要开发者自己写底层驱动、手动管理数据搬运和共享内存，编程负担极重；要么走<strong>紧密耦合</strong>（如通过RISC-V的自定义指令或RoCC接口），但这往往只为特定计算任务（如向量、加密）设计，<strong>不具备通用性和可扩展性</strong>，无法灵活组合多个不同的流式加速器。</li>
+<li><strong>核心矛盾</strong>：加速器需要<strong>高带宽、低延迟</strong>的数据访问，而通用核心与加速器之间数据搬运的<strong>软件开销</strong>和<strong>时钟域差异</strong>成了瓶颈。同时，多个加速器如果要<strong>链式工作</strong>（一个的输出是另一个的输入），传统做法必须经过内存中转（写回再读），浪费带宽和延迟。</li>
+<li>
+<p><strong>论文要解决的大问题</strong>：如何提供一个<strong>既通用又高效</strong>的协处理器平台，让开发者像调用软件函数一样（用指令）轻松控制多个硬件加速器，同时硬件上支持加速器之间直接数据流、独立时钟频率，且资源占用小、可配置性强。</p>
+</li>
+<li>
+<p><strong>Imagine a well-run factory</strong>：核心是<strong>厂长（RISC-V CPU）</strong>，协处理器是<strong>中层管理部门</strong>。过去，厂长得亲自跑到每个工位（加速器）旁边，口述指令（写驱动/API），还得自己推着小车（数据搬运）来回跑，工位之间想传递半成品，必须先把半成品堆到仓库（内存），再推走，效率极低。</p>
+</li>
+<li>
+<p><strong>本文的做法</strong>：厂长通过<strong>一叠标准化指令卡片（自定义指令）</strong>，下发给中层管理部门。管理部门内部有一个<strong>自动化流水线作业区（Execution Unit）</strong>，里面有很多<strong>独立工位（Compute Units，CUs）</strong>，每个工位连接一个专业机器（AXI-Stream加速器IP）。这些工位之间通过<strong>传送带（Forwarding Unit，FWU）</strong> 直接传递半成品，完全不用经过仓库。每个工位自己有小料斗（地址队列），可以按非连续的顺序取用原料。更重要的是，厂长自己的办公桌（核心时钟）和流水线作业区（协处理器时钟）<strong>使用不同的时钟频率</strong>，流水线可以跑得比厂长快得多，且互不干扰。</p>
+</li>
+<li>
+<p><strong>关键逻辑转换</strong>：作者没有把加速器当作一个外设或函数单元，而是<strong>抽象成“有输入输出流的微操作”</strong>，并用<strong>RISC-V自定义指令</strong>统一管理其整个生命周期：配置、启动、等待完成、数据搬运。这相当于给每个加速器配了一个<strong>标准的硬件控制器（CU Controller）</strong>，将加速器暴露的AXI-Stream接口映射成<strong>内存映射的读写操作</strong>。</p>
+</li>
+<li><strong>具体巧妙的替换</strong>：</li>
+<li><strong>替换数据搬运方式</strong>：作者<strong>没有</strong>用传统的DMA或API来让核心搬运数据到加速器。而是通过<strong>扩展数据桥（Data Bridge）</strong>，将协处理器的scratchpad内存直接映射到RISC-V核心的地址空间。这样核心可以用普通的load/store指令直接读写加速器的本地数据区，移除了之前必须通过XIF接口进行专用指令搬运的低效和阻塞。</li>
+<li><strong>替换IP间通信方式</strong>：引入了<strong>转发单元（FWU）</strong>。它在互联网络中扮演一个“虚拟从设备”，<strong>并不对应实际的内存</strong>。当生产者CU向FWU的地址写数据时，消费者CU同时从FWU读数据，FWU在内部直接握手转发，<strong>绕过了所有内存读写</strong>。这一招让多个流式加速器实现硬件层面的<strong>直接管道（Pipeline）</strong>。</li>
+<li><strong>解决非连续访问</strong>：给CU增加了<strong>地址队列（Address Queue）</strong>。核心可以预先生成一个地址序列（类似索引数组）存到scratchpad，然后通过两个新指令（XLDA / XCFGA）告诉CU：“先去那个队列里把地址读进来，然后按这些地址去取数据喂给加速器”。这使流式加速器也能支持<strong>不规则数据重组</strong>，而不用核心逐条干预。</li>
+<li><strong>时钟域解耦</strong>：在协处理器内部，将<strong>核心逻辑（指令解码、配置）</strong>和<strong>执行单元（互联网络、加速器、内存）</strong>划分到两个独立时钟域，中间用<strong>异步FIFO</strong>缓冲。这样执行单元可以跑到更高频率（如333 MHz），核心只需跑在较低频率上，兼顾了能效与性能。</li>
+</ul>
+<h3 id="1-custom-instruction-set-extension-via-xif">1. Custom Instruction Set Extension via XIF<a class="headerlink" href="#1-custom-instruction-set-extension-via-xif" title="Permanent link">&para;</a></h3>
+<p>好的，我们来聊聊<strong>“通过 XIF 扩展的自定义指令集”</strong>这个设计。简单来说，它解决的是一个“沟通成本”的问题。</p>
+<p>想象一下，你是一个项目经理（RISC-V CPU），手下有几个干活特别快的专家小组（硬件加速器IP）。在之前，你要给小组布置任务，流程是这样的：</p>
+<ul>
+<li>你得先走到一个<strong>公共公告板</strong>（内存映射寄存器或共享内存）上写通知：”任务A：数据在xxx地址，做完放到yyy地址”。</li>
+<li>然后你冲专家小组大喊一声：“干活！”（触发一个外设中断或轮询标志位）。</li>
+<li>小组干完活，再回到公告板上写“干完了”。</li>
+<li>你又得跑过去把结果抄回来。</li>
+</ul>
+<p>这个过程极其<strong>烦琐、串行且低效</strong>。CPU 绝大部分时间不是在思考（执行逻辑），而是在跑腿（处理数据移动和同步）。你每次布置任务，都要经历一套沉重的 <strong>API 调用</strong>，这里面包含了大量的<strong>内存读取、写入和同步开销</strong>。这就像两个公司协作，每次沟通都要写正式公函，而不是直接发个微信语音。</p>
+<p>这个设计的精髓，就是<strong>把“公函式沟通”变成了“指令式沟通”</strong>。</p>
+<p><strong>你的思维模型可以是：</strong> 想象你不是在用公告板，而是给每位专家小组配了一个<strong>对讲机</strong>（XIF接口）。
+这个对讲机只有一个频道，专门用来发<strong>短命令</strong>。比如：</p>
+<ul>
+<li>你拿起对讲机说：“01号小组，开始任务Alpha，数据源：仓库A，结果放仓库B。”</li>
+<li>对讲机那头回一个字：“收到。”</li>
+<li>之后你不用管了，01小组会自己读取仓库A，处理完放仓库B。你同时可以继续给02小组发下一个指令。</li>
+<li>当你想知道结果时，直接问：“01，完事了吗？” 对方可能回：“已完成”或者“请稍等”。</li>
+</ul>
+<p>这个过程，<strong>CPU 不再需要亲自“拿着钥匙去开仓库门”</strong>。它只是<strong>发布指令</strong>，然后<strong>等待结果</strong>。XIF 就像是 RISC-V 处理器预留的一个“VIP通道”，专门用来和内部的特种部队（协处理器）进行高效、低延迟的通讯，而不是走拥挤的公共总线。</p>
+<p>作者实现这个转变，最关键的<strong>逻辑转换</strong>是：<strong>将复杂的、多步骤的“软件流程”，打包成了一个原子化的“硬件指令”</strong>。</p>
+<ul>
+<li><strong>以前的做法（软件控制）</strong>：当你需要在加速器上跑一个卷积，代码可能是几千行，包含：配置DMA、启动DMA、等待DMA完成、配置加速器、启动加速器、等待加速器完成、读取结果。每一步都需要CPU参与。</li>
+<li><strong>现在的做法</strong>：作者定义了新的RISC-V指令。比如，一个自定义指令 <code>XCFG CU_ID, SRC_ADDR, LEN</code>。当CPU执行这条指令时，它<strong>不是自己去做数据搬运</strong>，而是通过XIF接口，<strong>把这条指令“丢”给了协处理器</strong>。</li>
+<li><strong>协处理器内部的“大脑”</strong>：协处理器内部有一个<strong>指令控制器</strong>。它接收这条自定义指令后，会自动解码，并管理后续所有步骤：通知CU开始、控制内部互联网络访问SPM、处理握手信号。</li>
+</ul>
+<p>你会发现，整个流程中最“重”的那部分——<strong>数据在加速器和本地内存（SPM）之间的流动</strong>——完全由协处理器内部的<strong>硬件流水线</strong>接管了。CPU 只需要发出一条<strong>极轻量级的指令</strong>，然后就可以继续做其他事情。最终，<strong>CPU 的角色从一个具体操作的执行者，转变成了一个宏观任务的调度者</strong>。它不再关心“怎么搬数据”，只关心“哪个数据块要给谁处理”。这个思路，是解决不同时钟域、不同计算单元协同工作难题的通用妙招。</p>
+<h3 id="2-multi-bank-scratchpad-memory-with-lsu-and-dtcm-mapping">2. Multi-bank Scratchpad Memory with LSU and DTCM Mapping<a class="headerlink" href="#2-multi-bank-scratchpad-memory-with-lsu-and-dtcm-mapping" title="Permanent link">&para;</a></h3>
+<p>之前的做法为什么“难受”？核心在于<strong>数据搬运的脱节</strong>。</p>
+<ul>
+<li><strong>高额通信代价</strong>：每次要把数据从Core的主存搬到加速器的本地SPM，都需要通过XIF接口的Custom Instruction。每搬运一个32-bit字，就要<strong>额外消耗5个时钟周期</strong>。这5个周期里，Core的Pipeline是<strong>停滞</strong>的——Core必须充当“搬运工”，干等。</li>
+<li><strong>软件极不友好</strong>：SPM在Core的<strong>地址空间之外</strong>，意味着Core无法用普通的<code>load</code>/<code>store</code>指令直接访问加速器的本地数据。程序员必须用<code>XLOADC</code>/<code>XSTORE</code>等专用指令，手动编排两步流程：先把数据从主存搬到一个“中转站”（Core的Data Memory），再通过Custom Instruction搬到SPM。这不仅冗余，而且<strong>破坏了代码的通用性</strong>。</li>
+<li><strong>并行度受限</strong>：Core在搬运数据时无法做其他计算，加速器也只能等待数据到位才能启动。整个系统的<strong>吞吐率被Core的搬运速度卡住</strong>。</li>
+</ul>
+<p>想象一个<strong>大型工厂</strong>（加速器）和一个<strong>办公室</strong>（RISC-V Core）之间需要频繁交换零件（数据）。</p>
+<ul>
+<li><strong>旧方案</strong>：办公室先自己把零件从仓库搬到自己的办公桌上（Core主存），然后工人们再通过一个<strong>狭小的文件传票窗口</strong>（XIF），一张一张地把零件规格单递给工厂。工厂拿到单子才能去本地仓库（SPM）找零件。每次传一张单子，窗口都要确认一次，办公室的文书工作完全停顿。</li>
+<li><strong>新方案</strong>：直接在办公室和工厂之间<strong>开一扇直达的门</strong>（DTCM端口），工厂的本地仓库（SPM）直接变成了办公室的<strong>内部分区</strong>。办公室员工可以随时走进仓库拿东西，就像拿自己办公桌上的文件夹一样。工人（加速器）也从窗口递单子，变成了直接从仓库货架上取货——<strong>两边互不干扰，而且效率翻倍</strong>。</li>
+</ul>
+<p>作者并没有大规模重构SPM或加速器，而是<strong>巧妙地“嫁接”了一个连接点</strong>。</p>
+<ul>
+<li><strong>替换对象</strong>：之前的LSU只能通过XIF的Memory接口与Core通信。作者将LSU<strong>扩展</strong>出一个新的数据通路，直接连接到Core的<strong>Data Bridge</strong>（数据桥）的<strong>DTCM端口</strong>。</li>
+<li><strong>逻辑转换</strong>：Data Bridge原本负责将Core的原生Data Port协议转换为AXI-4总线，并支持<strong>紧耦合本地内存（DTCM）</strong>。现在，作者将多Bank的SPM<strong>伪装成</strong>一组紧耦合的DTCM内存，通过LSU的另一个接口挂在Data Bridge上。</li>
+<li><strong>效果</strong>：这样一来，在Core的视角里，SPM的每个Bank都变成了<strong>可寻址的地址范围</strong>（基地址<code>0x4000_0000</code>）。Core可以直接用普通的<code>load</code>/<code>store</code>指令访问SPM，<strong>完全绕过了XIF</strong>。LSU也不再需要驱动XIF的Memory通道，而是直接通过Data Bridge与Core交互。这相当于<strong>把加速器的“本地存储”变成了Core的“一级缓存”</strong>，既消除了Custom Instruction的开销，又让Core能随时读取加速器结果，而加速器也在自己吃自己的数据。</li>
+</ul>
+<p>这个设计的精妙之处在于：<strong>没有改动加速器IP本身</strong>，只改动了通信链路的一端（LSU）和映射关系，就实现了从“间接搬运”到“直接访问”的跃迁。</p>
+<h3 id="3-scalable-single-cycle-interconnect-network">3. Scalable Single-Cycle Interconnect Network<a class="headerlink" href="#3-scalable-single-cycle-interconnect-network" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>传统方案的“两难”</strong>：在异构SoC里，让多个加速器（CUs）和多个内存块（Banks）高效通信是个老问题。<ul>
+<li>用<strong>全交叉开关</strong>（Crossbar）：连接直觉好，延迟低，但资源开销随端口数平方增长，在FPGA上撑死也就做到8×8，再大就吃光逻辑。</li>
+<li>用<strong>共享总线</strong>：资源省了，但一次只允许一对主从通信，多个CU并行时必然串行化，延迟直接爆炸。</li>
+</ul>
+</li>
+<li>
+<p>核心矛盾在于：当CU数量超过4个时，要么<strong>烧资源</strong>（Crossbar），要么<strong>等死</strong>（Bus）。对于需要<strong>多流并发、低延迟</strong>的流式加速器集群，这两种方案都不够实用。</p>
+</li>
+<li>
+<p><strong>“硬件版二分查找路由”</strong>：想象你要在一条大街上给多位客人递信，但每家每户的门牌号是顺序排列的。</p>
+<ul>
+<li>传统Crossbar像是给每位客人配一个<strong>专用投递员</strong>，每个投递员都知道所有门牌号，但你需要很多投递员（资源爆炸）。</li>
+<li>传统Bus像是只有一个<strong>共享投递员</strong>，他得按顺序跑完所有门牌，一次只服务一个人（延迟爆炸）。</li>
+</ul>
+</li>
+<li>
+<p>本文的Interconnect就像在街口设置了一棵<strong>“决策树”</strong>：每个路口只看地址的某几位（比如高位），告诉你是向左拐还是向右拐。所有请求同时步入这棵树，每一步都在单时钟周期内完成，最终在叶子节点（内存库）汇合。这棵树的结构非常规整，<strong>不需要每个节点知道全部地址，只需要知道“路径抉择”</strong>，因此逻辑极简，能轻松扩展到32×32甚至更大，而延迟几乎不变。</p>
+</li>
+<li>
+<p><strong>作者没有另起炉灶设计新协议，而是巧用“对数地址解码”替代“全地址矩阵”</strong>。</p>
+<ul>
+<li>他们把地址划分成两部分：<strong>低位</strong>作为内存库的内部地址，<strong>高位</strong>作为库选择信号。</li>
+<li>在硬件上实现了<strong>两级树形网络</strong>：一路是<strong>路由树（Router Tree）</strong>（从主设备侧生长），另一路是<strong>仲裁树（Arbitration Tree）</strong>（从从设备侧生长）。两棵树之间通过简单的组合逻辑交换机相连，路径在单周期内建立。</li>
+<li>路由树的每个节点只检查地址高位中的<strong>1比特</strong>（对应于树的层级），<strong>“见0向左，见1向右”</strong>，从而以极小的逻辑门数实现路径选择。</li>
+<li>仲裁树使用<strong>Round-Robin仲裁</strong>，当多个请求争抢同一个内存库时，轮流服务，避免饿死，且仲裁逻辑也是纯组合电路。</li>
+<li>关键效果：<strong>任意主设备到任意从设备的访问延迟恒定为log₂(从设备数)级的组合逻辑延迟</strong>，而不是线性增长。在FPGA上，8×8配置下能跑到333 MHz，资源消耗仅为LUT的1.9%——这比任何Crossbar方案都轻量一个数量级。</li>
+</ul>
+</li>
+<li>
+<p><strong>为什么能单周期？</strong> 因为整个网络是<strong>纯组合逻辑</strong>（无内部寄存器），地址从CU发出后，直接穿透路由树和仲裁树，在同一个时钟沿到达内存库的地址端口；内存库的响应也通过相同的树反向返回。路径中的所有组合延迟加起来正好在一个时钟周期内完成。这相当于把<strong>传统的多周期总线握手变成了组合逻辑多路复用</strong>。</p>
+</li>
+</ul>
+<h3 id="4-compute-unit-with-address-queue-for-non-sequential-access">4. Compute Unit with Address Queue for Non-Sequential Access<a class="headerlink" href="#4-compute-unit-with-address-queue-for-non-sequential-access" title="Permanent link">&para;</a></h3>
+<p><strong>痛点直击</strong></p>
+<ul>
+<li>传统的流式加速器（AXI4-Stream IP）只能吃下<strong>连续的内存块</strong>——输入地址必须递增，每次+4字节。  </li>
+<li>但实际应用中，IP 经常需要“跳着读”：比如卷积的滑动窗口、矩阵转置、稀疏索引查找。  </li>
+<li>之前的做法是：让 RISC-V 核心逐个计算地址，再通过自定义指令逐笔搬运。这导致核心被<strong>粘死</strong>，每个字至少浪费 5 个周期，而且完全无法利用流式 IP 的吞吐潜力。  </li>
+<li>更糟糕的是，一旦地址模式复杂（如随机步长），软件需要反复执行 <code>while</code> 循环下发指令，IP 大部分时间都在空等数据。</li>
+</ul>
+<hr />
+<p><strong>通俗比方</strong></p>
+<p>想象你有一个全自动的<strong>烤串流水线</strong>：
+- 老方法：烤串机只能按顺序从传送带上取肉串（0号、1号、2号…）。如果你需要先取第5串，再取第1串，再取第8串，你必须自己跑到传送带旁，<strong>手动</strong>把肉串捡出来，再<strong>手动</strong>塞给烤串机。每次只捡一串，烤串机就得等你一次。<br />
+- 新方法：你在流水线旁边挂一个 <strong>“取货清单”</strong>（地址队列），把要取的串号提前写好（5→1→8…）。流水线自己按清单逐个从传送带抓取，然后自动喂给烤串机。你（核心）写完清单就可以去忙别的事，不用再盯着每一个动作。</p>
+<hr />
+<p><strong>关键一招</strong></p>
+<ul>
+<li>作者并没有修改 AXI4-Stream IP 本身，而是在 <strong>Compute Unit (CU)</strong> 内部增加了一个<strong>地址队列</strong>和一个<strong>数据路径选择器</strong>（见 Figure 6）。  </li>
+<li><strong>逻辑转换</strong>：将“按地址读数据”拆成<strong>两阶段流水</strong>：</li>
+<li><strong>第一阶段（地址加载）</strong>：CU 从 SPM 中连续读取一串地址值（预先存好的“索引数组”），写入内部 FIFO（地址队列）。此时 CU 的读端口被切换到队列方向，数据不进入 IP。  </li>
+<li><strong>第二阶段（执行流送）</strong>：CU 从地址队列中弹出值作为 SPM 读地址，返回的数据直接送入 AXI4-Stream IP 的输入端口。地址生成从<strong>硬件计数器</strong>切换为<strong>队列输出</strong>，而 IP 看到的依然是连续的数据流——它根本不知道地址是跳着的。  </li>
+<li>作者用两条新增自定义指令（<code>XLDA</code>、<code>XCFGA</code>）控制这两个阶段：<code>XLDA</code> 将地址序列加载到队列，<code>XCFGA</code> 通知 CU 从队列读取地址进行数据流送。核心只负责下发这两个配置指令，然后释放。  </li>
+<li>于是，任意访问模式变成了<strong>一次预配置 + 一次自动流送</strong>，不再需要核心逐地址干预。IP 的吞吐几乎不受影响，因为 FIFO 吸收了地址跳转的延迟。</li>
+</ul>
+<h3 id="5-forwarding-unit-for-direct-cu-to-cu-streaming">5. Forwarding Unit for Direct CU-to-CU Streaming<a class="headerlink" href="#5-forwarding-unit-for-direct-cu-to-cu-streaming" title="Permanent link">&para;</a></h3>
+<ul>
+<li>之前的 CU（计算单元）之间要传递数据，必须走一个 <strong>“写入内存 -&gt; 等待完成 -&gt; 再从内存读出”</strong> 的流程。</li>
+<li>这带来了两重代价：</li>
+<li><strong>延迟浪费</strong>：第二个 CU 必须等第一个 CU 把<strong>全部结果</strong>写回内存，才能开始读取，流水线被迫顺序执行，无法重叠。</li>
+<li><strong>带宽浪费</strong>：数据先写一次、再读一次，相当于绕了远路，对本地多 bank 的 Scratchpad Memory (SPM) 造成不必要的流量压力。</li>
+<li>更关键的是，这种做法需要软件通过轮询（<code>XCFG</code> 指令反复检查状态）来同步，增加了编程复杂度和控制开销。</li>
+</ul>
+<p>把 CU 想象成工厂流水线上的两个工位。<br />
+- <strong>老办法</strong>：工位 A 加工完零件后，必须把零件放到<strong>中央仓库</strong>（SPM），然后工位 B 再去仓库取回来才能继续加工。零件在仓库里进进出出，既浪费时间，又占用了仓库的货架和叉车（内存带宽）。<br />
+- <strong>FWU 的做法</strong>：在 A 和 B 之间加了一条<strong>短传送带</strong>。A 做完一个零件，直接放到传送带上，B 只要伸手就能拿到，根本不用经过仓库。这样 A 和 B 可以<strong>同时工作</strong>，传送带上的零件流动完全由硬件握手控制，流水线无缝衔接。</p>
+<p>作者并没有改动 CU 本身的流接口，也没有增加复杂的仲裁逻辑，而是<strong>在从属树（Slave Tree）中植入了一个特殊从属单元：FWU</strong>。</p>
+<ul>
+<li><strong>逻辑转换</strong>：FWU 本质上是一个<strong>双端口缓冲器</strong>，它被映射为一段“伪内存地址”。  </li>
+<li>生产者 CU 对这个地址执行<strong>写操作</strong>（<code>xcfg</code>+<code>xcmp</code> 配置输出到 FWU 地址）；  </li>
+<li>消费者 CU 对这个地址执行<strong>读操作</strong>（配置输入从 FWU 地址来）。  </li>
+<li><strong>硬件透明</strong>：当两边都就绪时，FWU 在内部直接将写端口的数据<strong>转发</strong>到读端口，<strong>不经过任何内存 Bank</strong>。它只做一件事：在写端准备好时，把数据塞进小型 FIFO，消费端一请求就弹出。  </li>
+<li><strong>去同步</strong>：由于数据是实时传递的，两个 CU 可以<strong>同时启动</strong>，生产者输出一个字，消费者立刻就能收到，无需软件等待完整批次。这在效果上类似于 CPU 中的<strong>寄存器转发</strong>（Register Bypassing），但作用于流式加速器之间的数据链。</li>
+</ul>
+<p><strong>核心突破</strong>：用硬件缓冲代替了“写内存-读内存”的冗余两步操作，让流式加速器链从<strong>串行</strong>变成了<strong>真正的流水线</strong>。</p>
+<h3 id="6-dual-clock-domain-decoupling">6. Dual-Clock Domain Decoupling<a class="headerlink" href="#6-dual-clock-domain-decoupling" title="Permanent link">&para;</a></h3>
+<p>好的，我们来看这个“Dual-Clock Domain Decoupling”。这听起来像个硬件术语，但其实它的核心思想，在现实生活中随处可见。</p>
+<hr />
+<p>想象一下你的办公室团队：有一位核心领导，能力全面，但他做事慢条斯理，每天只能处理100个文件。而你手下有几个专才，比如一个算数天才，他每秒能算1000个乘法。之前，为了协同工作，你不得不让这个算数天才按照领导的节奏来做事，一秒只能干100个。<strong>这就像让一辆法拉利跟在牛车后面，其强大的加速能力被系统里最慢的那个环节死死拖住。</strong></p>
+<ul>
+<li>在之前的架构里，<strong>整个系统（RISC-V核心、协处理器包装器、加速器IP）都必须在同一个时钟频率下运行</strong>。</li>
+<li>这个频率被<strong>通用RISC-V核心</strong>的瓶颈所限制。加速器IP即使是专门设计来跑高频的，也不得不“降频”工作。</li>
+<li>这造成了巨大的性能浪费，也让协处理器网络的可扩展性评估失去了意义——因为你测到的瓶颈是核心，而不是你真正想测试的互联网络本身。</li>
+</ul>
+<p>这就像一个<strong>城市交通系统</strong>。</p>
+<ul>
+<li><strong>RISC-V核心</strong>是城市的<strong>行政区</strong>，负责制定规则和审批文件。它节奏沉稳，时钟周期长。</li>
+<li><strong>加速器IPs (CUs)</strong> 是城市里的<strong>高速公路</strong>，需要高频率、快速地跑车。</li>
+<li><strong>互联网络</strong>是连接高速公路的<strong>立交桥</strong>。</li>
+</ul>
+<p>之前，为了管理方便，整个城市（行政区和高速公路）都使用同一个交通限速——<strong>比如60公里/小时</strong>。这显然不合理，在空旷的高速上开60，太憋屈了。</p>
+<p><strong>“Dual-Clock Domain”的做法，就是在行政区到立交桥的入口处，设置一个“缓冲区”（异步FIFO）。</strong></p>
+<ul>
+<li>行政区<strong>以自己60公里/小时的节奏</strong>，把一批车（数据和指令）开到缓冲区门口。</li>
+<li>缓冲区<strong>按照高速公路120公里/小时的节奏</strong>，把车放进去让它们飞驰。</li>
+<li>当高速公路上的车跑完了，它们的结果也会先回到缓冲区，然后<strong>再以60公里/小时的节奏</strong>汇报给行政区。</li>
+</ul>
+<p>这样，高速公路（加速器）就能跑120码，而行政区（核心）依然在自己的节奏里处理公务，<strong>两者互不干扰，各行其道，各尽其能</strong>。</p>
+<p>作者的关键一招，不是一个复杂的电路设计，而是一个<strong>架构上的解耦</strong>。他们没有去改造核心让它跑得更快，也没让加速器跑慢点，而是在两者之间<strong>插入了一个速度转换器——异步FIFO</strong>。</p>
+<p><strong>逻辑转换是：从“全局同步”到“局部隔离”。</strong></p>
+<ul>
+<li><strong>之前是：</strong> 核心和所有加速器被绑在一条绳子上，一荣俱荣，一损俱损。核心是短板，整个系统就得跟着受罪。</li>
+<li><strong>作者的做法是：</strong> 将系统清晰地切割成两个“速度域”。一个是 <strong>“慢域”（核心域）</strong> ，另一个是 <strong>“快域”（执行域，包含互联网络和加速器）</strong>。</li>
+<li>他们用<strong>异步FIFO</strong>作为两个域的连接点。这个FIFO就像一个<strong>水位调节器</strong>，在数据写入时，跟随写入方的时钟（慢域），在数据读出时，跟随读出方的时钟（快域）。它完美地<strong>吸收了两个时钟域之间的速度和相位差异</strong>。</li>
+</ul>
+<p><strong>最终效果：</strong> 这个设计让协处理器的执行单元可以自由地跑出更高的频率（比如表6里展示的625 MHz），而不必再看核心（100 MHz）的脸色。这使得我们能够<strong>真实评估加速器网络本身的性能和可扩展性</strong>，而不是被核心拖后腿。这就像把高速公路和行政区彻底分离，让高速公路测试能真正跑出法拉利的性能。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/body_class.js"></script>
+      
+    
+  </body>
+</html>

@@ -42,5 +42,6 @@ title="点击搜索"
 
 ## 最近更新
 
+- [A Configurable RISC-V Co-Processor with Instruction-Controlled Stream-Based Accelerators](notes_repo/a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/paper_notes/index.md) — paper_notes
 - [The Memory Processing Unit: A Generalized Interface for End-to-End In-Memory Execution](notes_repo/the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/paper_notes/index.md) — paper_notes
 - [CD27-Mediated Regulatory T Cell Depletion and Effector T Cell Costimulation Both Contribute to Antitumor Efficacy](notes_repo/cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/index.md) — paper_notes
