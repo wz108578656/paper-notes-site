@@ -42,6 +42,7 @@ title="点击搜索"
 
 ## 最近更新
 
+- [RH+: Row-Hit-Optimized Scheduling for PIM-based LLM Inference](notes_repo/rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/index.md) — paper_notes
 - [InterStellar 2.0: Fine-Grained Stream-Guided HW/SW Co-Design for Multi-Channel DRAM Performance Steering](notes_repo/interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/paper_notes/index.md) — JSA 2026
 - [A Configurable RISC-V Co-Processor with Instruction-Controlled Stream-Based Accelerators](notes_repo/a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/paper_notes/index.md) — paper_notes
 - [The Memory Processing Unit: A Generalized Interface for End-to-End In-Memory Execution](notes_repo/the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/paper_notes/index.md) — paper_notes

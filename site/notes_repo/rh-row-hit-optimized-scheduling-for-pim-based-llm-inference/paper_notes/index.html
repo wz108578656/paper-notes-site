@@ -1,0 +1,1415 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://wz108578656.github.io/paper-notes-site/notes_repo/rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/">
+      
+      
+        <link rel="prev" href="../../../collections/Recent/">
+      
+      
+        <link rel="next" href="../ELI5_notes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>RH+ (论文笔记) - Paper Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rh-row-hit-optimized-scheduling-for-pim-based-llm-inference" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="Paper Notes" class="md-header__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Paper Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RH+ (论文笔记)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Paper Notes" class="md-nav__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    Paper Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../collections/Recent/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recent
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Recent
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RH+ (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RH+ (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 论文基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 背景知识与核心贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心技术和实现细节
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 核心技术和实现细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 技术架构概览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-nrc-bottleneck-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. nRC Bottleneck Identification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rh-scheduling-with-stride-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. RH+ Scheduling with Stride Change
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-zero-row-hit-rate-in-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Zero Row-Hit Rate in Baseline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-nccdab-irrelevance-for-gemv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. nCCDAB Irrelevance for GEMV
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实验方法与实验结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RH+ (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar 2.0 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar 2.0 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 论文基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 背景知识与核心贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心技术和实现细节
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 核心技术和实现细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 技术架构概览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-nrc-bottleneck-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. nRC Bottleneck Identification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rh-scheduling-with-stride-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. RH+ Scheduling with Stride Change
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-zero-row-hit-rate-in-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Zero Row-Hit Rate in Baseline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-nccdab-irrelevance-for-gemv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. nCCDAB Irrelevance for GEMV
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实验方法与实验结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="rh-row-hit-optimized-scheduling-for-pim-based-llm-inference">RH+: Row-Hit-Optimized Scheduling for PIM-based LLM Inference 论文解析<a class="headerlink" href="#rh-row-hit-optimized-scheduling-for-pim-based-llm-inference" title="Permanent link">&para;</a></h1>
+<p><a download="rhplus_pim_llm.pdf" href="original.pdf">📄 下载论文原文 (PDF)</a> &nbsp;|&nbsp; <a href="original.pdf" target="_blank">🔗 在线阅读</a></p>
+<h2 id="0">0. 论文基本信息<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<p><strong>作者 (Authors)</strong>: Yongchan Jung, Shafayat Mowla Anik, Byeong Kil Lee, Jeeho Ryoo</p>
+<p><strong>发表期刊/会议 (Journal/Conference)</strong>: unknown</p>
+<p><strong>发表年份 (Publication Year)</strong>: 2024</p>
+<p><strong>研究机构 (Affiliations)</strong>: Fairleigh Dickinson University, University of Colorado Colorado Springs</p>
+<hr />
+<h2 id="1">1. 摘要<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p><strong>目的</strong></p>
+<ul>
+<li>揭示在PIM（processing-in-memory）架构的LLM推理中，<strong>nRC（DRAM行周期时间）</strong> 而非此前认为的 <strong>nCCDAB（功率约束参数）</strong> 才是GEMV操作的真实性能瓶颈。</li>
+<li>指出基线地址交错策略（步长64列）导致每次全组MAC命令（MAC AB）落入不同行，造成0%行命中率，nRC完全掩盖了nCCDAB的影响。</li>
+<li>提出 <strong>RH+调度</strong>，通过改变地址步长实现连续MAC操作的行命中，从而大幅提升性能并降低能耗。</li>
+</ul>
+<p><strong>方法</strong></p>
+<ul>
+<li><strong>瓶颈分析</strong>：基于HBM3规格，nRC（60–77 tCK）是nCCDAB（6–7 tCK）的10–11倍；且MAC AB命令在16个通道间轮转，自然间隙已超过nCCDAB，使功率约束完全无效。</li>
+<li><strong>RH+调度设计</strong>：</li>
+<li>将MAC AB地址步长从64列改为<strong>1列</strong>，使每32个连续MAC操作映射到同一DRAM行内。</li>
+<li>仅需一次ACT（激活）和一次PRE（预充电）即可完成32个MAC，后续MAC以nCCDAB间隔连续执行。</li>
+<li>权重元素沿K维度进行一次性离线重排，零运行时开销。</li>
+<li><strong>仿真验证</strong>：</li>
+<li>在 <strong>AttAcc模拟器</strong> 基础上集成 <strong>Ramulator 2.0</strong> 进行周期精确DRAM时序和能耗建模。</li>
+<li>评估4种LLM模型（GPT-175B、LLaMA-65B、MT-530B、OPT-66B），涵盖3种序列长度对和2种批次大小（1和4），共24个配置。</li>
+<li>使用HBM3 5.2 Gbps速度等级，对比基线与RH+调度。</li>
+</ul>
+<p><strong>结果</strong></p>
+<ul>
+<li><strong>性能加速</strong>：RH+实现 <strong>8.25–11.88×</strong> 端到端加速。加速比与模型隐藏维度K正相关（MT-530B最高），批次大小为4时加速更一致（10.77–11.88×）。</li>
+<li><strong>能耗降低</strong>：总能耗降低 <strong>74.5–77.1%</strong>。背景能耗（IDD3N/IDD2N）因执行时间缩短约10倍而大幅下降，成为能耗降低的主要来源。</li>
+<li><strong>能效积（EDP）提升</strong>：EDP改善 <strong>32.4–52.0×</strong>，其中MT-530B在batch=4时达到峰值52.0×，源于11.88×加速与77.1%能耗降低的复合效应。</li>
+<li><strong>能耗分解</strong>：基线中背景能耗占67–68%，ACT/PRE/REF占15.5%；RH+后ACT/PRE/REF几乎消除，计算能耗成为最大占比。</li>
+</ul>
+<p><strong>结论</strong></p>
+<ul>
+<li>nRC是PIM-based LLM推理中被忽视的主要瓶颈，nCCDAB完全被掩盖。</li>
+<li>RH+调度通过简单改变地址步长，将每32个MAC操作转化为行命中，消除了ACT-PRE开销。</li>
+<li>实验证明，DRAM微架构感知优化能释放PIM的潜力，实现数量级的性能提升和能耗下降（<strong>8–12×加速、74%以上节能、高达52× EDP改善</strong>）。</li>
+<li>未来方向：结合非功率约束（NPC）模式以进一步缩短nCCDAB间隔，使RH+收益最大化。</li>
+</ul>
+<hr />
+<h2 id="2">2. 背景知识与核心贡献<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p><strong>研究背景</strong>：大语言模型（LLM）的自回归解码阶段受限于内存带宽，每个token需读取整个权重矩阵，但仅执行一次矩阵-向量乘（GEMV）。处理-内存（PIM）架构通过在HBM3 DRAM银行内部署计算单元，避免了传统加速器的数据搬运开销。HBM3-PIM支持全银行乘加（MAC AB）操作，可同时激活全部1024个银行。</p>
+<p><strong>动机</strong>：先前工作将<strong>功耗约束时序参数nCCDAB</strong>（6-7 tCK）视为主要性能瓶颈并围绕其优化。然而，本文发现<strong>DRAM行周期时间nRC</strong>（60-77 tCK）比nCCDAB大10-11倍，完全掩盖了功耗约束。根本原因是继承自主机的地址交错策略（行内步长64列）导致每次MAC AB命令落入不同DRAM行，迫使每次操作都经历完整的<strong>激活-预充电</strong>周期，行命中率为0%。因此，即使消除nCCDAB，GEMV延迟依旧由nRC主导，先前的nCCDAB优化效果为零。</p>
+<p><strong>核心贡献</strong>：
+- <strong>瓶颈识别</strong>：揭示nRC（而非nCCDAB）是HBM3-PIM推理中GEMV的主导瓶颈，功耗约束被完全掩盖。
+- <strong>RH+调度</strong>：通过将MAC AB地址步长从64列改为1列，使连续32次MAC操作保留在同一DRAM行内，将每次行未命中转换为行命中。在5.2 Gbps下，32次MAC的延迟从32×nRC（2016 tCK）降至nRC+31×nCCDAB（249 tCK，PC模式），分析加速比8.1-10.8×。
+- <strong>全面验证</strong>：基于Ramulator 2.0的周期精确仿真，在四种LLM模型（GPT-175B、LLaMA-65B、MT-530B、OPT-66B）和多种配置下，实现<strong>8.25-11.88×加速</strong>、<strong>74.5-77.1%能耗降低</strong>及<strong>32.4-52.0× EDP改善</strong>。背景能耗因执行时间缩短而线性下降，是节电主因（占基线总能耗67%）。</p>
+<hr />
+<h2 id="3">3. 核心技术和实现细节<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<h3 id="0_1">0. 技术架构概览<a class="headerlink" href="#0_1" title="Permanent link">&para;</a></h3>
+<p><strong>整体技术架构核心层次</strong></p>
+<ul>
+<li>
+<p><strong>目标硬件平台</strong>：HBM3-PIM（Processing-in-Memory）堆叠架构。每个堆栈包含16个通道，每个通道含2个伪通道及2个Rank，每Rank有4个Bank组×4个Bank，总计1024个Bank。每个Bank内部集成处理单元（PU），可执行乘加运算（MAC），并配备全局/共享缓冲区（GM/SM Buffer）。所有Bank可通过<strong>MAC AB</strong>（All-Bank MAC）命令并行激活，实现数据级并行。</p>
+</li>
+<li>
+<p><strong>工作负载特性</strong>：</p>
+</li>
+<li>驱动对象为大语言模型（LLM）的自回归解码阶段，其中<strong>GEMV</strong>（general matrix-vector multiplication）操作占每token前向计算延迟的95%以上。</li>
+<li>
+<p>每个GEMV操作需将权重矩阵与激活向量相乘，矩阵维度由模型隐藏维度K决定，例如GPT-175B的K=12288，LLaMA-65B的K=8192。</p>
+</li>
+<li>
+<p><strong>核心瓶颈定位</strong>：</p>
+</li>
+<li>传统观点认为<strong>nCCDAB</strong>（功率约束参数，6~7 tCK）是性能瓶颈，但论文论证该参数在GEMV中被完全掩盖。</li>
+<li>
+<p>实际瓶颈为<strong>DRAM行周期时间nRC</strong>（60~77 tCK，比nCCDAB大10~11倍）。因主机端地址交错策略（stride=64 columns）导致每次MAC AB命令都落在不同DRAM行，<strong>0%行命中率</strong>，每次触发完整ACT-PRE循环，行管理开销占主导。</p>
+</li>
+<li>
+<p><strong>RH+调度优化方案</strong>：</p>
+</li>
+<li><strong>核心改变</strong>：将MAC AB命令的地址步长从64 columns缩减为<strong>1 column</strong>。每个DRAM行包含32 columns，因此连续32次MAC AB命令均命中同一行，只需一次ACT和一次PRE，将nRC开销从32次摊销为1次。</li>
+<li><strong>实现机制</strong>：离线重排权重矩阵（按K维），使相邻列映射到同一行相邻columns，不改变计算顺序（累加可交换）。运行时无额外开销。</li>
+<li>
+<p><strong>效果</strong>：分析模型下理论加速比8.1~10.8×，实际测量8.25~11.88×速度提升，背景能量因执行时间缩短而大幅降低（74.5%~77.1%能量减少），EDP改善32.4~52.0×。</p>
+</li>
+<li>
+<p><strong>仿真评估方法</strong>：</p>
+</li>
+<li>基于<strong>AttAcc</strong>模拟器扩展[5]，集成<strong>Ramulator 2.0</strong>[10]进行周期精确的DRAM时序与能量建模。</li>
+<li>能量模型采用DRAMPower方法论[2]，分解为<strong>计算能量</strong>（MAC AB）、<strong>重排能量</strong>（数据搬移命令如WR GB, MV SB等）、<strong>ACT/PRE/REF能量</strong>（行管理与刷新）、<strong>背景能量</strong>（待机电流IDD3N/IDD2N）。</li>
+<li>覆盖4种LLM模型（GPT-175B、LLaMA-65B、MT-530B、OPT-66B），在tp=8 tensor并行下使用5个HBM3堆栈，5.2 Gbps速率，24个配置（3种序列长度×2种batch size）。</li>
+</ul>
+<p><strong>关键参数对比表</strong></p>
+<table>
+<thead>
+<tr>
+<th>指标项</th>
+<th>基准（Stride-64）</th>
+<th>RH+（Stride-1）</th>
+<th>改善倍数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>每32次MAC命令周期（5.2 Gbps）</td>
+<td>2016 tCK（32×nRC）</td>
+<td>249 tCK（PC） / 185 tCK（NPC）</td>
+<td>8.1~10.9×</td>
+</tr>
+<tr>
+<td>端到端速度提升（batch=1）</td>
+<td>1×</td>
+<td>8.25~11.51×</td>
+<td>8~11.5×</td>
+</tr>
+<tr>
+<td>端到端能量减少</td>
+<td>-</td>
+<td>74.5%~77.1%</td>
+<td>3.9~4.4×</td>
+</tr>
+<tr>
+<td>能量延迟积（EDP）改善</td>
+<td>1×</td>
+<td>32.4~52.0×</td>
+<td>32~52×</td>
+</tr>
+<tr>
+<td>背景能量占总能量比例（基准）</td>
+<td>67.3%~67.8%</td>
+<td>降至25%~31%（但绝对值缩小）</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>图片引用说明</strong>
+- <strong>图1(a)</strong>：HBM3-PIM bank架构（per-bank PU, GM/SM buffer） <img alt="" src="images/095b06eaccaf9e4fd7d583c2ed175ba5b2216c68cf0963f13033a2c645ca3bb7.jpg" />
+- <strong>图1(b)</strong>：nRC vs nCCDAB随速率等级变化 <img alt="" src="images/cc6dc206b72d5e358b4ef87786cb605d7f09d508af458a83db4fa376a4327211.jpg" />
+- <strong>图2</strong>：基准Stride-64行寻址导致0%行命中 <img alt="" src="images/cbcbf712a0bb37d45e28d868612b70279f2c861a58e5f308dee6fd30b3415675.jpg" />
+- <strong>图3</strong>：RH+机制与时序加速（5.2 Gbps） <img alt="" src="images/85a9e6666e922f6ae543fc40ea9c8963b32dc93f872d9ca9c83662064a0feee1.jpg" /> <em>Fig. 3. RH+ mechanism (top) and timing-level speedup (bottom) at the 5.2 Gbps speed grade.</em>
+- <strong>图4</strong>：端到端加速比 <img alt="" src="images/33b4637a205216cd63c5ecbe68e3077690f6175f74222268617c89cc31e796cd.jpg" />
+- <strong>图5</strong>：端到端能量减少 <img alt="" src="images/26adf95d74a0fbc250884aa77e3e7cbd0ae8d74ecb34ae133b0d92cfe0ff7455.jpg" />
+- <strong>图6</strong>：EDP改善 <img alt="" src="images/b897d5965cf5d35d87802c52a848308ae018158f00f2c8cee08486095a03a46d.jpg" />
+- <strong>图7</strong>：能量分解归一化 <img alt="" src="images/03bd5a63f7ecc19f8e3b2a025ae54b27fddf8b01b19ba86aff4822b766344071.jpg" /></p>
+<h3 id="1-nrc-bottleneck-identification">1. nRC Bottleneck Identification<a class="headerlink" href="#1-nrc-bottleneck-identification" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong>：在PIM-based LLM推理的GEMV操作中，真正的主导瓶颈是<strong>DRAM行周期时间nRC</strong>，而非此前广泛关注的<strong>功率约束参数nCCDAB</strong>。nRC比nCCDAB大10–11倍，完全掩盖了功率约束的影响，使得任何针对nCCDAB的调度优化在GEMV负载下无效。</p>
+<p><strong>实现原理与根因分析</strong>：</p>
+<ul>
+<li>标准HBM3地址交错采用<strong>64列（2048字节）的bank内步长</strong>，这是为优化主机访问的memory bus利用率而设计的。但在PIM环境中，所有MAC AB命令直接对DRAM bank内部操作，不经过bus。</li>
+<li>每个DRAM行仅包含<strong>32列（1024字节）</strong>。当MAC AB命令以64列步长连续发出时，每一条命令必然落在<strong>不同的DRAM行</strong>上（见图2）。结果：</li>
+<li>每条MAC AB都必须执行完整的<strong>ACT（激活）→MAC计算→PRE（预充电）</strong>序列。</li>
+<li>行命中率为<strong>0%</strong>。</li>
+<li>单个MAC的延迟由nRC主导，而nRC (60–77 tCK) 远大于nCCDAB (6–7 tCK PC / 4 tCK NPC)。</li>
+<li>即使将nCCDAB降至0，每MAC仍需等待完整的nRC，延迟不变。因此<strong>功率约束的nCCDAB对于GEMV完全无关紧要</strong>。</li>
+</ul>
+<p><strong>参数设置与影响量化</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>数值范围（HBM3 4.8–6.4 Gbps）</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>nRC</strong></td>
+<td>60–77 tCK</td>
+<td>同一bank内相邻ACT的最小间隔，决定行管理开销</td>
+</tr>
+<tr>
+<td><strong>nCCDAB (PC)</strong></td>
+<td>6–7 tCK</td>
+<td>功率约束模式下MAC AB命令间隔</td>
+</tr>
+<tr>
+<td><strong>nCCDAB (NPC)</strong></td>
+<td>4 tCK</td>
+<td>非功率约束模式下间隔</td>
+</tr>
+<tr>
+<td>每行列数</td>
+<td>32列（1024 B）</td>
+<td>DRAM内部行容量，决定了连续行命中可能的MAC数量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>输入-输出关系与整体作用</strong>：</p>
+<ul>
+<li><strong>输入</strong>：DRAM地址映射策略（64列步长）、MAC AB命令序列、HBM3时序参数（nRC, nCCDAB）。</li>
+<li><strong>输出</strong>：识别出nRC为瓶颈的结论，并提供定量证据（如5.2 Gbps下单MAC duty cycle仅6/63≈9.5%）。</li>
+<li><strong>整体作用</strong>：</li>
+<li>从根本上否定了将nCCDAB作为主要优化目标的现有思路（如AttAcc [5]、NeuPIMs [3]）。</li>
+<li>为RH+调度（将步长改为1列，使32个MAC命中同一行）提供了直接动机和理论速度上限（8.1–10.8×）。</li>
+<li>解释了为何PC与NPC模式在基线GEMV下性能与能耗完全相同。</li>
+</ul>
+<p><strong>数据验证</strong>（来自论文）：
+- 图1(b)展示了5个速度等级下nRC与nCCDAB的对比，nRC始终为nCCDAB的10–11倍。
+- 以5.2 Gbps为例，nRC = 63 tCK，nCCDAB = 6 tCK (PC)，单MAC效率极低。
+- 实测GPT-175B的QKV操作在PC和NPC下均为<strong>221K周期</strong>，证实nCCDAB的变动无影响。</p>
+<p><strong>总结性表述</strong>：nRC瓶颈的识别表明，PIM推理优化的关键不在命令间隔，而在于<strong>DRAM行缓冲区的复用</strong>。RH+正是基于此洞察，将每32个MAC归入同一行，从根本上消除了nRC的开销。</p>
+<h3 id="2-rh-scheduling-with-stride-change">2. RH+ Scheduling with Stride Change<a class="headerlink" href="#2-rh-scheduling-with-stride-change" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong><br />
+RH+ Scheduling 的核心是通过改变 MAC AB 地址步长（Stride）来解决 DRAM 行循环时间 <strong>nRC</strong> 对 GEMV 操作的瓶颈。原本的步长为 <strong>64 列</strong>，导致每个 MAC 命令都命中不同行，触发完整的 <strong>ACT-PRE</strong> 周期；RH+ 将步长改为 <strong>1 列</strong>，使得连续 <strong>32 个 MAC</strong> 访问同一行的相邻列，从而将行管理开销摊销到多个运算上，实现 <strong>8–12× 加速</strong>和超过 <strong>74% 的能耗降低</strong>。</p>
+<hr />
+<p><strong>实现原理</strong><br />
+- <strong>问题根源</strong>：HBM3-PIM 中，每个 DRAM 行包含 <strong>32 列（1024 B）</strong>。但由 host 侧地址交织（Bank-Rotation）产生的 per-bank 地址步长为 <strong>64 列</strong>，即连续两个 MAC AB 命令在同一个 bank 内相距 64 列，必然跳过整个行，落入不同行，导致 <strong>0% row hit rate</strong>。<br />
+- <strong>RH+ 改变</strong>：将 MAC AB 的地址步长从 <strong>64 列</strong> 改为 <strong>1 列</strong>。这样连续 MAC 命令依次访问同一行内的 <strong>列0、列1、...、列31</strong>，恰好一个行能容纳 <strong>32 个连续 MAC</strong>。<br />
+- <strong>时序效果</strong>：原本每个 MAC 需要 <strong>ACT + MAC + PRE</strong> 共 <strong>nRC</strong> 个 tCK（例如 5.2 Gbps 下 nRC=63）。RH+ 下仅第一次 MAC 执行 ACT，后续 31 个 MAC 以 <strong>nCCDAB</strong> 间隔（6 或 4 tCK）连续执行，最后一次 MAC 后执行 PRE。总时长从 <strong>32 × nRC</strong> 降为 <strong>nRC + 31 × nCCDAB</strong>。  </p>
+<hr />
+<p><strong>算法流程</strong><br />
+1. <strong>离线权重重排</strong>：在模型加载前，将每个行（Row）内的权重元素沿 <strong>K-dimension</strong> 重新排列，使得原本步长为 64 列的元素变为步长为 1 列，即连续 32 个权重映射到同一行的连续列。此操作为一次性，无运行时开销。<br />
+2. <strong>运行时调度</strong>：<br />
+   - 发出第一个 <strong>MAC AB</strong> 命令时，DRAM 控制器自动执行 <strong>ACT</strong>（激活目标行）。<br />
+   - 后续 <strong>31 个 MAC AB</strong> 命令直接访问已激活行的后续列（行命中），每个命令间隔 <strong>nCCDAB</strong> tCK（受功率约束或非功率约束模式影响）。<br />
+   - 第 32 个 MAC 完成后，控制器发出 <strong>PRE</strong> 命令关闭该行。<br />
+3. <strong>循环执行</strong>：处理下一组 32 个 MAC 时，重复上述 ACT → 连续 32 个 MAC → PRE 的序列，直到该层权重全部处理完毕。  </p>
+<hr />
+<p><strong>参数设置</strong><br />
+| 参数 | Baseline (Stride=64) | RH+ (Stride=1) |
+|------|----------------------|----------------|
+| 地址步长（列） | 64 | 1 |
+| 每行可容纳 MAC 数 | 1（强制行缺失） | 32 |
+| Row hit rate | 0% | ≈96.9%（31/32 为行命中） |
+| 每 32 个 MAC 所需 tCK（5.2 Gbps, PC模式） | 32 × 63 = 2016 | 63 + 31×6 = 249 |
+| 每 32 个 MAC 所需 tCK（5.2 Gbps, NPC模式） | 2016（与PC相同，因nCCDAB被掩盖） | 63 + 31×4 = 187 |</p>
+<p>注意：<strong>nCCDAB</strong> 在 PC 模式下为 6–7 tCK，NPC 模式为 4 tCK；<strong>nRC</strong> 在 5.2 Gbps 下为 63 tCK。</p>
+<hr />
+<p><strong>输入输出关系</strong><br />
+- <strong>输入</strong>：以 GEMV 运算所需的权重矩阵（尺寸为 <strong>M×K</strong>，例如 QKV projection）为例。每个 MAC AB 命令处理一个权重元素。Baseline 下，地址映射使得连续 K 维度元素跨行；RH+ 下，地址映射将每连续 32 个 K 维度元素安排在同一行内。<br />
+- <strong>输出</strong>：经过 RH+ 调度后，MAC AB 命令序列的时序输出发生根本变化：原本每 63 tCK 完成一个 MAC，变为每 6–7 tCK（nCCDAB）完成一个行命中 MAC，仅在每 32 个 MAC 后出现一次 63 tCK 的 ACT-PRE 开销。<br />
+- <strong>在整体中的作用</strong>：RH+ 直接消除了 DRAM 行管理开销对 GEMV 的拖累，使得 HBM3-PIM 的运算带宽更接近其理论峰值（受限于 nCCDAB）。由于 LLM 推理中 GEMV 占 &gt;90% 的 decode 延迟，RH+ 显著提升整体 token 生成速度，同时背景能耗随执行时间线性缩减，带来大幅 EDP 改善（32–52×）。  </p>
+<hr />
+<p><strong>与其他优化的关系</strong><br />
+- RH+ 与先前聚焦于 <strong>nCCDAB</strong> 的调度优化（如 AttAcc）正交互补。<br />
+- 在 RH+ 消除 nRC 瓶颈后，<strong>nCCDAB</strong> 成为新的限制因素，可进一步结合 NPC 模式或流水线重叠技术提升性能。<br />
+- RH+ 不改变 MAC 的运算结果（累积顺序交换不影响最终输出），因此可无缝集成到现有 PIM 软件栈中。</p>
+<h3 id="3-zero-row-hit-rate-in-baseline">3. Zero Row-Hit Rate in Baseline<a class="headerlink" href="#3-zero-row-hit-rate-in-baseline" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong>: Baseline 的 <strong>0% row-hit rate</strong> 源自 HBM3-PIM 继承的传统 <strong>host-centric address interleaving</strong>，该设计为最大化主存总线利用率而优化，却与 PIM 的 all-bank MAC 工作负载完全冲突，导致每个 MAC AB 命令都强制触发完整的 <strong>ACT-PRE 行周期</strong>，将 nRC 暴露为 GEMV 性能的根本瓶颈。</p>
+<hr />
+<p><strong>实现原理与地址映射机制</strong>:
+- <strong>HBM3 地址交错的基础规则</strong>：
+  - 标准 HBM3 地址总线采用 <strong>bank rotation</strong> 策略：连续 cache-line 地址（通常 64 字节）被轮询映射到不同 bank，以分散访问冲突。
+  - 对于 <strong>相同 bank</strong> 内的连续逻辑地址，其 <strong>列地址 stride</strong> 固定为 <strong>64 columns</strong>（即 2048 字节）。这一 stride 是由 cache line 大小与 bank 粒度共同决定的遗留设计，专为传统 host CPU 的连续内存访问模式服务。
+- <strong>DRAM 行组织</strong>：
+  - 每个 DRAM 行包含 <strong>32 列</strong>（C0–C31，共 1024 字节）。因此，一个行内的列地址范围为 0~31。
+- <strong>Baseline MAC AB 地址生成</strong>：
+  - PIM 引擎为每层 GEMV 生成连续的 MAC AB 地址，这些地址对应权重矩阵每一行的不同元素。
+  - 由于地址 interleaving stride 为 64 columns，<strong>第一个 MAC 访问列 Cx (位于行 R0)</strong>，第二个 MAC 的地址偏移 64 列，直接跳过了 R0 行内剩余的列 (Cx+1 ~ C31) 以及整个 <strong>R1 行</strong>，落在 <strong>R2 行</strong> 的某列。
+  - 以此类推，连续 N 个 MAC 连续跨越 <strong>R0, R2, R4, ...</strong> 等不相邻的行，<strong>永远不会命中同一行</strong>。</p>
+<hr />
+<p><strong>算法流程与参数设置</strong>:
+- <strong>输入</strong>：连续生成的 MAC AB 地址序列（每层 GEMV 的列索引按 stride=64 递增）。
+- <strong>执行流程</strong>（每一条 MAC AB 命令为例）：
+  1. <strong>ACT</strong>：激活目标行（打开行缓冲器）。耗时 nRC 的一部分。
+  2. <strong>MAC</strong>：执行乘累加运算。命令本身耗时 nCCDAB（通常 6 tCK）。
+  3. <strong>PRE</strong>：预充电，关闭行。耗时 nRC 余下的部分。
+  4. <strong>下一步</strong>：下一条 MAC 的地址指向不同行，必须再次完整的 ACT → MAC → PRE 循环。
+- <strong>参数设置</strong>：
+  - <strong>nRC</strong>：依据 HBM3 速度等级，在 60~77 tCK 之间（如 5.2 Gbps 时为 63 tCK）。
+  - <strong>nCCDAB</strong>：电力约束模式下 6~7 tCK，非约束模式下 4 tCK。
+  - <strong>Stride</strong>：固定 64 columns（2048 字节），由系统地址映射决定，<strong>无法在运行时修改</strong>。
+- <strong>输出</strong>：每次 MAC 都经过完整的 nRC，<strong>实际计算时间仅占 nCCDAB，效率为 6/63 ≈ 9.5%</strong>。整层 GEMV 的总延迟 = 该层 MAC 数量 × nRC。</p>
+<hr />
+<p><strong>在整体架构中的作用</strong>:
+- <strong>与 GEMV 工作负载的交互</strong>：
+  - LLM 推理（特别是自回归解码阶段）中超过 <strong>95% 的延迟</strong> 来自 GEMV 操作。每个 GEMV 包含大量 MAC AB 命令（数量与隐藏维度 K 成正比）。
+  - 由于 Baseline 的 0% row-hit rate，<strong>这些 MAC 命令的延迟完全由 nRC 主导</strong>，而非之前文献认为的 nCCDAB。
+- <strong>对性能的连锁影响</strong>：
+  - <strong>行管理开销完全掩盖电力约束</strong>：即使 nCCDAB 降至 0，每个 MAC 仍必需 nRC 长度的 ACT+PRE 周期，因此 <strong>PC/NPC 模式对 baseline 性能无差别</strong>。
+  - <strong>能量效率低下</strong>：每次 ACT-PRE 消耗大量动态电流，且背景功率（IDD3N/IDD2N）因长时间等待而被拉伸。
+  - <strong>限制了 PIM 的真实潜力</strong>：PIM 本应消除数据移动，但行级冲突引入了全新的延迟瓶颈，导致 HBM3 的高带宽特性在 GEMV 中完全无法发挥。</p>
+<hr />
+<p><strong>总结</strong>：Baseline 的 <strong>0% row-hit rate</strong> 是 LLM 推理在 HBM3-PIM 上的性能“隐形杀⼿”。它根植于不合理的历史设计（host-centric stride），使 PIM 中被寄予厚望的并行计算退化成了串行的行激活链。<strong>RH+ 的核心创新正是在于识别并消除这一零点命中率，通过改变 stride 将 32 次 MAC 合并到同一行内，从而将 ACT-PRE 开销分摊到多个计算单元上</strong>。</p>
+<h3 id="4-nccdab-irrelevance-for-gemv">4. nCCDAB Irrelevance for GEMV<a class="headerlink" href="#4-nccdab-irrelevance-for-gemv" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong>：在基线（stride-64）的HBM3-PIM GEMV操作中，<strong>nCCDAB（Power Constraint）对延迟和能量完全无影响</strong>，因为其被更大的行周期<strong>nRC</strong>完全掩盖。这一结论通过PC与NPC模式产生相同周期数得到严格验证。</p>
+<p><strong>实现原理与根因分析</strong></p>
+<ul>
+<li><strong>DRAM行管理时序</strong>：每次MAC AB命令执行前，必须先发送ACT命令将目标行复制到row buffer，完成后发送PRE命令关闭行。完整的ACT-MAC-PRE序列所需最小时间由nRC决定（60–77 tCK in HBM3）。任何MAC AB都无法绕过该时序，即使nCCDAB为0，延迟依然由nRC主导。  </li>
+<li><strong>nCCDAB的物理作用</strong>：nCCDAB定义连续MAC AB命令之间的最小间隔（PC: 6–7 tCK, NPC: 4 tCK），仅限制MAC命令发射速率，不影响行管理开销。由于每个MAC AB独立占用一个完整行周期，MAC命令之间的实际间隔由nRC（而非nCCDAB）决定。</li>
+<li><strong>基线地址映射的致命影响</strong>：Host-centric地址交织导致每bank的MAC AB stride为64列（2048B）。每行仅32列，因此<strong>连续32个MAC AB均落在不同行</strong>，触发32次独立的ACT-PRE周期。32 × nRC的延迟完全覆盖了nCCDAB的微小间距，使得MAC命令之间的“空闲”时间被行管理填充。</li>
+<li><strong>频道间自然间隔</strong>：HBM3-PIM的16-channel架构中，MAC AB命令按循环顺序依次在16个频道上发射。每个频道返回间隔为16 tCK，远超nCCDAB（4–7 tCK）。因此即使降低nCCDAB，也无法迫使MAC AB命令以更密集方式注入同一频道。</li>
+</ul>
+<p><strong>算法流程与参数设置</strong></p>
+<ul>
+<li><strong>输入</strong>：连续的MAC AB命令流（对应GEMV矩阵的K维度权重列）。每个命令访问同一bank内的不同列地址，步长64列。  </li>
+<li><strong>过程（基线）</strong>：  </li>
+<li>对每个MAC AB：发送ACT → 等待nRCD（激活到读写延迟，但MAC执行需nCCDAB时间） → 执行MAC（nCCDAB tCK） → 发送PRE → 等待nRP（预充电延迟）。ACT到下一个ACT的最小间隔为nRC。  </li>
+<li>由于每步地址跨越64列，下一MAC必须激活新行，形成重复的ACT-MAC-PRE循环。  </li>
+<li>PC与NPC模式仅在nCCDAB取值上不同，但每个MAC AB的完整时序中，nRC远大于nCCDAB，因此<strong>总执行时间由32 × nRC决定</strong>，与nCCDAB无关。  </li>
+<li><strong>输出</strong>：完成一次GEMV（如GPT-175B QKV: M×K=4608×12288）共需<strong>221,000个tCK</strong>（PC与NPC相同）。能量分解中，ACT/PRE/REF占15.5%，背景待机占67.3–67.8%，nCCDAB相关功耗微乎其微。  </li>
+</ul>
+<p><strong>在整体中的角色与意义</strong></p>
+<ul>
+<li><strong>揭示失效优化</strong>：现有工作（如AttAcc、NeuPIMs）假设nCCDAB是主要瓶颈并围绕其设计调度策略。<strong>nCCDAB Irrelevance</strong>证明这些优化仅在GEMV操作中完全无效，必须将注意力转向行管理开销（nRC）的消除。  </li>
+<li><strong>触发新瓶颈转移</strong>：在RH+优化消除nRC后，nCCDAB才成为新瓶颈。此时PC模式比NPC模式慢1.36×，为未来结合NPC-aware调度提供了明确优化方向。  </li>
+<li><strong>量化证据</strong>：文中通过<strong>相同周期数</strong>（221K）以及<strong>PC与NPC模式下能量完全相同</strong>的测量，严格证明nCCDAB被完全掩盖。该结论对HBM3-PIM所有速度等级（4.8–6.4 Gbps）均成立，因为nRC/nCCDAB比值稳定在10–11倍。</li>
+</ul>
+<p><strong>对比数据（HBM3 5.2 Gbps）</strong></p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>基线（PC）</th>
+<th>基线（NPC）</th>
+<th>RH+（PC）</th>
+<th>RH+（NPC）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>每32-MAC块延迟（tCK）</td>
+<td>2,016</td>
+<td>2,016</td>
+<td>249</td>
+<td>185</td>
+</tr>
+<tr>
+<td>GEMV总周期（GPT-175B QKV）</td>
+<td>221,000</td>
+<td>221,000</td>
+<td>~23,700</td>
+<td>~17,600</td>
+</tr>
+<tr>
+<td>nCCDAB有效性</td>
+<td>完全掩盖</td>
+<td>完全掩盖</td>
+<td>1.36×差距</td>
+<td>基准</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结论</strong>：nCCDAB在基线GEMV中的无关性是一个由DRAM微架构（nRC）和地址映射共同导致的<strong>结构性失效</strong>，而非功能错误。识别这一点是RH+优化的基石，并迫使PIM社区将关注焦点从电源限制转到行命中率优化。</p>
+<hr />
+<h2 id="4">4. 实验方法与实验结果<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p><strong>实验设置分析</strong></p>
+<p>该论文的实验方法论经过精心设计，以隔离并验证<strong>nRC</strong>瓶颈及<strong>RH+</strong>方案的效果。</p>
+<ul>
+<li><strong>模拟框架</strong>：基于<strong>AttAcc</strong>模拟器 [5] 扩展，并集成了<strong>Ramulator 2.0</strong> [10] 进行DRAM时序与能耗的周期精确模拟。该组合确保了PIM命令调度的准确性（来自AttAcc）与底层DRAM时序（如nRC, nCCDAB）的精确性。</li>
+<li><strong>基准选择与对比</strong>：</li>
+<li><strong>基准 (Baseline)</strong>：采用<strong>AttAcc</strong>中描述的原始调度策略，该策略继承主机导向的地址交错（stride-64），导致每一条MAC AB命令都触发一个独立的<strong>ACT-PRE</strong>周期（即0%的row hit率）。</li>
+<li><strong>对比方案</strong>：论文的<strong>RH+</strong>调度方案，其核心是改变地址步长为stride-1。</li>
+<li><strong>工作量负载 (Workload)</strong>：</li>
+<li><strong>模型</strong>：选取了四个具有代表性的LLM模型：<strong>GPT-175B</strong>、<strong>LLaMA-65B</strong>、<strong>MT-530B</strong>和<strong>OPT-66B</strong>，覆盖了从65B到530B的参数量范围。</li>
+<li><strong>推理配置</strong>：采用<strong>tensor parallelism (tp=8)</strong> 跨5个HBM3堆栈。评估覆盖了3种输入/输出序列长度对（128/2048, 2048/128, 2048/2048）和2种batch size（1和4），合计<strong><em>24</em></strong>个配置。</li>
+<li><strong>DRAM规格</strong>：所有实验统一使用<strong>HBM3 5.2 Gbps</strong>速率等级。此选择具有代表性，并提供了关键的时序参数（文中计算中提到nRC=63 tCK, nCCDAB=6 tCK）。</li>
+<li><strong>能量模型</strong>：采用基于IDD的<strong>DRAMPower</strong>方法论 [2]，将总能耗分解为4个部分：<strong>Compute</strong> (MAC AB操作)、<strong>Rearrangement</strong> (数据移动命令)、<strong>ACT/PRE/REF</strong> (行管理与刷新) 和<strong>Background</strong> (待机电流)。这种分解对于理解<strong>RH+</strong>的节能机制至关重要。</li>
+</ul>
+<p><strong>结果数据分析</strong></p>
+<p>论文提供了性能、能耗和<strong>EDP</strong>的详尽全景图。</p>
+<ul>
+<li><strong>端到端性能 (Speedup)</strong>：</li>
+<li><strong>核心结果</strong>：<strong>RH+</strong>在所有24个配置下均带来了<strong>8.25×至11.88×</strong>的显著加速。</li>
+<li><strong>分析</strong>：<ul>
+<li><strong>模型差异</strong>：加速比与模型的隐藏维度<em>K</em>强相关。<strong>MT-530B</strong> (<em>K</em>=20480) 获得最高加速比（11.51× - 11.88×），因为它每层执行最多的MAC操作，使<strong>RH+</strong>的row-hit收益能被摊销更多次。<strong>LLaMA-65B</strong> (<em>K</em>=8192) 加速比较低（8.25× - 10.97×），因为其MAC操作较少，而<strong>Attention</strong>部分（不受RH+优化）的固定开销占比相对增大。</li>
+<li><strong>Batch Size差异</strong>：</li>
+<li><strong>Batch=1</strong>：加速比范围较宽（8.25× - 11.51×），因为<strong>Attention</strong>开销在不同时序长度下占比不同，对速度有显著影响。</li>
+<li><strong>Batch=4</strong>：加速比范围变窄且整体升高（10.77× - 11.88×）。这是因为多batch下，计算密集型（MAC-dominated）的GEMV操作占比急剧上升，进一步凸显了<strong>RH+</strong>的优势，而<strong>Attention</strong>的开销被多个batch分摊，影响减弱。此分析完美地诠释了“瓶颈转移”的动态效果。</li>
+</ul>
+</li>
+<li><strong>端到端能耗 (Energy Reduction)</strong>：</li>
+<li><strong>核心结果</strong>：能耗降低非常一致，在<strong>74.5%至77.1%</strong> 的狭窄范围内。</li>
+<li><strong>分析</strong>：这种惊人的稳定性来源于HBM3的功耗结构。<strong>Background</strong>能耗占基线总能耗约<strong>67%</strong>（见图7），它是与执行时间成正比的固定开销。<strong>RH+</strong>通过约10倍的加速，从根本上压缩了执行时间，从而成比例地消灭了这项主要的能耗来源。因此，无论模型大小如何，节能效果都几乎相同。<strong>ACT/PRE/REF</strong>能耗也被大幅削减，因为31/32的MAC操作无需全行周期。</li>
+<li><strong>端到端EDP (Energy-Delay Product)</strong>：</li>
+<li><strong>核心结果</strong>：<strong>EDP</strong>实现了从<strong>32.4×到52.0×</strong>的超线性改进。</li>
+<li><strong>分析</strong>：<strong>EDP</strong>的倍增效果是对性能与能耗复合效应的直接体现。<strong>EDP = Time × Energy</strong>。由于<strong>Background</strong>能耗与时间成正比，当时间缩减为原来的1/10时，能量也缩减为原来的约1/4，导致<strong>EDP</strong>缩减为原来的约<strong>1/(10 * 0.25) = 1/40</strong>。峰值52.0×出现在<strong>MT-530B</strong> batch=4时，其同时取得了最高的加速比（11.88×）和最大的能耗降低（77.1%），直观验证了该复合效应。</li>
+</ul>
+<p><strong>消融与效率分析</strong></p>
+<p>论文通过分解能量组成和对比不同模式，有效地进行了一项“消融”分析，隔离了<strong>RH+</strong>在消除nRC瓶颈后的影响。</p>
+<ul>
+<li><strong>能量分解对比</strong>：</li>
+<li><strong>图7</strong>清晰地展示了<strong>RH+</strong>如何改变能耗结构。在基线中，<strong>Background</strong>占主导（~67%），<strong>ACT/PRE/REF</strong>和<strong>Compute</strong>各占~15%。<strong>RH+</strong>后，<strong>ACT/PRE/REF</strong>几乎消失，<strong>Background</strong>的绝对能量同样骤降。</li>
+<li><strong>结果</strong>：在<strong>RH+</strong>的“新”能耗包络中，<strong>Compute</strong> (MAC AB) 成为最大的单一开销，占比升至<strong>25-31%</strong>。这一变化揭示了，在消除nRC瓶颈后，计算本身及其相关的功耗约束（nCCDAB）成为了新的限制因素。这为未来的优化指明了方向（如论文讨论部分提到的结合NPC模式）。</li>
+<li><strong>nCCDAB的有效性验证</strong>：</li>
+<li>论文在§III-B明确指出，在基线中，<strong>PC</strong>和<strong>NPC</strong>模式产生完全一致的周期数和能耗（如GPT-175B QKV操作均为221K周期）。这有力地<strong>消融</strong>了nCCDAB作为瓶颈的假说，证明其完全被nRC掩盖。</li>
+<li>论文进一步指出（§VI），采用<strong>RH+</strong>后，nCCDAB成为新的限制因素，导致<strong>PC</strong>模式比<strong>NPC</strong>模式慢1.36倍。这个对比实际上是一个有效的“模式消融”：在移除nRC壁垒后，nCCDAB的效果才显现出来，从而反向证明了原论文论点“nCCDAB无关紧要”在特定上下文（基线GEMV）下的正确性。</li>
+</ul>
+<p><strong>结论意义</strong></p>
+<p>该论文的实验设计严谨，结果数据详实且具有说服力。它通过精心的模拟配置和全面的消融分析，定量证明了<strong>DRAM行周期时间（nRC）</strong>是现有HBM3-PIM架构处理GEMV任务时的<strong>真正瓶颈</strong>。提出的<strong>RH+</strong>方案以极低的成本（一次性的离线权重重排，零运行时开销）获得了巨大收益，其8-12倍的加速比和75%左右的能耗节省在计算系统领域具有极高的影响力。实验也清晰地揭示了新的瓶颈（nCCDAB）和未来工作的方向（结合非功率约束模式），展现了研究的深度和前瞻性。</p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/body_class.js"></script>
+      
+    
+  </body>
+</html>

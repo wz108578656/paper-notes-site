@@ -54,6 +54,8 @@ nav:
   - Home: index.md
   - Recent:
       - Recent: collections/Recent/index.md
+      - RH+ (论文笔记): notes_repo/rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/index.md
+      - RH+ (通俗版): notes_repo/rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/ELI5_notes/index.md
       - InterStellar 2.0 (论文笔记): notes_repo/interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/paper_notes/index.md
       - InterStellar 2.0 (通俗版): notes_repo/interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/ELI5_notes/index.md
       - RISC-V Co-Processor (论文笔记): notes_repo/a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/paper_notes/index.md
