@@ -1,0 +1,1556 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://wz108578656.github.io/paper-notes-site/notes_repo/stream-based-intelligent-memory-architectures/paper_notes/">
+      
+      
+        <link rel="prev" href="../../../collections/Recent/">
+      
+      
+        <link rel="next" href="../ELI5_notes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>InterStellar (论文笔记) - Paper Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering-stream-based-intelligent-memory-architectures" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="Paper Notes" class="md-header__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Paper Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              InterStellar (论文笔记)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Paper Notes" class="md-nav__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    Paper Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../collections/Recent/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recent
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Recent
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 论文基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 背景知识与核心贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心技术和实现细节
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 核心技术和实现细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 技术架构概览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-hwsw-interface-and-stream-descriptors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. HW/SW Interface and Stream Descriptors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-nucleus-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Nucleus Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-intelligent-page-policy-ipp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Intelligent Page Policy (iPP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-intelligent-batching-ibatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Intelligent Batching (iBatch)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-real-time-batching-rtbatch-and-br-fr-fcfs-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Real-Time Batching (rtBatch) and BR-FR-FCFS Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-coordinated-prefetcher-and-memory-controller-compass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Coordinated Prefetcher and Memory Controller (COMPASS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实验方法与实验结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 论文基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 背景知识与核心贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心技术和实现细节
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 核心技术和实现细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 技术架构概览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-hwsw-interface-and-stream-descriptors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. HW/SW Interface and Stream Descriptors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-nucleus-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Nucleus Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-intelligent-page-policy-ipp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Intelligent Page Policy (iPP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-intelligent-batching-ibatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Intelligent Batching (iBatch)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-real-time-batching-rtbatch-and-br-fr-fcfs-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Real-Time Batching (rtBatch) and BR-FR-FCFS Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-coordinated-prefetcher-and-memory-controller-compass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Coordinated Prefetcher and Memory Controller (COMPASS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实验方法与实验结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering-stream-based-intelligent-memory-architectures">InterStellar 2.0: Fine-Grained Stream–Guided HW/SW Co-Design for Multi-Channel DRAM Performance Steering &amp; Stream-Based Intelligent Memory Architectures 论文解析<a class="headerlink" href="#interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering-stream-based-intelligent-memory-architectures" title="Permanent link">&para;</a></h1>
+<p><a download="interstellar_thesis.pdf" href="original.pdf">📄 下载论文原文 (PDF)</a> &nbsp;|&nbsp; <a href="original.pdf" target="_blank">🔗 在线阅读</a> &nbsp;|&nbsp; <a href="https://doi.org/10.1016/j.sysarc.2025.103832" target="_blank">DOI: 10.1016/j.sysarc.2025.103832</a></p>
+<h2 id="0">0. 论文基本信息<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<p><strong>作者 (Authors)</strong>: Abdelrhman Mohamed Ibrahim Sayed Abotaleb, Maziar Goudarzi, Tomasz Czajkowski, et al.</p>
+<p><strong>发表期刊/会议 (Journal/Conference)</strong>: PhD Thesis</p>
+<p><strong>发表年份 (Publication Year)</strong>: 2026</p>
+<p><strong>研究机构 (Affiliations)</strong>: McMaster University, Huawei Technologies Canada Research Center</p>
+<hr />
+<h2 id="1">1. 摘要<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p><strong>目的</strong></p>
+<ul>
+<li>现代<strong>Cyber-Physical Systems</strong>（如自动驾驶、无人机）在共享多核平台上集成高性能AI/ML与实时控制任务，处理器性能持续提升，而<strong>Memory System</strong>成为主要瓶颈。</li>
+<li>现有Hardware Prefetcher与Memory Controller（MC）对程序语义不感知，导致带宽利用率低、延迟波动大，无法同时满足<strong>High Throughput</strong>与<strong>Tight Worst-Case Memory Latency（WCML）</strong> 两种需求。</li>
+<li>本文旨在通过一种统一的<strong>Stream-Aware HW/SW Co-Design</strong>机制，弥补语义鸿沟，同时优化数据密集型工作负载的带宽效率与实时任务的时序可预测性。</li>
+</ul>
+<p><strong>方法</strong></p>
+<ul>
+<li>提出统一的<strong>HW/SW Interface</strong>：编译器在编译时识别Stream（Direct/Indirect）的模式，生成紧凑的Stream Descriptors（包含基址、步长、循环边界等）；通过RISC-V CSR写入或预定义的内存映射，在运行时传递至硬件。</li>
+<li><strong>Nucleus Engine</strong>：位于Last-Level Cache（LLC）旁，接收Descriptors，将LLC Miss与Stream关联，并附加Stream ID、类型等信息到内存请求。通过一个小的<strong>Inverse TLB</strong>（Stream TLB⁻¹）解决虚拟地址到物理地址的翻译问题。</li>
+<li>基于此接口，设计了三种专门化架构：<ul>
+<li><strong>InterStellar</strong>：提升通用高性能系统效率。Memory Controller应用两项协调策略：<ul>
+<li><strong>Intelligent Page Policy (iPP)</strong>：基于Stream粒度管理DRAM Row Buffer驻留。Direct Stream使用<strong>MaxHit</strong>计数器决定何时Precharge；Indirect Stream使用<strong>Sliding Conflict Window</strong>和双阈值决策关闭行。</li>
+<li><strong>Intelligent Batching (iBatch)</strong>：当Stream激活一个Row时，预取该行中已知的未来Row-Hit地址，将数据存储在<strong>Per-Bank iBuffer</strong>中，后续Demand直接命中iBuffer，避免DRAM往返。</li>
+</ul>
+</li>
+<li><strong>InterStellarRT</strong>：专为Hard Real-Time系统设计，强调可预测性。通过软件引导，将Stream请求组织成<strong>rtBatch</strong>，大小固定、不可中断。使用<strong>Map2</strong>地址映射确保rtBatch内跨Bank Group（BG）访问，利用较短<code>tCCDS</code>延迟。实现<strong>BR-FR-FCFS</strong>调度器，确保rtBatch的原子性。推导了严格的<strong>WCML分析模型</strong>（包含In-Isolation和Interference分析的引理与定理）。</li>
+<li><strong>InterStellar 2.0 &amp; COMPASS</strong>：前者将架构扩展到<strong>Multi-Channel DRAM</strong>，通过<strong>Channel-Aware Segmentation</strong>将Stream Batch分割到不同Channel的Local Expander，无需跨Channel协调；后者协调<strong>iPrefetcher</strong>与<strong>iMC</strong>，通过中央<strong>iCoordinator</strong>管理，以降低有效Miss延迟。</li>
+</ul>
+</li>
+</ul>
+<p><strong>结果</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">架构</th>
+<th style="text-align: left;">评估配置</th>
+<th style="text-align: left;">关键结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>InterStellar</strong></td>
+<td style="text-align: left;">8-Core RISC-V, GEM5+Ramulator, DDR4</td>
+<td style="text-align: left;"><strong>1.5×平均</strong>（最高<strong>2.72×</strong>）End-to-End加速；<strong>24%平均</strong>（最高<strong>60%</strong>）DRAM能耗节省。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>InterStellarRT</strong></td>
+<td style="text-align: left;">4-Core RISC-V, 13个Benchmarks</td>
+<td style="text-align: left;"><strong>3.8×</strong>更紧的In-Isolation WCML；<strong>13.5×</strong>更紧的Interference Latency界；<strong>1.72×</strong>加速与<strong>14%</strong>能耗降低（ vs. PartAll）。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>InterStellar 2.0</strong></td>
+<td style="text-align: left;">8-Core, 1-32 DRAM Channels</td>
+<td style="text-align: left;"><strong>2.92×</strong>加速与<strong>2.83×</strong>带宽提升（ vs. COTS）；Fine-Grained Sub-Stream跟踪带来额外<strong>1.35×</strong>提升。</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>COMPASS</strong></td>
+<td style="text-align: left;">23个Workloads, 25个配置</td>
+<td style="text-align: left;">平均<strong>1.88×</strong>加速与<strong>2.14×</strong>带宽提升，优于BLISS（1.04×）、PARBS（1.14×）及独立Stream Prefetcher（1.63×）。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结论</strong></p>
+<ul>
+<li>提出的<strong>Stream-Aware HW/SW Co-Design</strong>能有效弥合程序语义与硬件调度之间的鸿沟。</li>
+<li>通过软件提供的Stream信息，硬件可以做出更优的决策，同时提升<strong>High-Performance System</strong>的带宽与吞吐量，并为<strong>Real-Time System</strong>提供更严格、可通过公式分析的Worst-Case Latency界。</li>
+<li>各个架构（InterStellar, InterStellarRT, InterStellar 2.0, COMPASS）展示了该方法的通用性，能够高效覆盖单通道、多通道、缓存与DRAM等多个内存层级。</li>
+<li>该方法无需ISA或操作系统修改，易于集成到现有系统中，为未来高带宽、低延迟的异构内存系统提供了可扩展的解决方案。</li>
+</ul>
+<hr />
+<h2 id="2">2. 背景知识与核心贡献<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p><strong>研究背景与动机</strong></p>
+<ul>
+<li>现代AI/ML及实时嵌入式系统（如自动驾驶、无人机）面临“内存墙”瓶颈：处理器性能持续增长，但DRAM访问延迟改善缓慢，内存子系统成为主要性能障碍。</li>
+<li>高吞吐量AI/ML工作负载（CNN、LLM）重复访问大型张量结构，性能受限于内存带宽而非计算；同时实时控制任务要求严格、可预测的延迟，二者在共享多核多通道DRAM平台上难以兼顾。</li>
+<li>现有内存控制器和缓存预取器是基于硬件的“上下文无关”设计——处理每个请求时缺乏对程序级数据结构和未来访问行为的语义理解，导致带宽利用率低、能源浪费和严重的延迟可变性。</li>
+<li>先前的HW/SW协同设计框架（Täko、XMem、MetaSys）虽然部分缓解了语义鸿沟，但依赖ISA或OS修改，且操作粒度是页面或区域，无法捕获细粒度流及其访问序列，难以指导DRAM级别的调度决策。</li>
+<li>因此，需要一个统一的、轻量级的<strong>流感知</strong>HW/SW接口：软件将未来访问模式（如循环遍历数组的基地址、步长、迭代次数）编码为紧凑描述符，传递给硬件引擎，使内存层次结构能做出前瞻性和预测性的决策，同时<strong>不要求ISA或OS更改</strong>。</li>
+</ul>
+<p><strong>核心贡献</strong></p>
+<ul>
+<li><strong>InterStellar (第2章)</strong>：提出首个通用流感知HW/SW协同设计的DRAM控制器。<ul>
+<li>软件通过描述符（Loop Descriptor、Direct/Indirect Stream Descriptor）将流信息写入CSR；硬件Nucleus引擎解码这些描述符，并将流ID附加到LLC缺失请求上。</li>
+<li>内存控制器集成两个策略：<strong>智能页面策略 (iPP)</strong> 按流维护行缓冲局部性，决定何时保持或关闭行；<strong>智能批处理 (iBatch)</strong> 在DRAM层主动提取已知的未来行命中请求，存入每Bank iBuffer，从而消除大量行冲突。</li>
+<li>在8核RISC-V系统上，InterStellar实现高达2.72×端到端加速、1.5×平均加速，并在多流工作负载下将DRAM能耗降低最高60%。</li>
+</ul>
+</li>
+<li><strong>InterStellar 2.0 (第2章扩展)</strong>：将流感知架构扩展到多通道DRAM系统。<ul>
+<li>提出<strong>多通道感知分片批处理</strong>：Nucleus将流的未来访问按地址映射切片到各个通道，每个通道独立展开自己的iBatch段，无需跨通道协调。</li>
+<li>引入<strong>细粒度子流追踪</strong>：对于多维模板核（如Jacobi-2D），编译器为每个逻辑独立的数据切片生成多个子流描述符，硬件对各子流独立维护局部性统计，避免相互干扰。</li>
+<li>在1到32通道上评估：最高2.92×端到端加速、2.83×带宽提升；细粒子流单独带来最高1.35×额外改进。</li>
+</ul>
+</li>
+<li><strong>InterStellarRT (第3章)</strong>：面向硬实时系统的流感知变体，提供<strong>可形式化分析的最坏情况内存延迟 (WCML) 界</strong>。<ul>
+<li>引入<strong>实时批处理 (rtBatch)</strong>：将流请求组织成固定大小的批次，每个批次在内存控制器中无中断执行；采用Map2地址映射使批次内CAS命令在Bank Group间交错，利用更短的tCCDS延迟。</li>
+<li>设计<strong>BR-FR-FCFS调度器</strong>，确保rtBatch一旦开始便不可打断，从而消除干扰期间非第一个请求的Bank间干扰。</li>
+<li>通过系列引理和定理推导出in-isolation和干扰下的WCML闭合公式：<strong>in-isolation延迟界平均收紧3.8×，干扰延迟界平均收紧13.5×</strong>（相对于PartAll基线）。</li>
+<li>同时实现1.72×端到端加速、1.9×带宽提升和14% DRAM能耗降低。</li>
+</ul>
+</li>
+<li><strong>COMPASS (第4章)</strong>：协调LLC缓存预取器与DRAM控制器的流感知架构。<ul>
+<li>引入<strong>iCoordinator</strong>：集中式流描述符引擎，将流信息同时分发给智能缓存预取器（iPF）和智能内存控制器（iMC）。</li>
+<li>iPF利用流知识提前预取未来缓存行，iMC则执行流感知batching和行管理；两者通过iCoordinator同步，避免预取和批处理之间的冲突。</li>
+<li>在23个工作负载、7种策略、25种硬件配置下评估：平均端到端加速达1.88×、带宽提升2.14×，均显著优于独立预取器或批处理调度器（如BLISS、PARBS）。</li>
+</ul>
+</li>
+<li><strong>跨章节共同特征</strong>：所有架构均采用相同的轻量级HW/SW接口（基于RISC-V CSR写操作，无ISA/OS修改），并严格遵循<strong>编译器自动识别流</strong>、<strong>硬件中央引擎标签缺失包</strong>、<strong>内存控制器执行流感知策略</strong>的流水线。整个系统在gem5+Ramulator上验证，覆盖PolyBench、LAPACK、Rodinia、Parboil、Phoenix、HPCG等套件中36个代表性内核。</li>
+</ul>
+<hr />
+<h2 id="3">3. 核心技术和实现细节<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<h3 id="0_1">0. 技术架构概览<a class="headerlink" href="#0_1" title="Permanent link">&para;</a></h3>
+<p><strong>整体技术架构</strong></p>
+<p>本文提出了一个基于<strong>流（Stream）</strong>的统一硬件/软件协同设计架构，旨在通过软件显式暴露未来内存访问行为，指导硬件决策，从而同时提升高性能系统的吞吐量和实时系统的时序可预测性。架构的核心是<strong>HW/SW接口</strong>、<strong>中央引擎Nucleus</strong>以及<strong>面向不同目标的三个具体实现</strong>：InterStellar/InterStellar 2.0（通用高性能与多通道）、InterStellarRT（实时系统）、COMPASS（协调LLC预取器与内存控制器）。</p>
+<ul>
+<li>
+<p><strong>统一HW/SW接口</strong></p>
+<ul>
+<li>软件层（编译器）在编译时通过<strong>流描述符（Stream Descriptors）</strong>编码内存访问模式，包括循环描述符（起始、步长、结束）、直接流描述符（基地址、步长）、间接流描述符（通过索引数组的访问）、链接变量描述符（处理运行时动态值）。</li>
+<li>描述符通过<strong>控制与状态寄存器（CSR）</strong>（RISC-V）或<strong>内存映射区域</strong>（ARM/x86）写入硬件，无需ISA或操作系统修改。</li>
+<li>软件开销极小：仅在循环入口写入少量CSR指令。</li>
+</ul>
+</li>
+<li>
+<p><strong>Nucleus中央引擎</strong></p>
+<ul>
+<li>位于<strong>最后一级缓存（LLC）</strong>旁侧，负责：<ul>
+<li>解析软件描述符，计算每个流的虚拟地址范围（起始VA、结束VA）。</li>
+<li>维护<strong>Desc Table</strong>存储活跃流信息；通过<strong>Stream TLB⁻¹</strong>（逆向翻译结构）将LLC未命中的物理地址映射回虚拟地址，匹配对应流。</li>
+<li>在LLC未命中包上附加<strong>元数据</strong>（流ID、核心ID、线程ID、流类型），发送给下游内存控制器。</li>
+</ul>
+</li>
+<li>添加的延迟仅为<strong>2个周期</strong>（TLB⁻¹访问 + Desc Table检索），与LLC标签访问并行，不在关键路径上。</li>
+</ul>
+</li>
+<li>
+<p><strong>内存控制器扩展层</strong></p>
+<ul>
+<li>基于Nucleus提供的元数据，内存控制器实现两个核心机制：<ul>
+<li><strong>智能页面策略（iPP）</strong>：为每个流/子流独立跟踪行局部性，决定何时保持行打开或预充电。直接流使用<strong>行命中计数器</strong>，预估下一个行冲突时刻；间接流使用<strong>冲突跟踪窗口</strong>，基于双阈值规则决定预充电。</li>
+<li><strong>智能批处理（iBatch）</strong>：为直接流，一旦当前DRAM行被激活，控制器根据步长提前发送后续行命中请求，将返回数据暂存在<strong>每Bank的iBuffer</strong>中。后续请求若命中iBuffer，则无需重新访问DRAM，从而减少冲突和延迟。</li>
+</ul>
+</li>
+<li>在<strong>InterStellar 2.0</strong>中，扩展了<strong>多通道感知分割</strong>功能：Nucleus根据地址映射将流的下一个批处理分割成每个通道对应的<strong>片段种子</strong>，每个通道独立扩展并调度自己的片段，无需跨通道同步。</li>
+<li>增加了<strong>待处理ACT队列（PAQ）</strong>，用于临时存储因iBuffer满或DRAM时序限制而无法立即发出的批处理请求，解耦逻辑批处理深度与瞬时物理容量。</li>
+</ul>
+</li>
+<li>
+<p><strong>三个具体实现</strong></p>
+<ul>
+<li>
+<p><strong>InterStellar / InterStellar 2.0（高性能系统）</strong></p>
+<ul>
+<li>目标：最大化吞吐量和带宽利用率，降低DRAM能量。</li>
+<li>在单通道和多通道（1‑32通道）DRAM上均有效。评估显示：8核系统平均<strong>1.5×</strong> E2E加速（最高2.72×），带宽提升<strong>2.02×</strong>，DRAM能量降低<strong>24%</strong>。</li>
+<li>支持<strong>细粒度子流</strong>（Fine-Grained Sub-Streams）：对Stencil等三维核，编译器为每个独立切片（如相邻行）生成单独的描述符，防止行局部性统计相互污染，进一步提升iPP精度。</li>
+</ul>
+</li>
+<li>
+<p><strong>InterStellarRT（实时系统）</strong></p>
+<ul>
+<li>目标：为流式实时应用提供严格的<strong>最坏情况内存延迟（WCML）</strong>下界，同时保持高性能。</li>
+<li>关键增强：<ul>
+<li><strong>实时批处理（rtBatch）</strong>：将直接流请求分组为大小<strong>B=16</strong>的批量，确保所有请求命中同一行，使用RDA（自动预充电）在批量结束时关闭行。</li>
+<li><strong>地址映射Map2</strong>：将相邻访问交替分配到不同<strong>Bank Group（BG）</strong>，利用DDR4/DDR5的短CAS延迟<code>tCCD_S</code>（4周期）而非长延迟<code>tCCD_L</code>（6周期），降低服务时间。</li>
+<li><strong>调度器BR-FR-FCFS</strong>：保证rtBatch一旦开始运行即不可中断（Theorem 5.3），消除内请求间的Bank间干扰。</li>
+<li>推导了<strong>请求驱动的理论分析</strong>（包括引理、定理），证明在隔离和干扰下均能提供显著更紧的WCML。</li>
+</ul>
+</li>
+<li>平均<strong>3.8×</strong>更紧的隔离WCML，<strong>13.5×</strong>更紧的干扰WCML（与PartAll基线相比），同时E2E加速<strong>1.72×</strong>，带宽提升<strong>1.9×</strong>，DRAM能量降低<strong>14%</strong>。</li>
+<li>对<strong>大步长流</strong>提供<strong>ForceB</strong>模式，牺牲部分性能以确保可分析性。</li>
+</ul>
+</li>
+<li>
+<p><strong>COMPASS（协调预取器与内存控制器）</strong></p>
+<ul>
+<li>目标：协调LLC预取器（iPF）和内存控制器（iMC），使两者共享流信息，对齐预取和批处理节奏。</li>
+<li>新增<strong>iCoordinator</strong>模块，负责在iPF和iMC之间传递流描述符，并协调预取发出时机与批处理调度。</li>
+<li>在23个工作负载、7种策略、25种硬件配置下，达到平均<strong>1.88×</strong>加速，最高<strong>2.14×</strong>带宽提升，超过单纯预取器或单纯批处理控制器。</li>
+<li>核心机制包括：iPF利用流信息进行精准预取（减少污染和MSHR压力），iMC进行流感知的iBatch和iPP，二者通过iCoordinator实现同步。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>部署与可扩展性</strong></p>
+<ul>
+<li>Nucleus与内存控制器<strong>解耦</strong>，可灵活放置（一个实例服务于所有核心，或每个LLC切片的实例）。</li>
+<li>多通道系统中，每个通道独立运行本地iPP、iBatch、PAQ，无全局瓶颈。</li>
+<li>所有组件均未修改ISA或OS，仅通过编译器插入少量CSR写指令，与现有软件栈后向兼容。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-hwsw-interface-and-stream-descriptors">1. HW/SW Interface and Stream Descriptors<a class="headerlink" href="#1-hwsw-interface-and-stream-descriptors" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong></p>
+<p>HW/SW Interface是InterStellar系列架构的基石，它建立了一套轻量级的运行前契约，使内存控制器能够预见性地感知即将到来的内存访问流。这一设计彻底改变了传统内存控制器“被动响应、一无所知”的局限性。通过将这些信息作为元数据附着于每个 LLC miss 请求之上，下游的 Nucleus 引擎和内存控制器得以在完全了解程序意图的情况下，做出关于预取、调度和行管理的战略性决策。</p>
+<hr />
+<p><strong>实现原理：描述符的种类与功能</strong></p>
+<p>软件端通过编译器分析，将循环和内存访问模式编码为四种紧凑的125-bit描述符，通过 <strong>CSR (Control and Status Register)</strong> 写入操作传递给硬件。</p>
+<ul>
+<li><strong>Loop Descriptor (循环描述符)</strong>: 定义了循环的边界和步长，是流的“时间框架”。包含Start Value, End Value, Step。支持动态链接，通过 <strong>SL (Start Linked)</strong> 和 <strong>EL (End Linked)</strong> 标志指向存放动态值的Link Descriptor。</li>
+<li><strong>Direct Stream Descriptor (直接流描述符)</strong>: 定义了最为常见、规律性最强的流类型。包含Base Address, Stride（字节偏移），以及指向其所属Loop Descriptor的ID。同样支持动态基地址，通过 <strong>BL (Base Linked)</strong> 标志实现。</li>
+<li><strong>Indirect Stream Descriptor (间接流描述符)</strong>: 用于描述通过另一数组索引（如 A[B[i]] ）访问的模式，具有一定的不确定性但仍可被硬件跟踪。包含Element Size和Stream Size来描述其数据范围。</li>
+<li><strong>Link Variable Descriptor (链接变量描述符)</strong>: 作为动态参数的“指针”，指向存储运行时值的寄存器。这使系统能够处理非编译期常量，如作为函数参数传递的循环边界或动态分配的数组基址。</li>
+</ul>
+<p><strong>算法流程与参数设置</strong></p>
+<ol>
+<li><strong>编译阶段生成</strong>: LLVM 编译器中端Pass分析循环内的内存访问模式，通过深度优先搜索重建地址计算链，形成流依赖树。</li>
+<li><strong>运行时配置</strong>: 在循环开始前，编译器插入特定 <code>csrrw</code> 指令，将描述符写入RISC-V核心预留的CSR空间。</li>
+<li><strong>硬件解析与同步</strong>: 位于LLC旁的Nucleus引擎监听CSR写入事件，解析描述符信息，建立描述符表 (Descriptor Table)，记录每个流的 <strong>虚拟地址范围 (VA Span)</strong>、类型和核心/线程ID。</li>
+<li><strong>请求匹配与标记</strong>: 当LLC发生缺失时，Nucleus通过逆序转换查询表（类似 <code>TLB^{-1}</code>，即 Stream TLB^{-1}）将物理地址映射回虚拟地址，然后匹配描述符表。匹配成功后，在请求包上附加少量元数据（如<strong>流ID (Did)</strong>、<strong>核心ID (Cid)</strong>、<strong>类型 (DType)</strong> 和<strong>访问步长 (Stride)</strong>）。</li>
+</ol>
+<p><strong>输入输出关系与作用</strong></p>
+<ul>
+<li><strong>输入</strong>: 编译器生成的描述符和运行时CSR写入事件。</li>
+<li><strong>输出</strong>: 带有丰富语义标签的<strong>LLC缺失请求包</strong>，并更新Nucleus内部描述符表和 <code>TLB^{-1}</code> 缓存。</li>
+<li><strong>在整体架构中的作用</strong>: 在Nucleus引擎内部，该接口驱动了<strong>Affine Stream Table (AST)</strong> 的构建，AST记录了每个仿射流的起始/结束VA和访问步长。这是后续所有优化的前提。在下游的MC中，针对不同调度场景，该接口决定了<strong>行策略</strong>和<strong>组批策略</strong>的选择。这种解耦设计使流信息的获取与下游优化解耦，且所有通信仅依赖现有架构机制，实现了<strong>零ISA修改</strong>、<strong>零OS修改</strong>的兼容性。</li>
+</ul>
+<hr />
+<p><strong>形式化约定与动态支持</strong></p>
+<p>当描述符中的字段（如循环起始值或数组基址）在编译时未知：
+- 编译器会为该变量隐式创建一个Link Variable Descriptor。
+- 在运行时，Nucleus监听目标寄存器的值变化。
+- 一旦检测到值更新，Nucleus会自动将其代入相应Loop或Stream Descriptor的字段中，更新内部AST表项。</p>
+<p>这一机制确保了系统对动态循环边界、运行时确定的数组基址以及间接索引模式的透明支持。</p>
+<p><strong>与实时系统版本 (InterStellarRT) 的差异</strong></p>
+<p>文档中提及的InterStellarRT采用了与InterStellar相同的接口理念，但描述符更侧重于<strong>仿射流 (Affine Stream)</strong>。InterStellar描述符中的亲缘标志（如SL, EL, BL）在InterStellarRT的 <strong>Affine Descriptor</strong> 中以更简化的形式被运用，仅需4个CSR写操作即可配置一个完整流。同时，InterStellarRT新增了 <strong>srTLB (Affine Stream Reverse Translate Lookahead Buffer)</strong>，专门用于高效地将LLC缺失请求的物理地址映射回其仿射流归属，而无需遍历整个描述符表。</p>
+<p><strong>总体价值</strong></p>
+<p>这一接口的核心价值在于：
+- <strong>零运行时开销</strong>: 描述符在循环前一次性下发，所有匹配和标记逻辑通过硬件并行完成。
+- <strong>极微硬件成本</strong>: 所有描述符可通过现有CSR基础设施容纳，无需增加额外寄存器。
+- <strong>精确性与通用性</strong>: 支持直接和间接两种主要流类型，且通过链接机制兼容动态参数，覆盖绝大多数循环主导的内存访问场景。</p>
+<p>通过这套接口，InterStellar系列在内存控制器层级首次实现了“软件引导硬件”的闭环控制，为后续的智能批处理、自适应页策略和跨层级协调优化奠定了语义基础。</p>
+<h3 id="2-nucleus-engine">2. Nucleus Engine<a class="headerlink" href="#2-nucleus-engine" title="Permanent link">&para;</a></h3>
+<p><strong>Nucleus Engine 功能概述</strong></p>
+<p>Nucleus 是 <strong>InterStellar/InterStellar 2.0</strong> 体系结构的中央硬件引擎，位于 <strong>Last-Level Cache (LLC)</strong> 边界。它的核心任务是将软件提供的流描述符（通过 CSR 写入）转化为物理地址域的实时辅助信息，并附加到每一个 LLC 缺失请求上，使下游内存控制器能够做出流感知决策。</p>
+<p><strong>关键组件与工作原理</strong></p>
+<ul>
+<li>
+<p><strong>描述符表 (Descriptor Table, Desc Table)</strong></p>
+<ul>
+<li>包含来自编译器和运行时的所有活跃流（Loop、Direct Stream、Indirect Stream）的元数据。</li>
+<li>每个条目存储流类型、虚拟地址范围（通过 <strong>start_VA</strong> 和 <strong>end_VA</strong> 计算）、步幅、关联的线程/核心 ID。</li>
+<li>存储开销示例（来自 2.7.2 节）：对于 16 个流、8 个核心，约 2.76 kB。</li>
+<li>表项结构：（以标签形式呈现关键字段）
+    | 字段 | 描述 |
+    |------|------|
+    | Descriptor Type | Loop / Direct / Indirect / Link |
+    | Core ID / Thread ID | 标识请求来源 |
+    | Start VA / End VA | 流访问的地址跨度 |
+    | Stride (仅 Direct) | 流访问的字节步长 |
+    | Size (仅 Indirect) | 间接流的总大小 |</li>
+</ul>
+</li>
+<li>
+<p><strong>反向地址翻译结构 (Stream TLB^-1 或 srTLB)</strong></p>
+<ul>
+<li>由于描述符记录的是虚拟地址，而 LLC 缺失携带的是物理地址，Nucleus 必须将物理地址快速映射回虚拟地址以匹配流。</li>
+<li><strong>Stream TLB^-1</strong>（图 2.9 中标注为 <code>TLB^{-1}</code>）是一个小型缓存，存储最近使用的 <strong>(PA → VA)</strong> 映射对，专为活跃流维护。</li>
+<li>当 TLB 未命中发生时，Nucleus 查询 Desc Table 的 VA 范围，若匹配则填充 TLB^-1。</li>
+<li>在文档实验中，256 条目 TLB^-1 足以覆盖工作负载。</li>
+<li>设计重要特点：对于大步幅直接流或低局部性间接流，TLB^-1 条目可以被覆盖，Nucleus 将此类事件视作非流活动，通过专用冲突跟踪窗口处理。</li>
+</ul>
+</li>
+<li>
+<p><strong>LLC 请求过滤与附加器 (LLC Request Filter &amp; Appender)</strong></p>
+<ul>
+<li><strong>LLC Request Filter</strong>：每个 LLC 缺失包到达后，首先用 TLB^-1 获取其虚拟地址，然后访问 Desc Table 判断是否属于某个活跃流。此过程需要两个周期，但与 LLC 标签访问并行运行，不增加关键路径延迟。</li>
+<li><strong>LLC Pkt Appender</strong>：如果请求命中流，则附加一个小的元数据包头，包含 stream ID、core ID、thread ID 和 stream type（直接/间接等）。对于直接流，步幅在第一个请求时单独发送一次。元数据通过片上互连的用户定义位（例如 AXI 总线）传递到内存控制器。</li>
+</ul>
+</li>
+</ul>
+<p><strong>多通道感知扩展 (Multi-Channel Aware Nucleus Extension)</strong></p>
+<p>对于多通道 DRAM 系统（InterStellar 2.0），Nucleus 增加了 <strong>Channel-Aware iBatch-Seed Dispatcher</strong>（图 2.14）。其工作流程如下：</p>
+<ul>
+<li>当识别出一个直接流时，Nucleus 确定即将访问的每个地址映射到哪个 DRAM 通道（基于物理地址映射，如 RoBaBgColRaCh）。</li>
+<li>对于每个活跃通道，Nucleus 生成一个“batch segment seed”——即该通道负责的未来行命中请求的起始地址和步幅信息。</li>
+<li>每个通道的本地内存控制器（MCi）<strong>仅</strong>接收自己段落的种子，然后独立扩展、执行 iBatch 和 iPP 策略。没有任何跨通道同步或全局批次队列。</li>
+</ul>
+<p>这种方法允许带宽随通道数线性扩展，同时保持控制器自治。</p>
+<p><strong>Nucleus 的运行时工作流示例（图 2.12）</strong></p>
+<ul>
+<li>软件初始化描述符并为每个活跃流计算 start_VA 和 end_VA。</li>
+<li>当两个 LLC 缺失包（物理地址 0xB200 和 0x1700）到达时，LLC Request Filter 查询 TLB^-1 和 Desc Table。<ul>
+<li>0x1700 不在任何流范围内 → 不附加元数据（类型=None）。</li>
+<li>0xB200 映射到虚拟地址 0x3200，属于流 A 的范围 → 附加 stream ID=1, type=1 (Direct), core ID=0。</li>
+</ul>
+</li>
+<li>附加后的包被发送到内存控制器用于调度和策略执行。</li>
+</ul>
+<p><strong>硬件成本总结（来自 2.7.2 节）</strong></p>
+<ul>
+<li><strong>描述符存储</strong>：复用 CSR 基础设施，32 个 CSR 足以存储 16 个描述符（128 位/描述符，占 2 个 CSR）。</li>
+<li><strong>Desc Table</strong>：约 2.76 kB（16 流 × 8 核）。</li>
+<li><strong>Stream TLB^-1</strong>：256 条目，约 2.5 kB（取决于条目宽度，约 40 位 VPN + 40 位 PFN + 元数据）。</li>
+<li><strong>LLC 过滤与附加逻辑</strong>：占主导的是比较器和窄关联查表，无大型 CAM；附加器是组合逻辑。</li>
+<li><strong>多通道分段逻辑</strong>：每个通道一个小 FIFO/记录（例如首地址和步幅），仅位提取和简单计算，开销可忽略。</li>
+</ul>
+<p><strong>整体作用</strong></p>
+<p>Nucleus 充当了软件语义和硬件微架构之间的桥梁：它使内存控制器能够做出<strong>流感知</strong>的页策略（iPP）和智能批处理（iBatch）决策，同时不对软件模型（无需 ISA 或 OS 修改）增加负担。通过提前处理描述符和地址转换，Nucleus 以极低的延迟附加元数据，使下游控制器能够将未来已知的内存访问转换为行命中批次，从而显著减少 DRAM 冲突和延迟。</p>
+<p><strong>与系统其他部分的输入输出关系</strong></p>
+<ul>
+<li><strong>输入</strong>：<ul>
+<li>来自应用/编译器通过 CSR 写的描述符（Loop, Direct, Indirect, Link）。</li>
+<li>来自 LLC 的物理地址缺失请求。</li>
+<li>来自 CPU TLB 的翻译更新。</li>
+</ul>
+</li>
+<li><strong>输出</strong>：<ul>
+<li>每个 LLC 缺失包附加了 (Stream ID, Core ID, Thread ID, Stream Type, 若为直接流则含步幅)。</li>
+<li>对于多通道系统，输出到每个内存控制器的通道特定批次段种子。</li>
+<li>向 TLB^-1 写入新的 VA→PA 映射。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-intelligent-page-policy-ipp">3. Intelligent Page Policy (iPP)<a class="headerlink" href="#3-intelligent-page-policy-ipp" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong>
+Intelligent Page Policy (iPP) 是 <strong>InterStellar</strong> 内存控制器中负责 <strong>per-bank、per-stream</strong> 行缓冲（row-buffer）驻留决策的模块。它利用软件提供的流信息，将传统硬件启发式（如open-page/close-page）替换为 <strong>确定性流感知策略</strong>：对直接流（direct stream）采用 <strong>row-hit计数器</strong> 预测何时预充电；对间接流（indirect stream）采用 <strong>冲突跟踪窗口与双阈值</strong> 动态判断行驻留。iPP 的决策直接决定了行命中/冲突率，并与 <strong>iBatch</strong> 单元协同，确保批处理只在行仍有局部性时扩展。</p>
+<p><strong>实现原理与算法流程</strong></p>
+<ul>
+<li><strong>输入输出关系</strong></li>
+<li><strong>输入</strong>：来自 LLC 的请求包（已由 Nucleus 附加 <strong>stream ID</strong>、<strong>sub-stream ID</strong>、<strong>stride</strong> 等元数据）；每个 bank 当前的 <strong>row-buffer状态</strong>（打开的行地址）。</li>
+<li><strong>输出</strong>：对每个 bank 发出 <strong>keep row open</strong> 或 <strong>precharge</strong> 信号，以及可选的 <strong>提前预充电</strong> 指示。</li>
+<li>
+<p><strong>作用</strong>：为后续请求（包括 iBatch 生成的突发行命中流）提供正确的行打开/关闭状态，减少不必要的行冲突延迟。</p>
+</li>
+<li>
+<p><strong>直接流（Direct Stream）行命中计数器</strong></p>
+</li>
+<li>每个活跃的 <strong>直接子流（sub-stream）</strong> 在每个 bank 中维护一个 <strong>自增计数器</strong>。</li>
+<li>当该子流的请求在当前打开的 DRAM 行上命中时，计数器递增。</li>
+<li>控制器根据公式 <strong>MaxHit_stream_i = DRAM Page Size / max(Cache Line Size, Stride(stream_i))</strong> 计算出该子流在当前行上可预期的最大命次数。</li>
+<li>当计数器达到 <strong>MaxHit</strong> 时，iPP 判定该子流即将耗尽该行的局部性，立即发出 <strong>precharge</strong> 命令并重置计数器。</li>
+<li>
+<p><strong>效果</strong>：行只保持到有效命中窗口结束，避免后续因跨行访问导致的冲突。</p>
+</li>
+<li>
+<p><strong>间接流（Indirect Stream）冲突跟踪窗口</strong></p>
+</li>
+<li>对于无法通过静态公式预测的间接流（如 A[B[i]]），iPP 为每个活跃间接流在每个 bank 维护一个 <strong>滑动窗口</strong> 记录最近访问结果。</li>
+<li>窗口包含：<strong>Prev_Addr</strong>（上一次访问的行地址）、<strong>Crnt_Addr</strong>（当前访问的行地址）、<strong>冲突计数器</strong>、以及一个 <strong>短历史移位寄存器</strong>（记录最近访问是行命中还是冲突）。</li>
+<li>每次访问该 bank 时：<ul>
+<li>若 <strong>Crnt_Addr == Prev_Addr</strong> → 行命中，计数器不变。</li>
+<li>若 <strong>Crnt_Addr != Prev_Addr</strong> → 行冲突，计数器递增，历史寄存器记录“冲突”。</li>
+</ul>
+</li>
+<li>使用 <strong>双阈值规则</strong> 决定是否关闭行：<ul>
+<li>若 <strong>冲突数 ≥ TH</strong>（高阈值）→ 立即关闭行（高冲突率）。</li>
+<li>若 <strong>TL ≤ 冲突数 &lt; TH</strong> 且 <strong>上一次访问也是冲突</strong> → 关闭行（冲突趋势即将恶化）。</li>
+<li>否则保持行打开。</li>
+</ul>
+</li>
+<li>
+<p><strong>参数设置</strong>：<strong>TH</strong> 和 <strong>TL</strong> 是可编程的，通常根据系统对冲突容忍度配置。文档中未给出具体数值，但可通过软件/用户调整。</p>
+</li>
+<li>
+<p><strong>参数设置</strong></p>
+</li>
+<li>直接流：<strong>MaxHit</strong> 由 DRAM 页面大小、缓存行大小和流 stride 共同决定（自动计算）。</li>
+<li>间接流：<strong>TH（高阈值）</strong>、<strong>TL（低阈值）</strong> 为可编程参数，每个子流/每个 bank 可独立设置。</li>
+<li>
+<p>所有计数器与窗口均 <strong>per-bank、per-stream</strong> 实例化，保证隔离性。</p>
+</li>
+<li>
+<p><strong>与 iBatch 的协调</strong></p>
+</li>
+<li>iPP 充当 iBatch 的“停止条件”：<ul>
+<li>当直接流计数器达到 MaxHit 时，iPP 请求预充电，iBatch 立即停止对该子流在该 bank 的批量扩展。</li>
+<li>当间接流冲突窗口超过 TH 时，iPP 同样请求预充电，iBatch 停止为该流生成新读取。</li>
+<li>只要 iPP 认为行仍有局部性（计数器未满或冲突未超阈值），iBatch 就继续填充行未来命中的地址。这种协作保证了行打开时间刚好覆盖有用批量，避免浪费并发开销。</li>
+</ul>
+</li>
+</ul>
+<p><strong>在整体架构中的作用</strong>
+iPP 是 <strong>InterStellar</strong> 内存控制器中最关键的 <strong>局部性决策模块</strong>。它直接决定了 DRAM 的 <strong>行命中率</strong>、<strong>行冲突率</strong> 以及 <strong>有效带宽</strong>。与仅根据整体历史做决策的传统自适应策略不同，iPP 利用 <strong>流级认知</strong> 做出精确定时的 precharge/keep 决策，从而：
+- 将大部分访问转换为低延迟行命中（配合 iBatch 产生突发命中）。
+- 避免行“抖动”——多流交替时不必要的频繁激活/预充电。
+- 通过 <strong>提前预充电</strong> 减少下一个流第一个请求的等待时间（将其从行冲突降级为行缺失）。
+- 最终，iPP 是 <strong>InterStellar</strong> 实现 <strong>2.72× 端到端加速</strong> 和 <strong>24% DRAM 能量降低</strong> 的核心支撑之一。</p>
+<h3 id="4-intelligent-batching-ibatch">4. Intelligent Batching (iBatch)<a class="headerlink" href="#4-intelligent-batching-ibatch" title="Permanent link">&para;</a></h3>
+<p><strong>核心原理与实现机制</strong></p>
+<ul>
+<li>
+<p><strong>Intelligent Batching (iBatch)</strong> 是一种前瞻性预取机制，由 <strong>InterStellar</strong> 的 <strong>Memory Controller (MC)</strong> 侧实现。其核心思想是：一旦某 <strong>stream</strong> 的一条需求请求打开了一个 <strong>DRAM row</strong>，控制器立即利用该 stream 的描述符（<strong>base address</strong>、<strong>stride</strong>）预判该 row 内后续所有将被访问的 <strong>cache line addresses</strong>，并主动向 DRAM 发送读取命令，将返回的数据暂存于 <strong>per-bank iBuffer</strong> 中。后续核心对该 stream 的需求请求若命中 <strong>iBuffer</strong>，则以 <strong>buffer hit</strong> 速度响应，无需再次访问 DRAM。</p>
+</li>
+<li>
+<p><strong>算法流程</strong>：</p>
+<ul>
+<li><strong>触发条件</strong>： MC 接收到一个标注了 <strong>stream ID</strong> 的需求 LLC miss，且该请求导致了 DRAM 行激活（ACT）。此时 <strong>iBatch</strong> 逻辑被激活。</li>
+<li><strong>地址生成</strong>：使用 stream 的 <strong>stride</strong>（从 <strong>Nucleus</strong> 附加的元数据中获得）和当前行的起始地址，由硬件 stride 增量器快速计算该行内未来连续 cache line 的物理地址。</li>
+<li><strong>行命中优先</strong>：仅生成“打开行”内连续的地址，确保每个预取请求都是 <strong>row hit</strong>，避免引入额外行冲突。</li>
+<li><strong>PAQ (Pending ACT Queue)</strong> ：当 iBuffer 容量不足或因 <strong>JEDEC timing</strong> (如 <code>tFAW</code>, <code>tRRD</code>) 无法立即发出所有预取时，过量的地址暂存于 <strong>PAQ</strong> 中，待条件允许时再逐个发出。<strong>PAQ</strong> 解耦了逻辑批次深度与瞬时物理容量。</li>
+<li><strong>数据返回与匹配</strong>：预取数据返回后写入 per-bank <strong>iBuffer</strong>，并记录地址和 <code>R</code> 标记（data ready）。后续需求请求到达时，<strong>rtMatcher</strong> (类似模块) 检查 iBuffer，若命中则直接返回数据，否则按常规路径处理。</li>
+</ul>
+</li>
+<li>
+<p><strong>参数设置</strong>：</p>
+<ul>
+<li><strong>iBatch depth</strong>：单次发起的最大预取行数，典型值为 <strong>16</strong> 或更高（实验显示大于 64 行有明显提升，但受限于 iBuffer 大小和 DRAM timing）。<strong>depth</strong> 直接影响延迟隐藏效果。</li>
+<li><strong>iBuffer size</strong>：每个 bank 的本地缓存容量，常设为 <strong>4 kB</strong> 或 <strong>8 kB</strong>。大小需平衡存储开销与吞吐收益。</li>
+<li><strong>PAQ depth</strong>：每个 bank 的溢出队列深度，典型值 <strong>512 entries</strong>（每 entry 仅存储地址，开销小）。</li>
+<li><strong>Channel-Local Batch Expander</strong>：在多通道系统中，每个通道仅接收本通道的 batch seed（首个地址和 stride），自行扩展和调度，无需跨通道同步。</li>
+</ul>
+</li>
+<li>
+<p><strong>输入与输出</strong>：</p>
+<ul>
+<li><strong>输入</strong>：来自 <strong>Nucleus</strong> 的 stream 元数据（<strong>stream ID</strong>、<strong>stride</strong>、<strong>base address</strong>）、需求 LLC miss 请求、以及来自 <strong>iPP</strong> 的停止信号（当行命中预算耗尽或冲突过高时）。</li>
+<li><strong>输出</strong>：向 DRAM 发送的 <strong>CAS (column access)</strong> 命令序列（预取），以及 <strong>iBuffer</strong> 中缓存的数据。后续需求请求若命中 iBuffer，则输出缓存数据并标记为 <strong>buffer hit</strong>（而非 DRAM row hit 或 row conflict）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>在整体架构中的作用</strong></p>
+<ul>
+<li>iBatch 与 <strong>Intelligent Page Policy (iPP)</strong> 紧密协作：iPP 负责决定何时关闭行（基于 stream 的行命中计数器或冲突窗口），iBatch 在行保持打开期间持续注入前瞻预取。两者共用 <strong>per-stream tracking</strong> 信息，使预取仅在行有用时进行，避免浪费。</li>
+<li>在 <strong>InterStellar 2.0</strong> 中，iBatch 通过 <strong>Channel-Local Batch Expander</strong> 支持多通道独立扩展：每个通道只处理映射到本通道的地址片段（如图 2.17、2.18 所示），保证无跨通道通信。图 2.19 展示了每个 bank 独立的 <strong>iBatch</strong> 组织方式，图 2.20 描述了通道感知的 <strong>iBatch</strong> 操作流程。</li>
+<li>性能收益：iBatch 将大量原本会变为 <strong>row conflict</strong> 的访问转化为 <strong>iBuffer hit</strong> 或 <strong>row hit</strong>，显著降低 DRAM 活跃周期，提高有效带宽。实验显示，在 8 核系统中，iBatch 与 iPP 共同将 DRAM 冲突率从 95% 降至 14%，并实现平均 <strong>1.5×</strong> 的端到端加速（图 2.22、2.24）。</li>
+<li>能耗优势：通过减少行激活/预充电次数和缩短无效 DRAM 工作周期，<strong>InterStellar</strong> 整体 DRAM 能耗平均降低 <strong>24%</strong>（图 2.27），其中 iBatch 对降低冲突贡献最大。</li>
+</ul>
+<h3 id="5-real-time-batching-rtbatch-and-br-fr-fcfs-scheduling">5. Real-Time Batching (rtBatch) and BR-FR-FCFS Scheduling<a class="headerlink" href="#5-real-time-batching-rtbatch-and-br-fr-fcfs-scheduling" title="Permanent link">&para;</a></h3>
+<p><strong>核心原理</strong><br />
+rtBatch（实时批次）是 InterStellarRT 的核心机制，它将来自同一个同构（affine）流的多条读请求在内存控制器（MC）中预组合为一个不可中断的批次，然后以确定的顺序和时序发送给 DRAM。批次大小 B 是一个可配置参数（本文默认 B=16），基于软件提供的流描述符（stride、base address）计算而得：一旦首条 affine 流请求（R_rtbs）被调度，MC 立即生成后续 B-1 条命中同一 DRAM 行缓冲的读地址，并存入专用的批次缓冲（rtBuffer）中。  </p>
+<p><strong>地址映射（rtMap）与 Bank Group 交错</strong><br />
+rtBatch 依赖特殊的地址映射机制（Map2）将同一批次内的连续读请求分布到不同的 Bank Group（BG）。Map2 将物理地址的低位用于选择 BG，使得第 i 条请求落入 BG_i，第 i+1 条落入 BG_(i+1)，从而实现 BG 级交错。这样做可以利用 DDR4/DDR5 中较短的跨 BG 列访问时间（tCCDS），而不必等待较长的同 BG 列访问时间（tCCDL）。  </p>
+<p><strong>调度算法：BR-FR-FCFS</strong><br />
+InterStellarRT 在传统 FR-FCFS 基础上增加了一个“批次就绪”优先级层。算法逻辑如下：<br />
+- 当一个 affine 流请求的 rtBatch 被触发，该批次的所有请求被标记为“Batch-Ready”。<br />
+- 调度器在所有“批次就绪”的请求中优先选择，并且保证一旦一个 rtBatch 开始执行，必须连续完成该批次的所有请求，不允许被其他请求中断（定理 3.5.3）。<br />
+- 若没有批次就绪，则回退到 FR-FCFS 规则（先就绪先服务，同优先级时按到达顺序）。<br />
+- 调度器还强制两个 BG 段之间的顺序一致性：第一个段总是从某个 BG 开始，第二个段紧随其后（算法 1）。  </p>
+<p><strong>参数设置与逻辑流程</strong><br />
+- <strong>B（批次大小）</strong>：由 rtBatch 逻辑根据式 (3.20) 确定，取决于 rtBuffer 容量和流的数量。在 B=16 时，批次的持续时间（t_RCD + (B-1)<em>t_CCDS）通常大于 t_RC，从而使得下一次激活等待时间优化为 t_RTP + t_RP - t_CCDS（式 3.6）。<br />
+- </em><em>rtBuffer</em><em>：每个 DRAM bank 有专用的缓冲，存储提前取回的数据。每条条目包含地址、数据、两个标志位（V=有效数据已返回，R=有需求请求在等）。<br />
+- </em><em>写入批次干扰</em>*：由于 rtBatch 执行不可中断，只有批次的首条请求（R_rtbs）可能遭受其他核的写批次干扰（定理 3.6.4），其余 B-1 条请求不受影响。  </p>
+<p><strong>输入输出关系</strong><br />
+- <strong>输入</strong>：来自 LLC 的 miss 请求，已携带流 ID、类型、stride 等元数据。<br />
+- <strong>处理</strong>：MC 的 rtMatcher 检查是否命中 rtBuffer（R_rtbh），命中则直接返回数据；若命中等候（R_rtbw）则等待数据到达；若不命中（R_rtbs）则触发新批次，生成后续请求并开始执行。<br />
+- <strong>输出</strong>：DRAM 命令序列（ACT -&gt; CAS -&gt; CAS -&gt; ... -&gt; RDA），每个批次仅含一次激活（ACT）和一次自动预充电（RDA），中间均为列访问（CAS），且跨 BG 交错，从而将最坏情况下的请求内延迟从 t_RC（约 55 周期）降低到 (B-1)*t_CCDS（约 60 周期）加上一个 t_RCD（16 周期），而批次间等待优化后仅为 t_RTP + t_RP - t_CCDS（约 21 周期）。  </p>
+<p><strong>整体作用</strong><br />
+- <strong>隔离干扰</strong>：由于 rtBatch 不可中断，其他核的请求只能在批次间隙插入，从而将最坏情况下的内存延迟从每请求一个 t_RC 降为每批次仅一次激活等待。<br />
+- <strong>紧界计算</strong>：基于批次的特性，InterStellarRT 推导出了形式化的最坏情况内存延迟界（定理 3.6.3、3.6.4），比传统 BNK 分区方案（PartAll）平均严格 3.8 倍（单核）和 13.5 倍（多核干扰）。<br />
+- <strong>性能与能耗</strong>：实测表明，rtBatch 机制将 DRAM 冲突率从传统方案的 95% 以上降至 12.5%，同时实现平均 1.72 倍加速、1.9 倍带宽提升和 14% 能耗降低。  </p>
+<p><strong>大跨步流的适配（ForceB）</strong><br />
+当 affine 流 stride 超过两个缓存行时，Map2 的 BG 交错失效。InterStellarRT 提供 ForceB 模式，强制同一批次内的所有请求在同一个 BG 中连续执行，使用长列访问延迟（t_CCDL）替换短延迟，并相应调整等待时间计算（式 3.22-3.25）。此模式下界变宽松但仍比传统方案严格，且保证可分析性。  </p>
+<p>通过以上机制，InterStellarRT 实现了对实时系统中流式内存访问的严格时序控制，在不引入复杂硬件修改的前提下显著收紧内存延迟界。</p>
+<h3 id="6-coordinated-prefetcher-and-memory-controller-compass">6. Coordinated Prefetcher and Memory Controller (COMPASS)<a class="headerlink" href="#6-coordinated-prefetcher-and-memory-controller-compass" title="Permanent link">&para;</a></h3>
+<p><strong>COMPASS架构实现原理</strong></p>
+<p>COMPASS的核心在于通过一个集中式的 <strong>iCoordinator</strong>，在智能LLC预取器 (<strong>iPF</strong>) 和智能内存控制器 (<strong>iMC</strong>) 之间共享软件提供的流信息，从而将预取发射与DRAM批处理节奏对齐，最大程度减少有效缺失延迟。</p>
+<ul>
+<li><strong>输入与输出关系</strong>：输入包括软件通过HW/SW接口（CSR写入）传递的流描述符，以及来自核心的内存请求。输出是经过协调的预取和DRAM调度，最终降低平均内存访问延迟并提升带宽利用率。iCoordinator从描述符中解析流的基地址、步长、迭代次数等信息，并将这些信息分别传递给iPF和iMC。</li>
+<li><strong>iCoordinator工作流程</strong>：iCoordinator位于LLC与内存控制器之间。它接收编译器注入的描述符，维护活跃流的状态表。当LLC缺失请求到达时，iCoordinator判断该请求属于哪个流，并将流ID和步长信息附加到请求中。同时，iCoordinator向iPF发送预取提示，向iMC发送批处理提示。<strong>关键点是预取深度与批处理深度被协调</strong>，使得预取数据在DRAM批处理开始前就已就位，或者批处理可以吸收预取请求，避免冗余DRAM访问。</li>
+<li><strong>iPF智能预取器</strong>：iPF在LLC中实现，利用流信息进行高置信度预取。它根据当前访问位置和步长提前发出预取请求。与普通预取器不同，iPF的预取请求被标记为“流感知”，允许iMC区分预取和需求。iPF的预取度数（超前预取数量）与iMC的批处理大小（iBatch度数）相关联，以协调节奏。</li>
+<li><strong>iMC智能内存控制器</strong>：iMC继承自InterStellar的机制，包括智能页面策略 (<strong>iPP</strong>) 和智能批处理 (<strong>iBatch</strong>)。它利用流信息在DRAM行打开后批量发出未来的行命中请求，并将数据缓存在iBuffer中。iMC与iPF的协调体现在：iMC在形成批处理时，会考虑iPF已经预取并缓存在LLC中的行，避免重复激活。同时，iMC的批处理调度确保预取的请求不会干扰需求请求的批处理顺序。</li>
+</ul>
+<p><strong>算法流程与参数设置</strong></p>
+<ul>
+<li><strong>流识别与标注</strong>：软件编译器（LLVM pass）生成Loop描述符和流描述符，通过CSR写入到iCoordinator的寄存器文件。iCoordinator建立流表，包括虚拟地址范围、步长、循环计数等。</li>
+<li><strong>协调执行流程</strong>：</li>
+<li>当LLC缺失发生时，iCoordinator查询流表。如果匹配，则向iPF发出预取指令（提前N个cache line），并向iMC发送当前请求的流ID和步长。</li>
+<li>iPF根据当前预取度向外发出预取请求，这些请求进入MSHR并在LLC中填充。iPF的预取度是动态可调的，与iMC的批处理大小相关。</li>
+<li>当需求请求到达iMC时，iMC检查该流是否已在iBuffer中有数据。如果有，则立即返回；否则，iMC根据步长计算未来的行命中地址，并形成批处理请求 (<strong>iBatch</strong>)。批处理大小 (<strong>B</strong>) 是配置参数，一般在16-64之间。</li>
+<li>iMC的调度器 (<strong>BR-FR-FCFS</strong>) 确保一旦批处理开始，就连续执行直到完成，不受其他请求中断。同时，iMC会关闭不再需要的行以减少冲突。</li>
+<li><strong>参数设置与状态空间探索</strong>：COMPASS评估中探索了多个参数，包括MSHR数量（16-256）、MC队列大小（16-256）、iPF度数（4-64）、iMC批处理大小（8-64）。图4.12-4.15展示了不同参数下的性能变化。<strong>最佳配置通常出现在MSHR为64、MC队列大小为64、iPF度数16、iMC批处理大小32时</strong>。</li>
+</ul>
+<p><strong>在整体中的作用</strong></p>
+<p>COMPASS通过协调预取和批处理，解决了传统方案中预取器注入大量请求造成MSHR拥塞和内存控制器行冲突的问题。iCoordinator的集中信息使预取器能够提前精确获取数据，同时内存控制器可以基于相同的流信息形成高效批处理。这减少了DRAM行冲突和激活次数，提升了带宽利用率。评估结果（如图4.10所示）显示，COMPASS (iPF+iMC) 相比单独的iPF或iMC实现了约 <strong>1.88x</strong> 的平均性能提升，相比COTS基线有 <strong>2.14x</strong> 的带宽改进。</p>
+<hr />
+<h2 id="4">4. 实验方法与实验结果<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p>好的，根据您提供的论文第2、3、4章内容，我对其实验设置、结果数据和消融实验进行深入分析。</p>
+<hr />
+<p><strong>实验设置分析</strong></p>
+<p>该论文的实验体系构建精细，旨在全面评估提出的<code>InterStellar</code>系列架构（<code>InterStellar</code>、<code>InterStellar 2.0</code>、<code>InterStellarRT</code>、<code>COMPASS</code>）的性能、实时性和能效。</p>
+<ul>
+<li><strong>模拟器与平台</strong>：核心采用<code>gem5</code>全系统模拟器与<code>Ramulator</code>周期精确DDR内存模型集成。<code>InterStellar</code>和<code>COMPASS</code>使用8核RISC-V Out-of-Order (OoO)处理器，<code>InterStellarRT</code>使用4核系统。处理器频率2.4GHz，模拟高性能内存子系统（如LLC 2MB）。</li>
+<li><strong>基准控制器</strong>：对比对象包括<strong>COTS</strong>自适应页面策略控制器、<strong>PARBS</strong>（并行感知批调度）、<strong>BLISS</strong>（黑名单调度）等。<code>InterStellarRT</code>额外对比了实时内存控制器<strong>PartAll</strong>、<strong>ORP</strong>和<strong>RTMem</strong>。所有对比均在同一模拟框架下进行。</li>
+<li><strong>工作负载</strong>：跨三大类共计36个Benchmark：1）高吞吐/流应用（<code>PolyBench</code>、<code>LAPACK</code>、<code>Rodinia</code>、<code>Parboil</code>、<code>Phoenix</code>）；2）实时应用（选自上述套件）；3）8核混合工作负载（<code>Z1-Z8</code>）。这些覆盖了直接流和小/大/混合步长，以及直接+间接混合模式。</li>
+<li><strong>硬件预取器</strong>：<code>InterStellar</code>和<code>COMPASS</code>与6种主流HWP（如<code>AMPM</code>, <code>SPP</code>, <code>Stride/Stream</code>）对比，并测试了与<code>InterStellar</code>的组合效果，验证其与现有机制的协同性。</li>
+</ul>
+<p><strong>结果数据分析</strong></p>
+<p>多个架构在不同指标上表现出显著优势，核心结论是其性能提升源于将DRAM行冲突转换为高效的批量行命中。</p>
+<ul>
+<li><strong><code>InterStellar</code> (通用高性能)</strong>：</li>
+<li><strong>性能</strong>：在8核系统上，<code>InterStellar</code>相较于COTS实现<strong>1.5倍</strong>平均<strong>E2E加速</strong>，最高<strong>2.72倍</strong>。</li>
+<li><strong>带宽与能效</strong>：有效内存带宽平均提升<strong>2.0倍</strong>，DRAM能耗平均降低<strong>24%</strong>，最高达<strong>60%</strong>。</li>
+<li>
+<p><strong>预取器交互</strong>：<code>InterStellar</code>独立即优于COST+HWP。两者叠加为<strong>互补</strong>关系，实现最优性能。</p>
+</li>
+<li>
+<p><strong><code>InterStellar 2.0</code> (多通道与细粒度流)</strong>：</p>
+</li>
+<li><strong>多通道扩展</strong>：在<strong>32通道</strong>DRAM配置下，<code>InterStellar 2.0</code>实现最高<strong>2.92倍</strong> E2E加速和<strong>2.83倍</strong>带宽提升。<strong>通道数量扩展</strong>实验 (<code>1-&gt;32</code>) 显示其带宽近乎线性增长，而COTS受限。</li>
+<li>
+<p><strong>细粒度子流</strong>：在<code>Stencil</code>的<code>S=3</code>场景下，细粒度追踪额外带来近<strong>1.35倍</strong>性能增益，证明了对独立访问片精准管理的价值。</p>
+</li>
+<li>
+<p><strong><code>InterStellarRT</code> (实时系统)</strong>：</p>
+</li>
+<li><strong>延迟界</strong>：对于纯仿射流，单核<strong>WCML</strong>收紧<strong>3.8倍</strong>，多核干扰界收紧<strong>13.5倍</strong>。混合仿射性下分别为<strong>2.15倍</strong>和<strong>4倍</strong>。</li>
+<li><strong>端到端性能</strong>：平均<strong>1.72倍</strong> E2E加速和<strong>1.9倍</strong>带宽提升，能效提高14%。</li>
+<li>
+<p><strong>界紧致性</strong>：<code>InterStellarRT</code>的理论界与实际测量值非常接近，验证了分析方法的精确性。</p>
+</li>
+<li>
+<p><strong><code>COMPASS</code> (协调预取与调度)</strong>：</p>
+</li>
+<li><strong>整体性能</strong>：在<strong>23个</strong>工作负载、<strong>25种</strong>配置下，<code>COMPASS</code> (<code>iPF+iMC</code>) 实现了最高平均E2E加速（<strong>1.88倍</strong>）和带宽提升（<strong>2.14倍</strong>），全面超越独立<code>iPF</code>、<code>iMC</code>及所有基线，证明了架构协同的价值。</li>
+</ul>
+<p><strong>消融实验分析</strong></p>
+<p>论文通过消融控制变量，量化了各架构核心贡献。</p>
+<ul>
+<li><strong><code>InterStellar</code>系列 (iPP 与 iBatch 解耦)</strong>：</li>
+<li>设计一项实验（1ch, 1 core）对比<strong>Baseline vs. InterStellar</strong>。图2.8和2.22揭示：Baseline因流间冲突导致大量<strong>行冲突</strong>，而<code>InterStellar</code>的<strong><code>iBatch</code></strong>和<strong><code>iPP</code></strong>几乎消除冲突，<strong><code>iBatch</code></strong>是主要性能来源。</li>
+<li>
+<p>另一实验（Fig. 2.25, 8-core）设加/减<code>iBatch</code>和<code>iPP</code>。<code>iBatch</code>独立将性能从1.0x提升至~1.4x，<code>iPP</code>提供~1.15x提升。两者组合达最高~1.5x，表明机制<strong>可分离且高度互补</strong>。</p>
+</li>
+<li>
+<p><strong><code>InterStellar 2.0</code> (细粒度子流)</strong>：</p>
+</li>
+<li>
+<p>固定所有条件，仅改变流描述方式，对比<strong>粗粒度 (1S)</strong> 和<strong>细粒度 (3S)</strong>。在<code>Stencil</code>的<code>S=3</code>场景，<strong>3S</strong>策略带来可比<strong>35%</strong>的性能提升，明确归因于为每个独立Row Slice维护专门的<code>iPP</code>状态，避免了相互污染。</p>
+</li>
+<li>
+<p><strong><code>COMPASS</code> (预取器与调度器解耦)</strong>：</p>
+</li>
+<li>
+<p>图4.10-4.11拆解为独立<code>iPF</code>、独立<code>iMC</code>及组合<code>iPF+iMC</code>。<code>iMC</code>带来约1.4x-1.5x提升，<code>iPF</code>带来约1.35x-1.45x提升。组合<strong><code>iPF+iMC</code></strong>进一步提升至~1.55x-1.75x，验证了协同设计通过<code>iCoordinator</code>实现1+1&gt;2的效果。</p>
+</li>
+<li>
+<p><strong><code>InterStellarRT</code> (<code>rtBatch</code>与Write-batch)</strong>：</p>
+</li>
+<li>图3.12揭示<code>rtBatch</code>大小<code>B</code>的量化影响。<code>B</code>提升显著收紧<strong>隔离WCML</strong>和<strong>写干扰界</strong>，因<code>B</code>增大能屏蔽更多<code>rtBatch</code>内请求免受干扰。<code>B=16</code>后效能增益趋于饱和，为<code>B=16</code>的选择提供了理论依据。</li>
+</ul>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/body_class.js"></script>
+      
+    
+  </body>
+</html>

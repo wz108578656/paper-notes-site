@@ -1,0 +1,1092 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://wz108578656.github.io/paper-notes-site/notes_repo/stream-based-intelligent-memory-architectures/ELI5_notes/">
+      
+      
+        <link rel="prev" href="../paper_notes/">
+      
+      
+        <link rel="next" href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/paper_notes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>InterStellar (通俗版) - Paper Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="Paper Notes" class="md-header__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Paper Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              InterStellar (通俗版)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Paper Notes" class="md-nav__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    Paper Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../collections/Recent/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recent
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Recent
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 整体创新点通俗解读
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-hwsw-interface-and-stream-descriptors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. HW/SW Interface and Stream Descriptors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-nucleus-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Nucleus Engine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-intelligent-page-policy-ipp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Intelligent Page Policy (iPP)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-intelligent-batching-ibatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Intelligent Batching (iBatch)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-real-time-batching-rtbatch-and-br-fr-fcfs-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Real-Time Batching (rtBatch) and BR-FR-FCFS Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-coordinated-prefetcher-and-memory-controller-compass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Coordinated Prefetcher and Memory Controller (COMPASS)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 整体创新点通俗解读
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-hwsw-interface-and-stream-descriptors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. HW/SW Interface and Stream Descriptors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-nucleus-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Nucleus Engine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-intelligent-page-policy-ipp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Intelligent Page Policy (iPP)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-intelligent-batching-ibatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Intelligent Batching (iBatch)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-real-time-batching-rtbatch-and-br-fr-fcfs-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Real-Time Batching (rtBatch) and BR-FR-FCFS Scheduling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-coordinated-prefetcher-and-memory-controller-compass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Coordinated Prefetcher and Memory Controller (COMPASS)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">论文分析报告 通俗讲解<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h3 id="0">0. 整体创新点通俗解读<a class="headerlink" href="#0" title="Permanent link">&para;</a></h3>
+<p>好，我们直接进入正题。作为你的导师，我帮你把这几十页的内容扒开，看看它的“灵魂”到底是什么。</p>
+<p><strong>核心问题</strong>：现在的CPU和内存之间存在一个巨大的鸿沟。CPU速度快得像火箭，内存却慢得像牛车。
+过去大家怎么解决？
+- <strong>硬件级投机</strong>：让硬件自己去猜你接下来要读什么（Prefetcher）。但这就像蒙着眼睛猜谜语，猜对了固然好，猜错了不仅浪费带宽，还会把宝贵的缓存搞乱（Cache Pollution）。
+- <strong>硬件级调度</strong>：在内存控制器里，通过复杂的排队算法（FR-FCFS、PARBS等）来试图管理不确定性。但这依然是“瞎子摸象”，它看不到程序整体的访问意图。</p>
+<p><strong>最难受的地方</strong>：当多个程序（尤其是流式应用，如视频处理、线性代数）同时访问内存时，硬件就像个混乱的十字路口，谁都想先走，结果谁也走不快，还经常发生“车祸”（<strong>Row Conflict</strong>）。这种由不确定性带来的性能损失和延迟抖动，对于追求绝对安全的高性能或实时系统来说，是无法接受的。</p>
+<p>想象一下，你是一个大型演唱会（<strong>现代计算机系统</strong>）的后台总管（<strong>Memory Controller</strong>）。
+- <strong>传统做法</strong>：你手下有几十个跑腿的（<strong>CPU Core/硬件Prefetcher</strong>）。他们是艺术家（<strong>Software</strong>）的助理。艺术家们需要什么道具（<strong>Data</strong>），就让助理跑到后台仓库（<strong>DRAM</strong>）去拿。助理不知道仓库怎么规划的，只知道艺术家喊什么，他就冲进去乱翻。结果几十个助理挤在仓库门口，互相踩脚，把仓库弄得乱七八糟。有的助理（<strong>Prefetcher</strong>）还自作聪明，觉得艺术家可能需要某样道具，提前冲进去拿，结果发现拿错了，平白增加了拥堵。</p>
+<ul>
+<li><strong>论文的做法（InterStellar/COMPASS）</strong>：论文提出，不要把事情全交给这些乱跑乱撞的跑腿助理了。我们要让<strong>艺术家（软件）</strong> 直接跟我们<strong>后台总管（硬件）</strong> 沟通。
+  艺术家在上台前，就给我一个 <strong>“演出流程单” (Stream Descriptor)</strong>：<em>“我第一幕需要红色沙发，第二幕需要蓝色桌子，第三幕需要那面大鼓。”</em></li>
+</ul>
+<p>于是，作为后台总管，我就能做两件很聪明的事：
+  1.  <strong>提前备货</strong>：我让仓库管理员在艺术家需要的前一秒，提前把“红色沙发”搬到门口（<strong>Intelligent Batching / iBatch</strong>），艺术家一挥手，东西就到了。
+  2.  <strong>仓库规划</strong>：我知道红色沙发在仓库A区，蓝色桌子在B区。我不会让两个助理在A区和B区之间来回跑，导致仓库瘫痪。我会把A区的东西一次性处理完（<strong>Intelligent Page Policy / iPP</strong>），再转向B区，避免冲突。</p>
+<p>这帮作者没有去重造一个更快的仓库（<strong>DRAM</strong>），也没有训练更聪明的跑腿助理（<strong>Prefecther</strong>）。他们做了一件看似简单但极其巧妙的事：</p>
+<p><strong>在“艺术家（软件）”和“仓库总管（硬件）”之间，建立了一条直通的信息专线。</strong></p>
+<p>具体逻辑转换是：
+- 原本流程：软件发出随机请求 -&gt; 硬件“盲猜” -&gt; 内存执行。
+- 论文流程：软件“提前告诉我”未来的访问模式 -&gt; 硬件“根据剧本”<strong>主动且精确地获取</strong>并<strong>批量调度</strong>请求 -&gt; 内存高效执行。</p>
+<p>这条专线就是文中的 <strong>“HW/SW Co-design Interface”</strong>。软件通过编译器等手段，把数据流的“剧本”（Base Address, Stride, Loop Bounds）编译成极简的指令包（Descriptors），通过现有寄存器（RISC-V CSR）直接告诉硬件。</p>
+<p>硬件（<strong>Nucleus</strong>）在拿到剧本后，就从一个“被动执行者”变成了一个“<strong>主动管理者</strong>”。它不再是等请求来了才开始干活，而是提前规划：
+- 在内存控制器层面，它把属于同一行数据的未来请求打包成一个<strong>rtBatch</strong>，一次性发射，让数据像军队一样整齐划一地流动，彻底避免了“十字路口的混乱”。
+- 在缓存层面，它的智能预取器（<strong>iPF</strong>）只取剧本里有的数据，绝不乱猜，并且和<strong>iMC</strong>协同，确保前端预取和后端调度节奏一致，没有内耗。</p>
+<p><strong>核心洞察</strong>：这篇论文最大的贡献不是某个具体的硬件电路设计，而是一个<strong>系统性的哲学转变</strong>：从“<strong>硬件单方面猜</strong>”转变为“<strong>软硬件双向沟通</strong>”。它证明了，在一个高度受限的系统中，“让软件多说一句话”比“让硬件多猜一万次”要高效和可靠得多。</p>
+<hr />
+<ol>
+<li><strong>它解决了什么问题？</strong> 内存系统中，硬件“盲猜”导致的性能差和不可预测性。</li>
+<li><strong>它提出的核心方法是什么？</strong> 让软件主动告知硬件未来的精确内存访问模式（流式描述）。</li>
+<li><strong>它带来的直接好处是什么？</strong> 硬件（内存控制器和缓存）可以根据“剧透”进行<strong>主动、批量、无冲突的预取和调度</strong>，从而大幅提升性能和可预测性。</li>
+</ol>
+<p>这就是这篇论文的“魂”。看懂了这个，里面的所有技术细节都只是这个灵魂在不同硬件层次上的具体实现形式。</p>
+<h3 id="1-hwsw-interface-and-stream-descriptors">1. HW/SW Interface and Stream Descriptors<a class="headerlink" href="#1-hwsw-interface-and-stream-descriptors" title="Permanent link">&para;</a></h3>
+<p>之前的内存控制器就像一个<strong>盲人快递员</strong>：它只知道当前手里这一单的地址（物理地址），对于接下来还有多少包裹、是继续往东走还是突然掉头，一概不知。<br />
+- 传统硬件事先无法区分“这是一个大数组的连续访问”还是“随机跳转”，因此只能用通用的开放页/关闭页策略去<strong>猜</strong>。猜对了就赚，猜错了就付出行冲突的高昂代价。<br />
+- 即使有硬件预取器，它们也是从已发生的访问模式里<strong>事后学习</strong>，永远慢半拍，而且容易把不同数据结构的流搅在一起，自相干扰。<br />
+- 最关键的是：<strong>软件明明在循环体里就清清楚楚知道下一步要访问哪</strong>，但硬件却听不见——这种“语义鸿沟”导致大量DRAM带宽浪费在无意义的预充电和激活上。</p>
+<p>想象你在一家<strong>智能餐厅</strong>后厨负责备菜。<br />
+- <strong>传统做法</strong>：厨师（CPU）不断喊“来一份宫保鸡丁的鸡肉”“来一份宫保鸡丁的花生”——你（Memory Controller）每次听到一个订单，才跑去冰箱找对应食材。因为厨师喊得忽快忽慢、食材还分冷藏区和冷冻区，你每次开门都要花时间，手忙脚乱。<br />
+- <strong>HW/SW Interface</strong>的思路是：厨师在开始炒这道菜之前，直接给你一张<strong>清单</strong>：“接下来30秒内，我只需要：鸡肉×5，花生×3，干辣椒×2，都在同一个冷藏格里。” 你拿到清单，一次性把冷藏格打开，把清单上的东西全取出来放工作台上。后面厨师每喊一次，你直接从工作台递过去，再也不用反复开关冰箱门。</p>
+<p>这张<strong>清单</strong>就是“Stream Descriptor”——它把软件的意图压缩成几个数字，提前告诉硬件。</p>
+<p>作者<strong>没有</strong>修改指令集或操作系统，也没有在运行时动态分析访问模式，而是<strong>让编译器在生成代码前就把流的信息写好</strong>。</p>
+<p>具体做法：<br />
+- 编译器在LLVM pass里扫描循环中的数组访问，识别出那些<strong>基地址+固定步长+确定循环次数</strong>的访问模式，把它们打包成几个紧凑的<strong>描述符</strong>。<br />
+  - <strong>循环描述符</strong>：记录该循环的起始、终止、步长（比如 for i=0; i&lt;100; i+=1）。<br />
+  - <strong>直接流描述符</strong>：记录基地址和步长（比如数组A，步长8字节）。<br />
+  - <strong>间接流描述符</strong>：记录通过另一个数组间接访问的模式。<br />
+  - <strong>链接变量描述符</strong>：当基地址或边界在运行时才确定时，记录从哪里动态读取。  </p>
+<ul>
+<li>
+<p>这些描述符通过标准的<strong>CSR写指令</strong>（RISC-V的csrrw）在循环进入之前就写入硬件寄存器。不需要新指令，不需要OS参与。  </p>
+</li>
+<li>
+<p>硬件端的<strong>Nucleus</strong>引擎在收到每个Last-Level Cache Miss时，利用一个反向翻译表（Stream TLB^-1）把物理地址转回虚拟地址，然后与描述符表中的条目比对。一旦匹配上，就在这个内存请求上附上<strong>流ID、流类型（直接/间接）、步长</strong>等信息，再发给Memory Controller。</p>
+</li>
+<li>
+<p>Memory Controller拿到带标签的请求后，就不再是“睁眼瞎”了：<strong>它知道这个请求属于哪个流，下一步还有多少个兄弟请求</strong>，于是可以决定是否批量预取、是否保持当前行打开，以及跨通道时如何切分batch。</p>
+</li>
+</ul>
+<p>本质上，这个接口把<strong>编译时已知的访问拓扑</strong>编译成若干个几十比特的描述符，用几条CSR写操作注入硬件，从而在零额外运行时开销的前提下，让硬件获得了“预知未来”的能力。</p>
+<h3 id="2-nucleus-engine">2. Nucleus Engine<a class="headerlink" href="#2-nucleus-engine" title="Permanent link">&para;</a></h3>
+<p>传统内存控制器就像一个<strong>聋子调度员</strong>——它不知道哪个程序（core）发来的请求，更不知道这些请求接下来要去哪里、有什么规律。结果就是：
+- <strong>流式数据被拦腰斩断</strong>：明明是一个顺序读写的大循环，由于缺乏上下文，控制器把连续的请求当成孤立事务处理，导致频繁的row冲突和额外的precharge/activate延迟。
+- <strong>调度撞墙</strong>：多个核心的流相互交织，控制器只能基于当前队列里的随机顺序做决策（FR-FCFS），效率极低且无法预测。
+- <strong>协调真空</strong>：缓存和内存控制器之间没有语义通道，预取器猜测的请求可能污染cache，而控制器却无法利用这些“即将到来”的信息提前优化。</p>
+<p>这些问题在AI/ML和科学计算场景下尤其致命，因为这些负载的核心就是重复遍历大型数组。</p>
+<p>想象一个繁忙的<strong>图书馆前台</strong>：读者（cores）不断递来索书条（memory requests）。前台小姐姐（传统memory controller）只能看纸条上的书名号（physical address），然后机械地跑到对应书架（DRAM bank）去取书。她完全不知道某个读者接下来还会要什么书，也不知道另一个读者是否也在借同一本书。</p>
+<p>现在，图书馆引入了一个<strong>智能助手</strong>（Nucleus Engine）。这个助手在读者进门时就拿到了他们的研读清单（stream descriptors）——上面清楚写着：“我要从《机器学习》第10页开始，每隔10页读一页，共读30页。” 助手提前把这份清单翻译成书架坐标，并告诉前台：“这位读者接下来的5次请求都要去同一个书架，你先别急着关书架门；等看完这5本，你再自动把门关上。” 这样一来，前台不再盲目狂奔，而是精准地批量操作。</p>
+<p>作者没有对内存控制器动大手术，而是在<strong>LLC边界插入了一个轻量级硬件助手</strong>（Nucleus）。它的核心操作是<strong>“身份识别 + 提前翻译 + 打标签”</strong>：</p>
+<ol>
+<li><strong>解析软件清单</strong>：编译器在循环开始前，把循环的步长、边界、访问模式编码成紧凑的描述符（descriptors），通过CSR写入。Nucleus读取并存储这些信息，计算出每条流的虚拟地址范围。</li>
+<li><strong>解决虚实地址映射</strong>：由于LLC看到的是物理地址，而描述符是虚拟地址，Nucleus维护了一个极小的反向TLB（<code>TLB⁻¹</code>），当TLB发生miss时，自动记录物理页到虚拟页的映射。这样就能把传入的物理地址快速归类到对应的流。</li>
+<li><strong>打标签并附加</strong>：每个LLC miss在离开LLC之前，Nucleus会判断它是否属于已知流，然后<strong>在请求包上附加三个关键标签</strong>：Stream ID（属于哪条流）、Core ID（哪个核心发起）、Access Type（直接流/间接流/非流）。这些标签随请求一起前往内存控制器，后者根据这些信息执行智能的页面策略和批量预取。</li>
+</ol>
+<p><strong>杠杆点</strong>：这个设计把软件层面的循环结构知识，<strong>无缝转换为硬件层面的元数据</strong>，且整个过程对cache hit路径完全透明（仅在miss时多两个周期，且与LLC tag查找并行），代价极低。从此，内存控制器不再是瞎子，而是带薪看股市行情——它能提前知道未来要读什么，从而把DRAM的row buffer利用率提到最高。</p>
+<h3 id="3-intelligent-page-policy-ipp">3. Intelligent Page Policy (iPP)<a class="headerlink" href="#3-intelligent-page-policy-ipp" title="Permanent link">&para;</a></h3>
+<p>好的，让我们来拆解这个<strong>Intelligent Page Policy (iPP)</strong>。它听起来像是个总策略，但你给的线索很清晰，它其实是根据<strong>流 (Stream)</strong> 的不同脾气，采取两套完全不同的治理方法。</p>
+<hr />
+<p><strong>1. 痛点直击</strong></p>
+<p>传统的DRAM Page Policy，比如<strong>Open-Page</strong>或<strong>Close-Page</strong>，都是一刀切的。它们不知道下一个请求是来自一个规律的Vector循环，还是一个随机的Graph搜索。就像管理员对所有房间都用同一种方式管理：要么门全开着（Open-Page），等你走了再关，但可能被人闯入放东西而变慢；要么门随时关着（Close-Page），安全但每次进出都得重新开门。</p>
+<p>这就导致了在混合访问模式下，系统很难受。当一个规律的大批量请求（Direct Stream）和时不时过来蹭一下的随机请求（Indirect Stream）混在一起时，传统Policy会<strong>顾此失彼</strong>。Open-Page会让随机的冲突导致巨大的切换开销；Close-Page则会让规律流浪费掉珍贵的Row Hit红利。</p>
+<p><strong>2. 通俗比方</strong></p>
+<p>你可以把DRAM的Row Buffer想象成一个<strong>图书馆的临时桌面</strong>。
+- <strong>Direct Stream</strong> 就像图书馆员今天要处理一整套<strong>百科全书（规律的大阵列）</strong>。他需要一本接一本地翻阅，看完接着看下一本。
+- <strong>Indirect Stream</strong> 则像一个临时来查资料的读者，他可能<strong>东翻一本，西翻一本（随机访问）</strong>，没有固定顺序。</p>
+<p>传统的管理员（Page Policy）是糊涂的。他可能因为那个临时读者翻了一本，就把这一摞百科全书对应的桌面清空了（Precharge），结果导致图书馆员再回来时，不得不重新从书架搬书（冲突），效率极低。或者他全程开着桌面的书，让临时读者在那一排书里乱翻，导致冲突。</p>
+<p><strong>iPP这个新管理员的聪明之处</strong>在于：他能看穿图书馆员（Direct Stream）的<strong>工作单（Stream Descriptor）</strong>，知道“哦，你刚翻完了第1册，接下来还有第2、3、4册要连续看”。因此，他会决定<strong>先别清空桌面</strong>，让图书馆员赶紧把剩下的几本看完（利用Row Hit）。同时，他也认得那个临时读者（Indirect Stream）。如果这个读者反复换不同主题的书（频繁冲突），他就能做出判断：“这家伙明显在瞎逛，与其让他干扰别人，不如我先把他那份桌面清空（Precharge），让他下次自己重新搬书，别拖累图书馆员。”</p>
+<p><strong>3. 关键一招</strong></p>
+<p>iPP没有试图去“预测”未来，而是引入了<strong>“为不同的流建立独立的感知模型”</strong> 这一逻辑转换。它把传统的、一视同仁的<strong>Bank级</strong>决策，替换为了<strong>Stream级</strong>决策。</p>
+<p>具体来说，它引入了两个“小本本”：
+- <strong>Row-Hit Counter (针对 Direct Stream)</strong>：这不是什么新奇的硬件，但作者巧妙地用软件传过来的 <strong>Stride</strong> 算出了 <strong>MaxHit</strong>。这个MaxHit就是“在当前这页Row Buffer里，你能连续读到多少行数据”。当这个计数器达到上限时，iPP就知道：“行了，这绝大部份的潜力已经榨干了，该准备关门（Precharge）了。” 这本质上是一个<strong>根据固定速率计算出的、精确的“提前关门”信号</strong>，避免了Row被长时间占用而引发冲突。
+- <strong>Conflict-Tracking Window (针对 Indirect Stream)</strong>：对于无规律的访问，iPP建了一个<strong>滑动冲突计数器</strong>。当冲突次数超过一个<strong>高阈值</strong>时，就<strong>强行关门</strong>；当冲突次数落在一个<strong>低阈值上下且连续冲突</strong>时，也<strong>预期性地关门</strong>。这相当于一个<strong>基于行为观察的自适应“紧急刹车”机制</strong>，能在冲突真正恶化前，提前给所有流让出通道。</p>
+<p><strong>总结：</strong> iPP的核心进步不在于更快的硬件，而在于从<strong>“反应式”的Bank粒度管理</strong>，进化到了<strong>“前瞻式”的Stream粒度管理</strong>。它不再是一刀切，而是针对<strong>“规律的”</strong>和<strong>“随机的”</strong>请求分别制定了最优策略。</p>
+<h3 id="4-intelligent-batching-ibatch">4. Intelligent Batching (iBatch)<a class="headerlink" href="#4-intelligent-batching-ibatch" title="Permanent link">&para;</a></h3>
+<p><strong>痛点直击</strong></p>
+<ul>
+<li>传统的硬件流预取器（Stream Prefetcher）虽然能“猜”到接下来的地址，但它们是从 <strong>Cache 层级</strong> 发起的。这就导致了两大问题：</li>
+<li><strong>请求到达 DRAM 时已经“乱序”</strong>：预取请求和需求请求在内存控制器队列里混杂，导致频繁的行冲突（Row Conflict）。每次切换行都要重新激活，白白浪费几十个周期。</li>
+<li>
+<p><strong>资源争抢严重</strong>：预取请求会挤占 MSHR、Cache 容量和片上互联带宽。很多时候预取的还没用上，就已经把有用的数据挤出去了。</p>
+</li>
+<li>
+<p>最终表现是：<strong>DRAM 的实际本地化（Row Hit）率依然很低</strong>，大部分时间都花在激活/预充电上，有效带宽被严重浪费。</p>
+</li>
+</ul>
+<hr />
+<p><strong>通俗比方</strong></p>
+<ul>
+<li>这就像机场的 <strong>行李转盘</strong>：传统做法是每个乘客（需求请求）走到转盘边，然后地勤根据乘客的票根（地址）去后面仓库（DRAM 阵列）搬箱子。由于事先不知道下一个乘客是谁，地勤每搬一个箱子就要把转盘转回到起点，再搬下一个。</li>
+<li>
+<p>另一种做法是给地勤一张 <strong>航班行李清单</strong>（Stream 描述符）。当第一个乘客站到转盘前时，地勤不仅把他的箱子放上去，还<strong>提前把所有同航班的箱子都一次性放上传送带</strong>。后面的乘客不用等，直接取走就行。</p>
+</li>
+<li>
+<p><strong>iBatch</strong> 做的正是类似的事：它不在“登机口”（Cache）就提前把箱子拿出来占地儿，而是在 <strong>转盘控制室（Memory Controller）</strong> 里看着，等到<strong>第一个乘客站定（Row Open）</strong>，才一口气把该航班所有剩下的箱子（本行的所有 Cache Line）都搬到转盘上。</p>
+</li>
+</ul>
+<hr />
+<p><strong>关键一招</strong></p>
+<ul>
+<li>作者并没有在 Cache 和 DRAM 之间增加复杂的协调逻辑，而是做了一次 <strong>“管辖权转移”</strong>：</li>
+<li><strong>发起点</strong> 从 Cache 层（预取器）移到 <strong>内存控制器层</strong>。</li>
+<li><strong>触发条件</strong> 从不确定的时间（预取器随机发起）变为 <strong>当一个需求请求打开某一行后</strong>。</li>
+<li>利用软件提供的 <strong>Stride 和 Stream 长度</strong>，控制器在该行打开后，<strong>立即计算出该行剩余的所有地址</strong>（这些地址几乎 100% 是 Row Hit），并以一个不可中断的 Burst 一次性发出全部读取请求。</li>
+<li>返回的数据暂存在每个 Bank 的小型 <strong>iBuffer</strong> 中。后续需求直接命中 iBuffer，无需再访问 DRAM 行缓冲。</li>
+<li>
+<p>与 <strong>iPP（智能页面策略）</strong> 配合：当 Batch 结束，iPP 自动预充电关闭该行，保证下一个 Stream 的第一个请求也不是冲突（而是 Miss，代价更小）。</p>
+</li>
+<li>
+<p>简单说：<strong>不是提前猜，而是确定了再批量取。</strong> 而且这个“批量”的时机和大小都由软件的 Stream 描述和控制器的 Row 状态共同决定，所以做起来确定性很强，不会浪费带宽。</p>
+</li>
+</ul>
+<h3 id="5-real-time-batching-rtbatch-and-br-fr-fcfs-scheduling">5. Real-Time Batching (rtBatch) and BR-FR-FCFS Scheduling<a class="headerlink" href="#5-real-time-batching-rtbatch-and-br-fr-fcfs-scheduling" title="Permanent link">&para;</a></h3>
+<ul>
+<li>在多核实时系统中，多个核共享DRAM，传统的<strong>First-Ready First-Come-First-Serve (FR-FCFS)</strong> 调度器虽然优先处理行命中请求，但遇到<strong>流式访问（affine stream）</strong>时，情况依然糟糕。</li>
+<li>假设一个核正在按顺序读数组A，每隔几十个cycle到达一个Read命令。这些命令虽然命中同一行，但问题在于，<strong>它们不是同时到达的</strong>。当第一个Read被执行后，第二个Read需要等待，此时其他核的请求（比如写操作、其他行的读）可能插进来，导致<strong>行冲突</strong>或<strong>Bank Group干扰</strong>。最终，即便原本都是行命中，最差情况延迟（WCML）依然非常高，因为无法保证这批请求能够<strong>连续、无中断</strong>地被服务。</li>
+<li>之前的方案（如Bank分区）能减少跨核行冲突，但解决不了<strong>同一核内因请求到达时间分散而引入的干扰窗口</strong>。WCML依然被无关的Write Batch或跨Bank Group的时序约束拉长。</li>
+</ul>
+<p>想象你是一个快递员，需要给同一个小区（同一DRAM行）的10户人家送包裹。</p>
+<ul>
+<li><strong>传统做法</strong>：你回站点取一个包裹，跑一趟送掉；再回站点取第二个，再跑一趟。每次来回，路上都可能被其他快递员（其他核的请求）挡道、抢电梯，甚至被临时通知去送别的小区（行冲突）。最坏情况下，这10趟送完可能要花很久，时间完全不可预测。</li>
+<li><strong>rtBatch做法</strong>：你一次性从站点取走这10个包裹，然后一口气进小区，挨家挨户敲门送完，中间不回站点、不理其他任务。这样，送这10个包裹的时间就是<strong>确定且紧凑的</strong>：走路进小区的时间（ACT）加上每户敲门送件的时间（CAS across BGs）。即使隔壁小区也有快递员，他也插不进你这趟“专线”。</li>
+</ul>
+<p>作者并没有改变DRAM的基本时序，而是从<strong>“请求的到达方式”和“调度秩序”</strong>两方面入手：</p>
+<ol>
+<li>
+<p><strong>rtBatch（实时批生成）</strong>：利用软件提供的<strong>流描述符</strong>（stride、base地址），一旦第一个读请求（demand）被调度，内存控制器<strong>立即预生成</strong>接下来同一行的B-1个读请求，并把这B个请求捆绑成一个<strong>原子批</strong>。这批请求有相同的优先级，且全部命中当前行。</p>
+</li>
+<li>
+<p><strong>BR-FR-FCFS调度（批就绪优先）</strong>：调度器增加一条规则——<strong>如果某个批已就绪（即所有段的第一个请求都满足时序），就优先执行整批，不允许中断</strong>。具体到<strong>Bank Group (BG) 交错的地址映射（Map2）</strong>，这批请求被安排到不同BG，因此批内请求的间隔是<strong>最短的tCCDS</strong>（4 cycle），而不是同BG的tCCDL（6 cycle）或更长的行冲突延迟。调度器保证批的<strong>两个段（对应两个BG）是顺序执行的</strong>，不会因其他核的请求而暂停。</p>
+</li>
+<li>
+<p><strong>自适应页策略</strong>：每个rtBatch结尾自动使用带预充电的读命令（RDA），提前关闭行，使得下一个rtBatch的第一次访问必然产生<strong>行未命中</strong>（状态清晰），避免了随机冲突带来的不可预测性。这样，<strong>批内延迟固定</strong>（tRCD + (B-1)<em>tCCDS），</em><em>批间等待时间也可用公式精确上界</em>*（取决于tRC和tRTP）。</p>
+</li>
+</ol>
+<p><strong>核心逻辑转换</strong>：不再让每个读请求在队列里“公平竞争”，而是让<strong>已知连续且可预测的流式请求武装成一个“特权车队”</strong>，获得一条无干扰的专用车道。这牺牲了一点公平性，但换来了<strong>严格可计算的最差情况延迟</strong>——实时系统最需要的恰恰是这种确定性。</p>
+<h3 id="6-coordinated-prefetcher-and-memory-controller-compass">6. Coordinated Prefetcher and Memory Controller (COMPASS)<a class="headerlink" href="#6-coordinated-prefetcher-and-memory-controller-compass" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>之前的做法</strong>：缓存预取器 (<code>iPF</code>) 和内存控制器 (<code>iMC</code>) 各管各的，存在严重的信息孤岛。</li>
+<li>预取器基于过去模式发出大量预取请求，但它完全不知道内存控制器此刻正在<strong>批处理 (Batching) 哪一组行命中请求</strong>。导致预取请求往往<strong>打散</strong>了已形成的连续批，迫使DRAM不断<strong>换行 (Row Conflict)</strong>。</li>
+<li>内存控制器做的批处理（如PARBS/BLISS）只看当前队列里的请求，但它看不到<strong>未来一小段即将到达的、必定是命中当前行的预取数据</strong>。结果，批处理窗口要么太小浪费带宽，要么太大吃掉本可以等到的预取。</li>
+<li><strong>核心崩溃场景</strong>：一个预取器刚刚把下一行预取到LLC，<strong>紧接着</strong>内存控制器就因为当前批处理结束而<strong>关闭了开着的行 (Auto-Precharge)</strong>。预取的数据虽然进了LLC，但DRAM行已经关了，后续需求过来时，又得<strong>重新激活 (ACTIVE)</strong>，白白浪费了两个周期的时间。</li>
+<li><strong>“补丁式”改进的极限</strong>：之前的工作要么只优化预取器（尽量踩点），要么只优化调度器（尽量等待），但它们没有“握手”，永远存在<strong>时序错位 (Timing Mismatch)</strong>。</li>
+</ul>
+<p>想象一个<strong>日料流水席</strong>：</p>
+<ul>
+<li><strong>预取器</strong>是一个厨师，他根据菜单提前准备寿司（预取数据）。</li>
+<li><strong>内存控制器</strong>是传菜员，他每批只能端4盘（批处理），并且一次只能从<strong>一个灶台（DRAM行）</strong>拿菜。</li>
+<li><strong>原来的问题</strong>：厨师（预取器）凭感觉预制寿司，可能同时在做三盘不同灶台的菜。传菜员（内存控制器）看到哪个灶台菜多就先端，结果<strong>两种菜轮流端</strong>，导致每个灶台都要重新<strong>开火（ACTIVATE）</strong>和<strong>关火（PRECHARGE）</strong>，效率极低。更惨的是，厨师做的寿司可能传菜员根本来不及端（LLC污染），或者传菜员端完一批后，厨师才把下一批寿司做好（定时错位）。</li>
+</ul>
+<p><strong>COMPASS的解决方案</strong>：在厨师和传菜员之间加一个<strong>调度看板（iCoordinator）</strong>。</p>
+<ul>
+<li>这个看板上写着：“接下来5秒，只做<strong>三文鱼（某个流/某个行）</strong>，做成16盘，分4批端”。</li>
+<li>厨师（预取器）只看这个看板，<strong>只做三文鱼</strong>，且<strong>每做成4盘就通知传菜员</strong>。</li>
+<li>传菜员（内存控制器）只看这个看板，<strong>只端三文鱼</strong>，并且保证每次去端时，灶台上都刚好有4盘新鲜的寿司等待。</li>
+</ul>
+<p>这样一来，<strong>灶台（DRAM行）始终是热的</strong>，厨师不用乱做菜，传菜员不用空手跑。整个流水席的<strong>吞吐量</strong>和<strong>响应时间</strong>都得到了保证。</p>
+<p><strong>作者并没有发明一种全新的调度算法，也没重设计预取器，而是巧妙地、以极低成本，在LLC和内存控制器之间插入了一个“对齐层”（iCoordinator）。</strong></p>
+<ul>
+<li><strong>思想转变</strong>：从 <strong>“独立猜测+被动调度”</strong> 变为 <strong>“基于契约的协同”</strong>。</li>
+<li>原来，预取器猜内存后面会缺，然后发个请求过去，至于内存控制器怎么排，它不管。</li>
+<li>现在，iCoordinator基于软件提供的stream desc，提前告诉iPF和iMC：<strong>接下来一段时间，这个流只会访问这个DRAM行，并且预取和批处理的步调必须一致</strong>。</li>
+<li><strong>微架构具体做法</strong>：</li>
+<li><code>iPF</code>不再盲目发单点预取。它收到指令后，<strong>批量地、按顺序地</strong>向LLC填充数据。</li>
+<li><code>iMC</code>不再自己猜该批多大。它从iCoordinator获取<strong>预取完成的时间戳</strong>，从而智能地扩大或缩小批处理窗口，确保<strong>批处理的第一个请求命中行，最后一个请求也是行命中</strong>，中间不断开。</li>
+<li><strong>同步点</strong>：iCoordinator设置一个“<strong>批启动信号</strong>”。只有当iPF确认下一批预取数据已就位（或即将就位）时，iMC才启动该批。这消除了<strong>超时等待</strong>和<strong>错误启动</strong>。</li>
+<li><strong>核心胜利</strong>：实验显示，这种对齐机制在标准配置下，将平均端到端加速比从预取器最高的1.63x（仅iPF）提升到1.88x，而<strong>仅仅使用预取和调度器组合的1+1&gt;2效果，关键在于对齐</strong>。</li>
+</ul>
+<p>一句话总结：<strong>COMPASS没有增加更多计算单元，而是让两个原本“各扫门前雪”的组件学会了“看同一块表”指挥---共享时钟源和任务序列表。</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/body_class.js"></script>
+      
+    
+  </body>
+</html>
