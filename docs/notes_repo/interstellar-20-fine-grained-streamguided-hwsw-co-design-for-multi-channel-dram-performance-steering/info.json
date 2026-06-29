@@ -1,0 +1,21 @@
+{
+  "index": "interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering",
+  "paper_title": "InterStellar 2.0: Fine-grained stream–guided HW/SW co-design for multi-channel DRAM performance steering",
+  "metadata": {
+    "authors": [
+      "Abdelrhman Mohamed Abotaleb",
+      "Maziar Goudarzi",
+      "Tomasz Czajkowski",
+      "Reza Azimi",
+      "Mohamed Hassan"
+    ],
+    "affiliations": [
+      "McMaster University",
+      "Huawei Technologies"
+    ],
+    "venue": "unknown",
+    "year": 2025,
+    "doi": null
+  },
+  "description": "InterStellar 2.0是一种通过硬件/软件协同设计实现的多通道DRAM性能优化方法。它扩展了先前工作，支持多通道DRAM系统，通过将流批次分区到各通道实现独立操作，并引入细粒度子流描述以区分不同访问模式。在8核RISC-V平台上，32通道配置下相比商业控制器实现高达2.92倍性能提升和2.83倍带宽提升，细粒度跟踪单独贡献1.35倍改进。"
+}
