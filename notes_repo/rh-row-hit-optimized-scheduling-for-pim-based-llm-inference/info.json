@@ -1,0 +1,20 @@
+{
+  "index": "rh-row-hit-optimized-scheduling-for-pim-based-llm-inference",
+  "paper_title": "RH+: Row-Hit-Optimized Scheduling for PIM-based LLM Inference",
+  "metadata": {
+    "authors": [
+      "Yongchan Jung",
+      "Shafayat Mowla Anik",
+      "Byeong Kil Lee",
+      "Jeeho Ryoo"
+    ],
+    "affiliations": [
+      "Fairleigh Dickinson University",
+      "University of Colorado Colorado Springs"
+    ],
+    "venue": "unknown",
+    "year": 2024,
+    "doi": null
+  },
+  "description": "Identifies DRAM row cycle time (nRC) as the dominant bottleneck for PIM-based LLM inference, overshadowing previously targeted power constraint (nCCDAB). Proposes RH+ scheduling that changes the MAC address stride to keep 32 consecutive operations within the same row, converting row misses into hits. Cycle-accurate simulation across four LLMs demonstrates 8.25–11.88× speedup, 74.5–77.1% energy reduction, and 32.4–52.0× EDP improvement."
+}
