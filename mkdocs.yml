@@ -54,6 +54,8 @@ nav:
   - Home: index.md
   - Recent:
       - Recent: collections/Recent/index.md
+      - CVA6-RT (论文笔记): notes_repo/cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/paper_notes/index.md
+      - CVA6-RT (通俗版): notes_repo/cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/ELI5_notes/index.md
       - RH+ (论文笔记): notes_repo/rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/index.md
       - RH+ (通俗版): notes_repo/rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/ELI5_notes/index.md
       - InterStellar 2.0 (论文笔记): notes_repo/interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/paper_notes/index.md

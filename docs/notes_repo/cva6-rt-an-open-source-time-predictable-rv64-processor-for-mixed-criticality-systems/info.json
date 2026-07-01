@@ -1,0 +1,21 @@
+{
+  "index": "cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems",
+  "paper_title": "CVA6-RT: an Open-Source Time-Predictable RV64 Processor for Mixed-Criticality Systems",
+  "metadata": {
+    "authors": [
+      "Enrico Zelioli",
+      "Christopher Reinwardt",
+      "Nils Wistof",
+      "et al."
+    ],
+    "affiliations": [
+      "ETH Zurich",
+      "University of Bologna",
+      "Tenstorrent"
+    ],
+    "venue": "unknown",
+    "year": 2026,
+    "doi": null
+  },
+  "description": "CVA6-RT extends the open-source RISC-V CVA6 core with hardware-based time-predictability mechanisms: TLB partitioning and locking, L1 cache-to-scratchpad reconfiguration, and low-latency interrupt handling via an enhanced CLIC and hardware-assisted context stacking. It achieves 12-cycle interrupt latency (10× reduction vs. baseline) and significantly reduces variability, enabling soft real-time execution in mixed-criticality systems."
+}

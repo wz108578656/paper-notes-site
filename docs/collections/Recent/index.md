@@ -6,6 +6,8 @@
 
 ## 2026
 
+- [CVA6-RT: an Open-Source Time-Predictable RV64 Processor for Mixed-Criticality Systems](../../notes_repo/cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/paper_notes/index.md) — 开源时序可预测 RV64 处理器
+- [通俗讲解版](../../notes_repo/cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/ELI5_notes/index.md)
 - [RH+: Row-Hit-Optimized Scheduling for PIM-based LLM Inference](../../notes_repo/rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/index.md) — 面向 PIM 的 LLM 推理行命中优化调度
 - [通俗讲解版](../../notes_repo/rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/ELI5_notes/index.md)
 - [InterStellar 2.0: Fine-Grained Stream-Guided HW/SW Co-Design for Multi-Channel DRAM Performance Steering](../../notes_repo/interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/paper_notes/index.md) — JSA 2026, 基于子流的细粒度多通道DRAM调度
