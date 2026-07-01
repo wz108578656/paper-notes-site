@@ -1,0 +1,1033 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://wz108578656.github.io/paper-notes-site/notes_repo/cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/ELI5_notes/">
+      
+      
+        <link rel="prev" href="../paper_notes/">
+      
+      
+        <link rel="next" href="../../rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>CVA6-RT (通俗版) - Paper Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="Paper Notes" class="md-header__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Paper Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CVA6-RT (通俗版)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Paper Notes" class="md-nav__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    Paper Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../collections/Recent/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recent
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Recent
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CVA6-RT (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CVA6-RT (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CVA6-RT (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 整体创新点通俗解读
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-tlb-partitioning-and-locking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. TLB Partitioning and Locking
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-hybrid-cachescratchpad-mode-in-l1-caches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Hybrid Cache/Scratchpad Mode in L1 Caches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-low-latency-interrupt-handling-with-enhanced-clic-and-hardware-assisted-context-save" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Low-Latency Interrupt Handling with Enhanced CLIC and Hardware-Assisted Context Save
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RH+ (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RH+ (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar 2.0 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar 2.0 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 整体创新点通俗解读
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-tlb-partitioning-and-locking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. TLB Partitioning and Locking
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-hybrid-cachescratchpad-mode-in-l1-caches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Hybrid Cache/Scratchpad Mode in L1 Caches
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-low-latency-interrupt-handling-with-enhanced-clic-and-hardware-assisted-context-save" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Low-Latency Interrupt Handling with Enhanced CLIC and Hardware-Assisted Context Save
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems">CVA6-RT: an Open-Source Time-Predictable RV64 Processor for Mixed-Criticality Systems 通俗讲解<a class="headerlink" href="#cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems" title="Permanent link">&para;</a></h1>
+<h3 id="0">0. 整体创新点通俗解读<a class="headerlink" href="#0" title="Permanent link">&para;</a></h3>
+<p>好，我们来聊聊这篇论文。你是个懂行的研究生，我不跟你扯虚的，咱们直接切入核心。</p>
+<p><strong>核心观点</strong></p>
+<p>这篇论文CVA6-RT，做了一件很克制但非常聪明的<strong>系统级优化</strong>。它没去造一个全新的架构，而是对现有的RISC-V应用级处理器CVA6动“手术”，精准地切除了那些导致<strong>时序不确定性的病灶</strong>。说白了，就是让一个原本只能“冲业绩”的高性能通用核，变得也能“守规矩”，满足硬实时的要求。</p>
+<hr />
+<p><strong>痛点直击：高性能核的“公子哥”毛病</strong></p>
+<p>在混合关键性系统里，最头疼的不是性能不够，而是<strong>性能的“脾气”太大</strong>。一个高性能的通用处理器（比如原版CVA6），它内部充满了为了提升平均性能而设计的“投机取巧”机制：</p>
+<ul>
+<li>缓存（Cache）是共享的，一个任务的突发数据访问，可能把另一个关键任务的代码<strong>踢出缓存</strong>。下次关键任务再跑，就得去慢吞吞的DDR里取，延迟瞬间抖成过山车。</li>
+<li>TLB（页表缓存）也是共享的，类似的问题，虚拟地址翻译延迟不可控。</li>
+<li>中断处理更是慢得离谱，要跑一堆软件指令来保存上下文，延迟高达140个cycle，而且因为流水线状态不同，抖动还很大。</li>
+</ul>
+<p>这就好比让一个F1赛车手去开洒水车送外卖。他追求的是极致的平均圈速，但要求的却是<strong>到达每一站的时间都必须绝对精准</strong>。原版CVA6在“快”和“准”之间，完全偏向了“快”，导致它的行为时序在实时任务看来，就是个“随机数生成器”。</p>
+<hr />
+<p><strong>通俗比方：给“大力士”配上“专用工具箱”</strong></p>
+<p>想象一下，你有一个大力士（CVA6核），他力气大（主频高），但干活很毛躁，喜欢把所有工具（TLB/Cache）都堆在一个共享的大桌子上。A项目（例如运行Linux）的图纸经常把B项目（例如ABS刹车控制）的扳手挤到地上，导致B项目每次找扳手都要在房间里翻半天（Cache Miss），甚至跑到楼下仓库取（去主存）。B项目因此经常超时，没法按时完成任务。</p>
+<p>CVA6-RT的做法很简单：<strong>它不是给大力士换脑子或让他慢下来，而是直接在共享的大桌子旁边，给B项目专门划了一个“VIP工具箱”。</strong></p>
+<ul>
+<li><strong>“VIP工具箱”</strong> 就是论文里提到的<strong>TLB/L1 Cache的Partitioning和Scratchpad Mode</strong>。B项目用的关键指令和数据，直接锁在这个箱子里，谁也别想碰，取用时间就是开箱的常数时间，稳定得一匹。</li>
+<li>同时，为了应对紧急情况，给B项目配了一个<strong>“一键报警”按钮</strong>。这个按钮就是<strong>增强后的CLIC（中断控制器）和硬件上下文保存</strong>。以前B项目被其他任务打断，需要先跑进房间，自己把所有东西（寄存器）一件一件收进储物柜，麻烦死了。现在一键按下，大力士自动停下当前动作，硬件自动把他的专用工具（寄存器）瞬间保存好，然后直接去处理B项目的紧急命令。</li>
+</ul>
+<p>你看，它没要求大力士学会新技能，只是通过巧妙的管理，保证了关键任务在任何干扰下，都能获得<strong>可预测、低延迟</strong>的服务。</p>
+<hr />
+<p><strong>关键一招：从“共享竞争”到“资源隔离”的逻辑扭转</strong></p>
+<p>作者并没有改动CVA6的计算核心（流水线）本身，那太难了。他们巧妙的切入点是<strong>所有共享资源的“控制权”</strong>。</p>
+<p><strong>原来</strong>：TLB和L1 Cache是<strong>全局共享</strong>的，所有任务（包括RTOS任务）在同一个池子里抢资源。谁最后一个用，谁就被坑。</p>
+<p><strong>现在</strong>：他们在TLB和Cache的<strong>替换逻辑</strong>里，插入了一个“看门人”。</p>
+<ul>
+<li><strong>对于TLB</strong>：在伪LRU（最近最少使用）替换算法里，加入了<strong>分区约束</strong>。软件通过一个bitmap，告诉硬件：“这个任务只能碰这8个TLB槽，不能碰其他的。”这样就硬性地把TLB资源隔离了。同时，<strong>静态锁定</strong>机制更是直接把关键映射钉死，永不驱逐。</li>
+<li><strong>对于L1 Cache</strong>：他们把Cache的部分Way（路）的控制权从硬件完全交给软件。这部分Way被标记为<strong>Scratchpad（SPM）</strong>，不再参与Cache的替换、命中逻辑。地址被重新线性映射到SoC地址空间中，访问它就是访问一块延迟恒定的<strong>片上RAM</strong>。这是一个非常巧妙的“降维打击”，把不可预测的缓存，变成了可预测的紧耦合内存。</li>
+</ul>
+<p><strong>总结一下</strong>：CVA6-RT的核心贡献，是以<strong>极小的硬件代价（修改替换逻辑、增加SPM模式），为软件（OS/Hypervisor）提供了一套控制资源独占性的机制</strong>。它解决的问题不是“如何更快”，而是“如何保证在最坏情况下（Worst-Case）也足够快且稳定”。</p>
+<p>正如表格所示，<strong>硬件上下文保存</strong>这个骚操作，直接把中断延迟从130个cycle的不可预测大头，彻底归零。最终，<strong>12个cycle</strong>的延迟，直接杀入了Cortex-M这种微控制器级别的领域，这在64位应用级处理器里是前所未有的。</p>
+<h3 id="1-tlb-partitioning-and-locking">1. TLB Partitioning and Locking<a class="headerlink" href="#1-tlb-partitioning-and-locking" title="Permanent link">&para;</a></h3>
+<p><strong>痛点直击</strong></p>
+<p>之前多任务共享同一个TLB时，最头疼的并非速度慢，而是<strong>确定性缺失</strong>。一个低优先级的任务随意执行，就可能把高优先级任务锁在TLB里的地址翻译条目给踢出去——这叫<strong>竞逐干扰</strong>。更糟的是，由于操作系统无法预测哪一行会被替换，最坏情况下的地址翻译延迟变得不可分析。对于混合关键性系统来说，这等于让安全关键的代码在“抽签”中运行，根本没法保证截止时间。</p>
+<p><strong>通俗比方</strong></p>
+<p>可以把TLB想象成一个公用的<strong>工具箱</strong>，里面只有几十个抽屉。以前（标准伪LRU策略）大家共用，谁先伸手谁用，谁后到谁等。但问题在于：如果有一个“急活”（比如中断处理程序）正在用某个抽屉，旁边一个“闲活”顺手就把那个抽屉清空放自己的工具了。急活下次再用时，发现抽屉空了，只能跑回仓库（页表）重新找工具，白白浪费时间。</p>
+<p><strong>TLB Partitioning</strong> 相当于给每个任务或任务组<strong>分配专属的抽屉层</strong>——你只能在你的那几层里选，不能碰别人的。<strong>TLB Locking</strong> 则更狠，直接把某些抽屉<strong>焊死</strong>——谁都动不了，保证里面永远是急活需要的那几样工具。这样一来，急活的延迟完全可预测，闲活再怎么折腾也不会影响它。</p>
+<p><strong>关键一招</strong></p>
+<p>作者并没有重写整个TLB替换逻辑，而是在原有<strong>pseudo-LRU树</strong>上做了一处巧妙的<strong>约束</strong>修改。原本这颗二叉树只负责记录每个条目被访问的先后顺序，选一个最老的来踢。现在，作者给树增加了一层<strong>分区位图</strong>——根据一个运行时配置的bitmap，算法只能在<strong>当前任务允许的条目子集</strong>内执行替换。锁定的条目则通过一个独立寄存器<strong>从替换池中摘除</strong>，直接不参与LRU比较。该函数同时保证<strong>非重叠性</strong>：如果两个任务的分区位图没有交集，他们的TLB行为就完全隔离，不会有任何侵占性缓存污染。这个过程无需改CPU前端结构，仅在TLB控制器端加一点点逻辑，就能换来<strong>强大的确定性</strong>。</p>
+<h3 id="2-hybrid-cachescratchpad-mode-in-l1-caches">2. Hybrid Cache/Scratchpad Mode in L1 Caches<a class="headerlink" href="#2-hybrid-cachescratchpad-mode-in-l1-caches" title="Permanent link">&para;</a></h3>
+<p><strong>痛点直击</strong></p>
+<ul>
+<li>在混合关键性系统里，一颗处理器既要跑Linux这类复杂OS，又要伺候中断、控制循环这种时限极紧的任务。问题出在：<strong>L1缓存</strong>本来是为了性能，但它的<strong>命中/缺失行为完全不可控</strong>。一次cache miss可能让关键任务等几十个时钟周期，而cache line被其他任务踢走又会导致延迟抖动。</li>
+<li>传统软件方案（缓存着色、锁缓存行）要么开销大，要么在虚拟内存下管理困难。更致命的是，当任务切换时，缓存内容可能被冲掉，导致<strong>最差情况执行时间（WCET）</strong>难以分析，系统只能靠“留极大余量”来保证安全，浪费大量性能。</li>
+</ul>
+<p><strong>通俗比方</strong></p>
+<ul>
+<li>想象你开一个<strong>共享厨房（L1缓存）</strong>：所有厨师（任务）共用灶台和锅（cache ways）。高峰时段，A厨师刚热好油，B厨师一把抢走锅去煮汤，A只好等锅洗干净再用。这导致做菜时间忽长忽短，没法承诺“10分钟上菜”。</li>
+<li><strong>Hybrid Cache/Scratchpad模式</strong>，相当于给每个厨师分配一块<strong>私人小灶（scratchpad）</strong>。这块灶台归他独占，任何时候抬腿就能点火，没有任何冲突。私灶只做关键菜（中断服务程序、实时控制代码），共享灶台继续跑普通菜（Linux应用）。这样<strong>关键菜的烹饪时间彻底变为常数</strong>，不再被别人的烹饪节奏影响。</li>
+</ul>
+<p><strong>关键一招</strong></p>
+<ul>
+<li>作者并没有重新设计整个缓存，而是在<strong>每个cache way</strong>的控制逻辑里插入一个<strong>可配置的模式开关</strong>。硬件上，每个way都可以被标记为“cache方式”或“scratchpad方式”。</li>
+<li>当标记为scratchpad时，那个way的<strong>tag比较和替换逻辑被完全绕过</strong>：它的地址不再参与cache look-up，而是专门映射到一段<strong>物理地址连续的区域</strong>，并且从替换LRU链中移除。这样，软件（OS或RTOS）只需把关键代码/数据的物理地址配置到这些way对应的地址区间，访问就是<strong>单周期、无抖动</strong>的直接内存读写。</li>
+<li>关键是：<strong>分配粒度是way级别</strong>（而不是整个缓存）。例如4路组相联，可以保留2路做cache，2路做scratchpad。这种细粒度控制，让系统既享受缓存的大部分性能，又为硬实时任务留出确定性空间，代价只是牺牲少量缓存容量。</li>
+</ul>
+<h3 id="3-low-latency-interrupt-handling-with-enhanced-clic-and-hardware-assisted-context-save">3. Low-Latency Interrupt Handling with Enhanced CLIC and Hardware-Assisted Context Save<a class="headerlink" href="#3-low-latency-interrupt-handling-with-enhanced-clic-and-hardware-assisted-context-save" title="Permanent link">&para;</a></h3>
+<p><strong>痛点直击</strong></p>
+<p>传统的RISC-V处理器（如基线CVA6）处理中断时，最难受的地方在于<strong>软件介入带来的不可预测长延迟和抖动</strong>。具体来说：</p>
+<ul>
+<li>中断从触发到响应，要经过检测、流水线冲刷、软件手动保存寄存器上下文、执行中断服务程序、软件恢复上下文等多个步骤。</li>
+<li><strong>软件保存/恢复寄存器</strong>环节是最耗时的，往往需要几十到上百个周期（基线CVA6需要104-130个周期），而且执行时间取决于当前处理器状态（如流水线中的指令数量、缓存命中情况），导致延迟忽高忽低，<strong>无法满足硬实时或混合关键性系统的有界最坏延迟要求</strong>。</li>
+<li>此外，传统中断控制器层次多、虚拟化支持弱，在虚拟化场景下需要多次特权级切换，进一步加剧延迟和不确定性。</li>
+</ul>
+<p><strong>通俗比方</strong></p>
+<p>想象你是一个繁忙的办公室职员（处理器），电话（中断）响了。传统做法是：你先把手头工作放下，然后花很长时间把桌面上的所有文件（寄存器状态）一张张手动整理到保险柜（内存）里，再拿起电话处理，挂断后又要一张张把文件从保险柜拿出来放回桌面。这期间，保险柜开合次数不定，文件摆放顺序可能混乱，导致每次响应电话的速度差异很大，有时快有时慢。</p>
+<p><strong>CVA6-RT的做法像是一个智能管家（硬件辅助机制）</strong>：电话一响，管家立刻帮你按下一个“一键存档”按钮，瞬间把所有文件（寄存器）的电子快照自动存入指定位置（硬件自动保存），然后直接让你接电话。挂断后，管家再一键恢复。整个过程由机器自动完成，固定只需12个周期，而且每次速度都一样。</p>
+<p><strong>关键一招</strong></p>
+<p>作者的核心逻辑转换是：<strong>将寄存器上下文的保存/恢复，从“软件手动执行”变成了“硬件自动执行”</strong>。具体替换了以下环节：</p>
+<ul>
+<li>在传统流程中，中断入口后第一个软件指令就是手动把通用寄存器压栈（需要多条LD/ST指令，且受流水线状态影响）。CVA6-RT的<strong>陷阱处理逻辑</strong>被扩展，在检测到中断（流水线提交阶段直接注入，而非指令译码阶段）后，利用额外的硬件状态机，在<strong>一个时钟周期内</strong>将可配置的寄存器子集批量写到预定义的堆栈位置（类似硬件直接执行了一个微指令块）。</li>
+<li>同时，增强的<strong>CLIC</strong>将中断检测从指令译码阶段挪到了提交阶段，并允许直接向低特权级（甚至虚拟机）注入中断，省去了特权级切换的软件同步开销。CLIC本身还支持硬件快速向量化和嵌套中断的尾链，进一步减少了软件调度开销。</li>
+<li>结果是：基线CVA6中最大的可变延迟来源（软件上下文保存，104-130周期）被<strong>直接清零</strong>，整体中断延迟从120-170周期降到12-13周期，且抖动从50周期降到1周期（见表1）。</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/body_class.js"></script>
+      
+    
+  </body>
+</html>
