@@ -1,0 +1,1812 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://wz108578656.github.io/paper-notes-site/notes_repo/apple-neural-engine-architecture-programming-and-performance/paper_notes/">
+      
+      
+        <link rel="prev" href="../../../collections/Recent/">
+      
+      
+        <link rel="next" href="../ELI5_notes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Apple Neural Engine (论文笔记) - Paper Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#apple-neural-engine-architecture-programming-and-performance" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="Paper Notes" class="md-header__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Paper Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Apple Neural Engine (论文笔记)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Paper Notes" class="md-nav__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    Paper Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../collections/Recent/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recent
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Recent
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apple Neural Engine (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apple Neural Engine (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 论文基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 背景知识与核心贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心技术和实现细节
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 核心技术和实现细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 技术架构概览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-fp16-datapath-with-wide-accumulator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. fp16 Datapath with Wide Accumulator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-direct-dispatch-below-core-ml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Direct Dispatch Below Core ML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-weight-compression-and-native-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Weight Compression and Native Streaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-roofline-performance-model-with-2-mb-working-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Roofline Performance Model with 2 MB Working Set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-cross-generation-capability-and-scalability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cross-Generation Capability and Scalability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-compilation-pipeline-and-program-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Compilation Pipeline and Program Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实验方法与实验结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apple Neural Engine (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CVA6-RT (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CVA6-RT (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RH+ (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RH+ (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar 2.0 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar 2.0 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 论文基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 背景知识与核心贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心技术和实现细节
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 核心技术和实现细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 技术架构概览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-fp16-datapath-with-wide-accumulator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. fp16 Datapath with Wide Accumulator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-direct-dispatch-below-core-ml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Direct Dispatch Below Core ML
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-weight-compression-and-native-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Weight Compression and Native Streaming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-roofline-performance-model-with-2-mb-working-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Roofline Performance Model with 2 MB Working Set
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-cross-generation-capability-and-scalability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cross-Generation Capability and Scalability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-compilation-pipeline-and-program-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Compilation Pipeline and Program Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实验方法与实验结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="apple-neural-engine-architecture-programming-and-performance">Apple Neural Engine: Architecture, Programming, and Performance 论文解析<a class="headerlink" href="#apple-neural-engine-architecture-programming-and-performance" title="Permanent link">&para;</a></h1>
+<p><a download="ane_arxiv.pdf" href="original.pdf">📄 下载论文原文 (PDF)</a> &nbsp;|&nbsp; <a href="original.pdf" target="_blank">🔗 在线阅读</a> &nbsp;|&nbsp; <a href="https://arxiv.org/abs/2606.22283" target="_blank">arXiv: 2606.22283</a></p>
+<h2 id="0">0. 论文基本信息<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<p><strong>作者 (Authors)</strong>: Spencer H. Bryngelson</p>
+<p><strong>发表期刊/会议 (Journal/Conference)</strong>: ArXiv</p>
+<p><strong>发表年份 (Publication Year)</strong>: 2026</p>
+<p><strong>研究机构 (Affiliations)</strong>: Georgia Institute of Technology</p>
+<hr />
+<h2 id="1">1. 摘要<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p><strong>目的</strong><br />
+本文旨在全面逆向工程并记录 <strong>Apple Neural Engine (ANE)</strong> 的完整软硬件栈，包括硅片数据路径、编译工具链、运行时代码、内核驱动、固件协议及性能特征，填补该加速器长期缺乏公开文档的空白。</p>
+<p><strong>方法</strong><br />
+- 在 <strong>M1 (H13)</strong> 和 <strong>M5 (H17s)</strong> 两款实体芯片上执行直接测量，通过绕过 Core ML 框架的私有 <strong>Espresso</strong> 运行时对引擎进行编程与监控。<br />
+- 对未加密的固件映像、内核驱动缓存、编译器二进制及系统守护进程进行<strong>静态反编译</strong>，提取寄存器映射、命令协议、硬件抽象层参数表及操作合法性规则。<br />
+- 使用内核级只读探针捕获膨胀后的程序二进制与地址翻译路径，并通过端到端编译‑运行实验验证每个操作的可达性。</p>
+<p><strong>结果</strong><br />
+- <strong>架构</strong>：ANE 是固定功能的 <strong>fp16 矩阵加速器</strong>，采用宽累加器（fp32 类），输入经 radix-4 瓦片舍入后送入单一累加器路径。<strong>M1 提供约12 fp16 TFLOP/s 计算天花板</strong>与 <strong>85 GB/s DRAM 带宽</strong>，<strong>2 MB 片上工作集</strong>阈值是关键设计极限；<strong>M5 将核心数从4扩展至16</strong>，时钟从约1.14 GHz升至约1.89 GHz，带宽提升至约145 GB/s。<br />
+- <strong>编程模型</strong>：引擎以<strong>独立协处理器</strong>模式运行，编译一次、分派多次；分派固定开销约0.23 ms（M1）。存在一条<strong>无需特殊授权的用户态直接路径</strong>，可按编译‑加载‑绑定‑分派五步使用。<strong>压缩权重格式</strong>（int4 调色板、结构化稀疏）在 M1 上原生流式传输（int4 加速比2.37×），int8 与分块仿射在该代上会折叠为密集 fp16。<br />
+- <strong>操作集</strong>：确认约108个操作在 M1 上原生运行；<strong>3D 卷积、本征状态类型、bf16 I/O 及灵活形状</strong>无法通过直接路径访问。纹理引擎采样器在 A14 之后可用，<strong>sin/cos</strong> 在 A15 之后原生。<br />
+- <strong>性能对比</strong>：在 256 通道 3×3 卷积上，ANE 比 GPU <strong>快3.8倍、能效高9倍</strong>；解码任务因带宽和分派开销限制，GPU 在批处理16时快约2.7倍且能效高4.6倍。训练环路可完全在引擎上运行，跨代精度差异在千分之一以内。<br />
+- <strong>底层机制</strong>：给出了编译器四阶段流水线、45个原生硬件层描述符、<strong>28个编译目标</strong>（含与 M 系列芯片的映射关系）、主机‑固件 93 命令协议、IOMMU 页表条目格式及安全隔离模型。</p>
+<p><strong>结论</strong><br />
+ANE 是一个高效的 fp16 矩阵加速器，在视觉、编码器及中等规模矩阵乘任务中显著超越 GPU；其直接访问路径虽无文档且版本脆弱，但为研究、测量与现场实验提供了完整的功能集合。本文的逆向工程与跨代测量为该加速器提供了首个公开的、从硅片到应用的系统级技术参考。</p>
+<hr />
+<h2 id="2">2. 背景知识与核心贡献<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p><strong>研究背景</strong></p>
+<ul>
+<li>Apple Neural Engine（ANE）是苹果从 A11（2017）及 M1（2020）起内置在其所有 SoC 中的固定函数矩阵加速器，全球部署量超过 25 亿台设备。</li>
+<li>尽管应用广泛，ANE 的文档几乎完全缺失：无公开指令集、无驱动接口、无确认计算是否在其上运行的方法，其数据通路、数值格式、性能/功耗模型、编译器、程序格式、内核驱动、固件及命令协议均未公开。</li>
+</ul>
+<p><strong>研究动机</strong></p>
+<ul>
+<li>填补上述知识空白，提供一份从硅片直至系统接口的完整逆向工程文档。</li>
+<li>使开发者、研究人员能够理解、预测并有效利用 ANE 的能力，包括其性能边界、编程限制以及跨芯片的兼容性。</li>
+</ul>
+<p><strong>核心贡献</strong></p>
+<ul>
+<li><strong>完整的硬件架构分析</strong>：基于直接测量（M1 与 M5）和静态反编译（私有运行时、编译器、内核驱动、固件），逆向推导出 ANE 的 fp16 数据通路、宽累加器（wide accumulator）、乘累加阵列几何结构、片上工作集（2 MB 阈值）及多级缓存/DRAM 层级。</li>
+<li><strong>性能模型（Roofline）</strong>：建立了 ANE 的 roofline 模型，包含计算天花板（~12 fp16 TFLOP/s）、带宽天花板（~85 GB/s）、脊点（141 FLOP/byte）、每调度固定开销（0.23 ms）及能效曲线（0.37 pJ/FLOP 最优）。</li>
+<li><strong>操作能力矩阵</strong>：编制了跨越 A11 至 A18、M1 至 M5 家族的每芯片操作支持表，区分了“声明支持”与“实际可运行”的操作，揭示了诸如 3D 卷积虽有能力位却无法在 ANE 上执行等关键发现。</li>
+<li><strong>低层级软件栈文档</strong>：详细记录了 Core ML 之下的私有直接访问路径（无需特殊授权），包括 Espresso 运行时、程序加载/调度接口、权重量化/压缩格式（int4 调色板、结构化稀疏等）及其流式传输决策机制。</li>
+<li><strong>编译器、程序格式与固件协议</strong>：反编译了 ANE 编译器（28 个目标）、程序容器格式（.hwx, .e5, Mach-O 变体）、内核驱动 IOKit ABI、未加密固件及包含 93 条命令的主机-固件通信协议，并解码了硬件任务描述符寄存器映射。</li>
+<li><strong>跨家族预测验证</strong>：提出了从 M1 到 M5 的芯片家族映射规则（<code>M(n) → H(n+12)</code>），并通过对 M5 的实际测量验证了基于 M1 分析预测的十项跨代行为（吞吐量、工作集、操作限制等）。</li>
+<li><strong>训练与科学计算适配</strong>：展示了如何利用 ANE 进行完整的端到端训练（前向、反向、优化器状态驻留）及数值计算（如离散傅里叶变换、固定迭代求解器），并量化了跨代训练精度偏差（&lt;0.001）。</li>
+</ul>
+<hr />
+<h2 id="3">3. 核心技术和实现细节<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<h3 id="0_1">0. 技术架构概览<a class="headerlink" href="#0_1" title="Permanent link">&para;</a></h3>
+<p><strong>整体技术架构</strong></p>
+<p>Apple Neural Engine (ANE) 是一个固定功能的 fp16 矩阵加速器，嵌入在 Apple Silicon SoC 中，与 CPU、GPU 共享统一 DRAM 池。其架构从底层硅片到上层软件可分为六个核心层级。</p>
+<ul>
+<li><strong>硅片层 (Silicon Layer)</strong></li>
+<li><strong>MAC 阵列</strong>：由多个 <strong>NE Core</strong>（M1 上为 4 个物理核，M5 上为 16 个）组成，每个核心含一个 8 深度的累加器文件。</li>
+<li><strong>数据通路</strong>：输入和权重均为 fp16，乘积累加到<strong>宽累加器</strong>（fp32 级），最终输出圆整为 fp16。支持 int8 双倍吞吐模式。</li>
+<li><strong>内存层次</strong>：<ul>
+<li><strong>片上 SRAM 工作集</strong>：M1 为 2 MB，M5 为 4.72 MB。超过此阈值时，操作数会被分块并从 DRAM 流式传输。</li>
+<li><strong>64 体 SRAM</strong>，16 字节交织粒度，银行冲突由编译器静态优化。</li>
+<li><strong>内核系数存储</strong>：64 KB（M1 上的密集权重上限）。</li>
+</ul>
+</li>
+<li>
+<p><strong>内存管理</strong>：通过专用 IOMMU (<strong>DART</strong>) 将主机缓冲区映射到设备虚拟地址空间（16 KB 页，3.5 GiB 窗口）。固件在加载时会将主机 IOVA 重新基址到固件空间（<code>0x1bc4</code> 高半区）。</p>
+</li>
+<li>
+<p><strong>固件层 (Firmware Layer)</strong></p>
+</li>
+<li>运行在名为 <strong>CHINOOK</strong> 的嵌入式 ARM 实时操作系统上（RTKit 框架）。</li>
+<li><strong>执行循环</strong>：接受 4 类命令（过程调用、带 bars 的过程调用、带事件的过程调用、缓存触发），解析后推入任务队列（8 级固定优先级调度器）。</li>
+<li><strong>命令协议</strong>：93 个命令标识符 (<code>CSNE_CMD_*</code>)，通过共享邮箱（doorbell）与主机通信。</li>
+<li>
+<p><strong>电源管理</strong>：5 个独立门控域（1 个基域 + 4 个计算集群），空闲时完全断电（0 W 待机）。无本地 DVFS，由 SoC 级电源管理器控制。</p>
+</li>
+<li>
+<p><strong>内核驱动层 (Kernel Driver Layer)</strong></p>
+</li>
+<li>三个内核扩展协作：<strong>AppleH11ANEInterface</strong>（硬件驱动）、<strong>AppleT8132ANEHAL</strong>（每 die 抽象层）、<strong>AppleANELoadBalancer</strong>（多引擎仲裁）。</li>
+<li><strong>用户客户端</strong>：控制客户端（17 个选择器）和直接路径客户端（9 个选择器），提交时使用 <code>selector 2</code>（2376 字节输入）调用硬件 doorbell。</li>
+<li>
+<p><strong>权限模型</strong>：<code>com.apple.ane.iokit-user-access</code> 是打开设备的内核权限，仅 <strong>aned</strong> 和 <strong>aneuserd</strong> 持有。所有其他应用通过系统守护进程（<strong>aned</strong>）代理访问。</p>
+</li>
+<li>
+<p><strong>用户空间软件栈 (User-Space Software Stack)</strong></p>
+</li>
+<li><strong>顶层</strong>：<strong>Core ML</strong> 框架，带有基于成本图（Dijkstra）的放置分割器，将工作分段分配给 CPU、GPU、ANE。</li>
+<li><strong>运行时层</strong>：<strong>Espresso/e5rt</strong> 运行时，是编译和执行的核心。公开 292+ 个入口点，支持直接编译、加载、绑定、执行，无需 Core ML。</li>
+<li>
+<p><strong>直接路径</strong>：绕过 Core ML，直接从用户空间调用 e5rt API，无需分割器，且无权限要求（对于编译器接受的操作）。这是本文所有测量的基础。</p>
+</li>
+<li>
+<p><strong>编译器及程序格式 (Compiler &amp; Program Format)</strong></p>
+</li>
+<li><strong>单一编译器二进制</strong>：根据 28 个目标架构（通过 <code>MinimumFamily&lt;N&gt;</code> 特性和 <strong>HAL</strong> 表实现）生成不同代码。</li>
+<li><strong>编译流水线</strong>：融合 → 合法化 → 调度与任务描述符分区 → 内存与 DMA 优化。</li>
+<li>
+<p><strong>程序格式</strong>：</p>
+<ul>
+<li><strong>分派描述符</strong>（FlatBuffer <code>E5Program</code>）：描述操作链（通常为 Cast → AneInference → Cast）。</li>
+<li><strong>硬件容器</strong>（Mach-O 变体，魔数 <code>0xbeefface</code>）：包含寄存器写入流、权重系数、任务描述符，后编译签名。</li>
+<li><strong>固件容器</strong>（AFPP）：三段式（ANEH/ANEP/ANES），用于加载。</li>
+</ul>
+</li>
+<li>
+<p><strong>性能模型 (Performance Model)</strong></p>
+</li>
+<li><strong>Roofline</strong>：计算峰值（M1 约 12 fp16 TFLOPS）vs 带宽峰值（M1 DRAM 约 85 GB/s），脊点约 141 FLOP/byte。能效峰值约 0.37 pJ/FLOP。</li>
+<li><strong>分派地板</strong>（M1 约 0.23 ms），所有单次调用都无法低于此开销。</li>
+<li><strong>工作集阈值</strong>：2 MB（M1）是关键设计限制：超过则从 DRAM 流式传输，强度急剧下降。</li>
+<li><strong>跨芯片缩放</strong>：核心数和时钟比例驱动，数值行为在 <code>ulp</code> 级别一致；特定切片的 Q.4 固定比例饱和在 M1/A14 上存在，M3+ 上修复。</li>
+</ul>
+<p><strong>跨芯片系列 (Cross-Chip Family)</strong>
+- 命名规则：<code>M(n) → H(n+12)</code>，即 M1=H13, M5=H17。
+- 操作能力在 <strong>A15</strong> 后停止扩展，后续仅增加核心数（4/8/16/32/64通过后缀 <code>g/s/c/d</code> 标识）。
+- fp8 格式（E4M3）仅由 <strong>H18</strong> 启用，集体通信（AllReduce 等）在多 die 部分仍为存根。</p>
+<p><strong>关键架构图片</strong></p>
+<p>芯片布局示意图（图 1.1）：<br />
+<img alt="" src="images/c0a7379ee5b7d9c7962c7cd37c882dc32e564294488b4f504827d80095b92d8e.jpg" /></p>
+<p>Roofline 模型（图 9.1）：<br />
+<img alt="" src="images/23c75411e72fa452e9b479c9dd8c0c9cb8a5306f47171c54190e5312b3d950b8.jpg" /></p>
+<p>编译流水线（图 22.1）：<br />
+<img alt="" src="images/b77127eb4f56e7a610ca2df690e5bd925a45fbf66f0c6e229dee0bc1d821824d.jpg" /></p>
+<p><strong>总结</strong>：ANE 是一个<strong>固定函数、低功耗、高确定性的协处理器</strong>，通过分层软件栈（Core ML → Espresso → ANE daemon → 内核 → 固件 → 硅片）暴露。其根本限制是 fp16 精度、有限片上工作集和固定分派开销，这些构成了性能建模和应用程序设计的基线。本文是这一架构首次全面、逆向工程式的公开描述。</p>
+<h3 id="1-fp16-datapath-with-wide-accumulator">1. fp16 Datapath with Wide Accumulator<a class="headerlink" href="#1-fp16-datapath-with-wide-accumulator" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong><br />
+Apple Neural Engine 的计算核心是 <strong>fp16 端到端</strong> 的乘法阵列，但其累加器是 <strong>fp32 类宽累加器</strong>。这一设计在极低功耗下提供了接近精确的可表示和运算，但受限于每条输入乘积的 fp16 舍入，在严重抵消的步骤（如 Transformer down-projection）中会损失精度。</p>
+<hr />
+<p><strong>实现原理</strong>  </p>
+<ul>
+<li><strong>乘法阵列</strong>：输入 Tensor 和权重均以 <strong>fp16</strong> 格式存储和传输，乘法本身也是 fp16 操作。压缩后的权重（如 int4 palette, int8 affine）会在进入乘法器前被重建为 fp16。  </li>
+<li><strong>宽累加器</strong>：乘积的累加并不在 fp16 中进行，而是由 <strong>单一路宽寄存器（fp32 类精度）</strong> 完成。两个舍入点将累加包围：</li>
+<li>输入 Tile 在进入累加器前被舍入到 fp16。</li>
+<li>最终结果在输出端口被舍回 fp16。  </li>
+<li><strong>累加器宽度</strong>：这是固定的硬件属性，非参数可调。实测表明，一个包含 16000 个 1 的序列求和结果是 <strong>位精确</strong> 的，而 naive fp16 循环在 2048 左右就会停住（因为累加值超过 2048 时，fp16 的间距 &gt;1，后续的 1 会被吞掉）。</li>
+</ul>
+<hr />
+<p><strong>算法流程</strong>  </p>
+<ol>
+<li><strong>输入准备</strong>：输入 Tensor 的每个 Tile 在 DMA 进入前舍入到 fp16。  </li>
+<li><strong>权重反量化</strong>：若权重为压缩格式（int8/blockwise/sparse/palette），先通过 affine 或 lookup table 重建为 fp16。  </li>
+<li><strong>乘法</strong>：fp16 输入与 fp16 权重逐元素相乘。  </li>
+<li><strong>累加</strong>：所有乘积在 <strong>宽累加器</strong> 中累加，累加器内部精度为 fp32 级别，因此和值稳定且近乎精确。  </li>
+<li><strong>后处理</strong>：可选的 per-channel scale 和 bias 以 fp16 应用；可选的 activation table（33‑segment 分段线性）在 fp16 域计算。  </li>
+<li><strong>输出</strong>：最终结果舍入到 fp16 并写入 DRAM。</li>
+</ol>
+<hr />
+<p><strong>关键参数</strong>  </p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fp16 最大有限幅度</td>
+<td>65504</td>
+<td>超过此值会饱和到 ±Inf</td>
+</tr>
+<tr>
+<td>宽累加器输出饱和阈值</td>
+<td>32768</td>
+<td>矩阵乘/多 tap 卷积的输出累积在此处截断</td>
+</tr>
+<tr>
+<td>宽度轴 crop DMA 增益</td>
+<td>16</td>
+<td>非零 begin offset 的 slice 会乘以 16，导致 4095 以上的值溢出</td>
+</tr>
+<tr>
+<td>累加器位精确可求和元素数</td>
+<td>16000 个 1</td>
+<td>取消探测确认累加器宽度 &gt; fp16</td>
+</tr>
+<tr>
+<td>第一阶段归约 Tile 宽度</td>
+<td>4 个 lanes</td>
+<td>每 4 个输入 lane 先进行 fp16 舍入后再送入宽累加器</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>输入/输出关系</strong>  </p>
+<ul>
+<li><strong>输入</strong>：任何 Tensor/权重均为 <strong>fp16</strong>（或压缩后重建为 fp16）。  </li>
+<li><strong>输出</strong>：最终结果也是 <strong>fp16</strong>，中间累加量不暴露给外部。  </li>
+<li><strong>精度保持</strong>：当运算的中间和落在 fp16 表示范围内时（如卷积、矩阵乘、归一化），宽累加器使得结果接近 fp32 精度。  </li>
+<li><strong>精度损失</strong>：当发生严重抵消时（如 large positive + large negative ≈ small difference），由于乘法操作数已经被 fp16 量化，抵消会放大 fp16 舍入误差。这种场景需在引擎外（CPU/GPU）以更宽精度计算。</li>
+</ul>
+<hr />
+<p><strong>在整体架构中的作用</strong>  </p>
+<ul>
+<li><strong>效率来源</strong>：窄 fp16 乘法器和固定功能流水线使得每 FLOP 仅消耗约 0.37‑0.5 pJ，远低于 GPU。  </li>
+<li><strong>适用负载</strong>：视觉、音频、编码器（卷积、矩阵乘、归一化）在宽累加器保护下保持精度，实现 3.8× 速度、9× 能效优势。  </li>
+<li><strong>限制</strong>：Transformer 解码器中的下投影、残差加法等抵消严重步骤无法在引擎上安全运行，必须 offload。  </li>
+<li><strong>设计权衡</strong>：宽累加器牺牲了对取消问题的原生支持，但换来了在主流工作负载上的极致能效和确定性（位精确）。该设计是引擎数值行为的基石，也是 roofline 模型和功率模型的底层依据。</li>
+</ul>
+<h3 id="2-direct-dispatch-below-core-ml">2. Direct Dispatch Below Core ML<a class="headerlink" href="#2-direct-dispatch-below-core-ml" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong>：Direct Dispatch Below Core ML 是一条绕过 Apple 官方 Core ML 模型框架的私有路径，允许普通用户空间程序直接编译、加载并调度神经网络到 Apple Neural Engine 上执行，无需经过 <strong>placement planner</strong>（放置规划器），且编译器接受的运算操作不要求任何特殊 <strong>entitlement</strong>（权限）。该路径下，开发者主动将引擎选为目标后端，而非被动等待框架的调度决策。</p>
+<hr />
+<p><strong>实现原理</strong>：直路建立在 Apple 私有 <strong>Espresso 运行时</strong>之上，该运行时原本供系统内部调度器使用。通过暴露的 C API（<code>e5rt_*</code> 系列函数），应用可以直接调用编译、加载、绑存、编码和执行等底层操作，绕过 Core ML 的模型分段与多设备成本模型。</p>
+<ul>
+<li>
+<p><strong>软件堆栈层</strong>：从应用向下至引擎硅片，直路在 <strong>Espresso 运行时</strong>层进入，替换掉上方的 Core ML 放置规划器。<img alt="" src="images/7fa50bbeed0d6fb05f094d1fbec88cb226e87f9d6f6a8e54ebb8858c15fef1b8.jpg" /> 图5.1 展示了完整的堆栈，其中灰色虚线路径是直路入口。</p>
+</li>
+<li>
+<p><strong>编译-调度分离</strong>：网络的一次编译生成一个可加载程序，之后可对同一程序进行多次调度，仅改变输入数据。<img alt="" src="images/c9da057d4f871d30af0653d39e3dcd514e9fa2c8c4ea89fdc6d9c9bbc821328d.jpg" /> 图6.1 用流程图展示了这种“编译一次、调度多次”的拆分结构，热循环只在调度阶段迭代。</p>
+</li>
+</ul>
+<hr />
+<p><strong>算法流程</strong>：直路严格遵循五个阶段，每个阶段对应运行时的一个功能族。</p>
+<ol>
+<li>
+<p><strong>构建网络描述</strong>：开发者手动构建层图和权重，使用 <strong>netplist</strong>（<code>.espresso.net</code> 格式）定义操作、端口、数据流。此阶段不依赖于任何 <code>mlmodel</code> 容器。</p>
+</li>
+<li>
+<p><strong>编译至引擎程序格式</strong>：调用 <code>e5rt_e5_compiler_compile()</code> 将网络描述编译为引擎的可加载程序。编译过程中执行融合、合法化、调度和 DMA 优化，生成一个 <strong>FlatBuffer 格式的调度描述符</strong>配合 <strong>0xbeefface Magics 的硬件容器</strong>，并缓存到磁盘。</p>
+</li>
+<li>
+<p><strong>加载程序</strong>：使用 <code>e5rt_program_library_retain_program_function()</code> 和 <code>e5rt_program_function_load_for_execution()</code> 实例化编译后的程序函数。此阶段会完成地址重定位（将 <strong>IOVA</strong> 转换到固件 aperture），并验证程序的签名与信任缓存。</p>
+</li>
+<li>
+<p><strong>绑定操作数缓冲区</strong>：程序的每个外部输入/输出都是一个<strong>已命名的端口</strong>。通过 <code>e5rt_execution_stream_operation_retain_input_port()</code> 获取端口句柄，然后用 <code>e5rt_io_port_bind_buffer_object()</code> 将 CPU 缓冲区对象绑定到该端口。缓冲区通过 <strong>DART</strong>（IOMMU）映射到引擎的<strong>设备虚拟地址空间</strong>，确保连续传输。</p>
+</li>
+<li>
+<p><strong>编码并执行调度</strong>：在热循环内部，重复执行编码 - 提交 - 重置序列：调用 <code>e5rt_execution_stream_encode_operation()</code> 将操作编码到流，再调用 <code>e5rt_execution_stream_execute_sync()</code>（或异步的 <code>submit_async</code>）触发执行。提交最终进入 <strong>IOKit</strong> 的 <code>IOConnectCallAsyncMethod(selector=2)</code>，通过邮件箱门铃通知固件。</p>
+</li>
+</ol>
+<hr />
+<p><strong>参数设置</strong>：直路通过一个 <strong>字符串键值对字典</strong>（<code>std::any</code> 类型）传递编译和运行时选项，而非固定结构体。</p>
+<ul>
+<li><strong>编译器选项</strong>（<code>e5rt_e5_compiler_options_</code> 对象）：</li>
+<li><code>compute_device_types_mask</code>：必须包含值 <code>0x4</code> 以选中 ANE 后端。</li>
+<li><code>force_recompilation</code> / <code>force_fetch_from_cache</code>：控制是否绕过缓存。</li>
+<li><code>segmenter</code>：选择图分割策略，直路通常使用 <code>"graph"</code> 分割器以保持单引擎整体编译。</li>
+<li>
+<p><strong>重要性</strong>：设置 <code>TargetArchitecture</code> 字符串（如 <code>"h13"</code> 或 <code>"h17s"</code>）可指定目标芯片家族，实现跨代兼容性。</p>
+</li>
+<li>
+<p><strong>运行时选项</strong>（执行流配置对象 <code>e5rt_execution_stream_config_</code>）：</p>
+</li>
+<li><code>enable_concurrent_sync_execution</code>：控制是否允许多个同步流并发。</li>
+<li><code>enable_low_latency_async_events</code>：启用低延迟异步事件路径。</li>
+<li>
+<p><code>skip_io_fences</code>：跳过输入/输出栅栏以降低开销。</p>
+</li>
+<li>
+<p><strong>绑定阶段的关键参数</strong>：<code>e5rt_buffer_object_alloc()</code> 需要指定缓冲区大小和类型（通常为 <code>0</code>），类型影响内存分配的对齐与缓存提示。</p>
+</li>
+</ul>
+<hr />
+<p><strong>输入输出关系</strong>：程序的输入和输出通过<strong>端口绑定</strong>连接，且支持<strong>驻留状态</strong>（resident state）跨调度持续存在。</p>
+<ul>
+<li>
+<p><strong>输入</strong>：普通用户空间提供的 fp16 或 uint8 缓冲区。在直路中，输入端口被命名为可读字符串（如 <code>"x"</code>），通过 <code>e5rt_io_port_bind_buffer_object()</code> 绑定。引擎内部会将主机布局转换为引擎的<strong>通道交错布局</strong>（channel-interleaved layout），并送入 DMA 引擎。</p>
+</li>
+<li>
+<p><strong>输出</strong>：引擎执行完毕后，结果写回绑定的输出缓冲区。直路支持将<strong>一个输出缓冲区同时绑定到下一个调用的输入端口</strong>，从而实现驻留状态（如 KV-cache 或优化器状态）无需在每次调度时重新传输。</p>
+</li>
+<li>
+<p><strong>中间数据</strong>：在融合编译的程序内部，所有中间张量保持在引擎的<strong>片上 2 MB 工作集</strong>内，不经过主存，从而消除帧间拷贝开销。只有当工作集超限时，编译器才自动分块并流式通过 DRAM。</p>
+</li>
+</ul>
+<hr />
+<p><strong>整体作用</strong>：直路在四个层面提供了核心价值。</p>
+<ul>
+<li>
+<p><strong>绕过 Core ML 规划器</strong>：直路去除了 Core ML 框架的 Dijkstra 最短路径分割和基于回归树的成本模型。开发者直接获得引擎的完全控制，避免模型被恶意分段到 GPU 或 CPU。</p>
+</li>
+<li>
+<p><strong>无需特殊 Entitlement</strong>：编译器接受的运算（卷积、矩阵乘、归一化、注意力等）在直路上均可正常编译和调度，无需 <code>com.apple.ane.iokit-user-access</code> 等内核权限。唯一需要的权限是<strong>程序加载时的签名检查</strong>——该签名由系统守护进程 <code>aned</code> 在编译时自动注入，调用者无需手动签名。</p>
+</li>
+<li>
+<p><strong>性能完整性</strong>：直路的调度路径与特权路径使用相同的底层内核接口（selector 2）。<strong>单次提交即可驱动多个引擎内步骤而不返回主机</strong>（通过驻留状态别名机制），吞吐率与多步逐次调用一致，证明直路在调度上无性能损失。</p>
+</li>
+<li>
+<p><strong>可观测性与研究基础</strong>：直路使得<strong>编译-运行</strong>比能力位更可靠——只有当操作实际通过编译并在目标芯片上成功运行时，才确认其可用性。它暴露了编译器 validate 层与 codegen 层之间的鸿沟（如 <code>sort</code> 操作 validate 通过但 M1 codegen 拒绝），修正了仅凭能力表判断可用的错误。</p>
+</li>
+</ul>
+<h3 id="3-weight-compression-and-native-streaming">3. Weight Compression and Native Streaming<a class="headerlink" href="#3-weight-compression-and-native-streaming" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong></p>
+<p>Apple Neural Engine (ANE) 支持四种压缩权重格式，它们均在乘加器输入处重建为 fp16。其中部分格式可在对应芯片上实现 <strong>原生流式传输 (Native Streaming)</strong>：压缩后的字节直接通过 DMA 从 DRAM 搬入引擎，在芯片上进行解压缩，从而显著降低权重读取所需的带宽，对带宽受限层（如解码投影）带来 1.5x~2.4x 的速度提升。流式能力由编译器硬件抽象层能力位按芯片世代控制，并非所有格式在所有世代上都可流式。</p>
+<hr />
+<p><strong>实现原理</strong></p>
+<ul>
+<li><strong>整体流程</strong>: 编译后的权重块以特定格式枚举值标识其编码方式。运行时分发时，权重数据通过 DMA 传输，在进入乘加阵列前经过 <strong>重建 (reconstruction)</strong> 单元，将压缩表示解压为 fp16，然后进行标准的 fp16 乘加运算。重建过程对上层算子透明。</li>
+<li><strong>四种格式的解量化数学表达式</strong>：<ul>
+<li><strong>int8 affine (int8 仿射)</strong>: <code>w = s * (q - z)</code>。其中 <code>q</code> 是 int8 存储值，<code>s</code> 是 fp16 标量或每输出通道缩放因子，<code>z</code> 是零点。在 M1 世代上零点被强制为 0，形式退化为 <code>w = s * q</code>。对称量化。</li>
+<li><strong>int4 lookup-table (int4 调色板)</strong>: <code>w = LUT[g/v][k][c mod v]</code>。无算术运算，直接从 fp16 码本中索引。码本包含 16 个 fp16 条目（4-bit 索引）或 256 个（8-bit 索引）。</li>
+<li><strong>structured sparsity (结构化稀疏)</strong>: 掩码（1 bit/元素）加打包的 fp16 非零值。解压时按掩码位将非零值散布到对应位置，其他位置置 0。</li>
+<li><strong>blockwise affine (分块仿射)</strong>: 每个连续元素块（block）有一个独立的 fp16 缩放因子 <code>s_b</code>，表达式为 <code>w = s_b * q</code>（无零点）。块大小由编译时确定。</li>
+</ul>
+</li>
+</ul>
+<p><strong>原生流式 vs 折叠到 dense</strong></p>
+<ul>
+<li><strong>原生流式 (Native Streaming)</strong>: 压缩后的字节（如 int8 值、4-bit 索引、掩码+非零值）直接作为 DMA 传输内容，芯片上的解压单元将其展开为 fp16 后再进入乘加。流式时 DRAM 到芯片的字节数减少。</li>
+<li><strong>折叠到 dense (Fold to Dense)</strong>: 压缩权重在编译器阶段就被扩展为完整的 fp16 常量，并以 fp16 格式存储和传输。此时带宽无节省（存储大小可能减半但传输带宽不变）。</li>
+<li><strong>控制机制</strong>: 硬件抽象层能力字节（如 <code>0x48f</code> 主使能，<code>0x529</code> 调色板使能，<code>0x528</code> 等 per-format 字节）在编译时决定该格式在当前目标芯片上是否流式。值 1 为流式，0 为折叠。</li>
+</ul>
+<p><strong>输入输出关系</strong></p>
+<ul>
+<li><strong>输入</strong>: 存储在 <code>.hwx</code> 容器 <code>__KERN_N</code> 段中的压缩权重数据块。其结构由格式枚举确定，包含索引流、码本、掩码、缩放因子等。</li>
+<li><strong>输出</strong>: 重建后的 fp16 权重张量，直接馈入乘加阵列的输入缓存。输出精度与原始 fp16 权重相比仅增加量化误差（int4/int8 量化误差，稀疏无量化误差仅 fp16 舍入）。</li>
+</ul>
+<p><strong>在整体中的作用</strong></p>
+<ul>
+<li><strong>性能</strong>: 在带宽受限层（如 N=4096 的矩阵乘法、低 batch 解码），流式压缩减少 DRAM 读取字节数，直接提升有效带宽和降低延迟。例如 M1 上 int4 palette 使用带宽为 fp16 的 1/4，加速比达 2.37x。</li>
+<li><strong>能效</strong>: 流量降低导致 DRAM 能量下降，总能量随延迟降低而降低（通常功率近似不变）。例如 M2 上 int4 能量仅为 fp16 的 0.41 倍。</li>
+<li><strong>编程模型</strong>: 对开发者透明。只需在模型转换时选择合适的量化类型（例如通过 coremltools 的 <code>ct.lut_quantizer</code> 或 <code>ct.sparse_quantizer</code>），编译器自动决定是否流式。</li>
+<li><strong>世代依赖</strong>: M1（H13）仅原生流式 int4 palette 和结构化稀疏（因为只有它们的主从能力位被置 1，且 int8 和 blockwise affine 的能力位为 0）。从 A14（H14）起 int8 affine 开始流式；从 A15（H15）起 blockwise affine 开始流式；M5（H17s）所有四种均流式。</li>
+</ul>
+<p><strong>参数设置与能力位表</strong></p>
+<table>
+<thead>
+<tr>
+<th>能力位偏移</th>
+<th>作用</th>
+<th>M1/H13</th>
+<th>A14/M2</th>
+<th>A15+/M3+</th>
+<th>M5/H17s</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+0x48f</td>
+<td>流式主使能</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>+0x529</td>
+<td>调色板 &amp; stride 流式</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>+0x528,0x532,0x537</td>
+<td>int8 affine per-format 流式</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>+0x520,0x523,0x533,0x539</td>
+<td>blockwise affine per-format 流式</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>注意：结构化稀疏依赖主使能 +0x48f 以及单独的 mask‑and‑values 路径，不受 per-format 位限制，因此在所有世代上均流式。</p>
+<p><strong>算法流程（编译时决策）</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>给定目标芯片 chip 和权重张量 weights:
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>1. 确定目标芯片支持流式的格式列表。
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>2. 对每种候选格式，评估量化误差 vs fp32 参考（例如 cosine similarity &gt; 0.99）。
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>3. 按每元素字节数从少到多排序候选格式。
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>4. 选择第一个同时满足误差容忍且为该芯片原生流式的格式。
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>5. 如果芯片不支持流式该格式，则选择折叠到 dense（仍然有存储节省但无带宽节省）。
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>6. 编译器生成对应格式的权重块和描述符，运行时自动按流式或折叠 DMA 传输。
+</code></pre></div>
+<p><strong>M1 示例</strong>：
+*   候选格式：int4 palette（流式，2.37x）, sparse（流式，&gt;50% 零时 1.55x）, int8 affine（折叠，无带宽增益），blockwise affine（折叠）。
+*   若权重密集且精度允许，选择 int4 palette；若高度稀疏，选择 sparse；否则 fallback 到 int8 affine 仅节省存储。</p>
+<h3 id="4-roofline-performance-model-with-2-mb-working-set">4. Roofline Performance Model with 2 MB Working Set<a class="headerlink" href="#4-roofline-performance-model-with-2-mb-working-set" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong><br />
+Apple Neural Engine (ANE) 的性能遵循经典的 <strong>Roofline 模型</strong>，其天花板由两个物理上限决定：<strong>Compute Roof</strong>（约 12 fp16 TFLOP/s）和 <strong>DRAM Bandwidth Roof</strong>（约 85 GB/s）。两者交叉形成 <strong>Ridge Point</strong>（约 141 FLOP/byte）。在此之上，一个硬性的 <strong>2 MB on-chip working-set threshold</strong> 是主要的设计瓶颈：一旦层的活跃数据超过 2 MB，它将被迫从 DRAM 流式传输，算术强度急剧下降。此外，每次 Dispatch 都有一个约 0.23 ms 的固定开销地板（<strong>Dispatch Floor</strong>），低于此的微操作无法通过加速器提速。</p>
+<hr />
+<p><strong>实现原理</strong></p>
+<ul>
+<li><strong>Compute Roof</strong>：由 MAC 阵列的峰值吞吐决定。在 M1（H13）上，<strong>fp16</strong> 模式为 <strong>4 lanes/core × 4 cores × ~1.14 GHz</strong>，经实测可获得接近 <strong>12 TFLOP/s</strong> 的斜线速率（overhead-subtracted matmul slope）。实际单次大矩阵乘约为 <strong>4.8 TFLOP/s</strong>，单次卷积约为 <strong>1.8 TFLOP/s</strong>。<strong>int8</strong> 双倍模式使峰值约翻倍至 <strong>~11 TOPS</strong>。</li>
+<li><strong>Bandwidth Roof</strong>：由 DRAM 控制器的可用带宽决定。文档中引擎的 <strong>DRAM 带宽天花板</strong>约为 <strong>85 GB/s</strong>（以 memory controller 测量）。但实际重量流（weight streaming）饱和值约为 <strong>51 GB/s</strong>，编译器内部常量也是 <strong>50 GB/s</strong>。独立的元素级操作（如 ReLU）有效带宽更低约 <strong>10 GB/s</strong>，因为 dispatch floor 占比大。</li>
+<li><strong>Ridge Point</strong>：算术强度 ( I = \text{FLOP}/\text{Byte} ) 。当 ( I \times B \ge P ) 时，层变为计算受限；否则为带宽受限。( I^* = P/B \approx 141\ \text{FLOP/byte} )。</li>
+<li><strong>2 MB Working-Set Threshold</strong>：片上 SRAM 工作集大小（HAL 表 offset 0x1b8 处值为 2 MB）。如果单次操作的最大活跃 tensor 超过此值，编译器将自动分块（tile）并从 DRAM 流式传输每个 tile，尽管结果正确，但吞吐会显著下降。实测阈值略高于 2 MB（约 2.28–2.34 MB），因 tiler 保留约 0.3 MB 的双缓冲和对齐余量。</li>
+<li><strong>Dispatch Floor</strong>：每次 Dispatch 固定开销约 <strong>0.23 ms</strong>（M1），由用户态绑定、固件请求、doorbell 和完成处理构成。对于小操作（计算时间 &lt; 0.23 ms），wall time 完全由 floor 主导。</li>
+</ul>
+<hr />
+<p><strong>算法流程：如何定位一个层</strong></p>
+<ol>
+<li><strong>计算算术强度</strong>：根据层的形状统计总 FLOP 和必须移动的 DRAM 字节数。<br />
+   ( I = \text{total_flops} / \text{dram_bytes} )。</li>
+<li><strong>检查工作集</strong>：计算最大活跃 tensor 的字节数（输入、权重、输出中最大者）。若 <strong>&gt; 2 MB</strong>，层立即归类为 <strong>带宽受限</strong>，且需要缩小工作集（如减少 channel、split spatial 或 batch）才能避免 DRAM 流式。</li>
+<li><strong>检查 Dispatch Floor</strong>：计算 ( \text{work_seconds} = \text{total_flops} / P )。若 <strong>&lt; 0.23 ms</strong>，层是 <strong>dispatch 受限</strong>，无法受益于更高计算峰值；应通过批处理或融合来累积工作。</li>
+<li><strong>Ridge 分类</strong>：若未受前两种情况限制且 ( I \ge 141 )，则层为 <strong>计算受限</strong>，接近 12 TFLOP/s 屋顶；否则为 <strong>带宽受限</strong>，处于带宽斜线上。</li>
+<li><strong>可达到速率</strong>：( R(I) = \min(P,\ I \times B) )。</li>
+</ol>
+<p><strong>输入输出关系</strong>
+- <strong>输入</strong>：层的形状、数据类型（fp16/int8）、是否压缩、是否带 Winograd 等。
+- <strong>输出</strong>：三种分类之一（Compute-bound, Bandwidth-bound, Dispatch-bound）以及可达到的吞吐量和 latency 估计。该分类决定后续优化策略：计算受限时无需进一步调整；带宽受限时可压缩权重或融合提升算术强度；dispatch 受限时通过批处理或融合超越地板。</p>
+<hr />
+<p><strong>在整体中的作用</strong></p>
+<p>Roofline 模型是 <strong>性能优化和调度的核心</strong>。它集成在编译器的 <strong>成本模型</strong> 中，该模型由三个阶段组成：
+- <strong>阶段1</strong>：根据操作和维度计算循环次数。
+- <strong>阶段2</strong>：应用 Roofline：取计算时间与内存时间较大者。
+- <strong>阶段3</strong>：加上固定的每层开销和 dispatch floor，输出 wall time 估计。</p>
+<p>该模型驱动 <strong>placement segmenter</strong> 决定操作应该放在 engine、GPU 还是 CPU：只有当层预期在 engine 上计算受限且工作集 &lt;= 2 MB 时，engine 才是首选。它还决定 <strong>autotuner</strong> 的改写选择：融合等效图后，消除中间 dispatch floor，提升有效算术强度。</p>
+<p><strong>2 MB threshold</strong> 本身是硬件上的硬约束：超过时，权重必须被 tiled 并从 DRAM 流式传输，而不是驻留在片上 SRAM。编译器会检查 <code>GetTensorSizeInBytes(rhs) &gt;= HAL[0x1b8]</code> 来触发此路径。该阈值限制了能够被单次 fused dispatch 处理的模型大小，是 <strong>视觉和编码器模型设计规则</strong> 中的重要一项：单层最大活跃 operand 应 &lt;= 2 MB。</p>
+<p><strong>参数设置总结（M1/H13）</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compute Roof (overhead-subtracted)</td>
+<td>12 fp16 TFLOP/s</td>
+<td>用于斜率法</td>
+</tr>
+<tr>
+<td>Compute Roof (single large matmul)</td>
+<td>4.8 fp16 TFLOP/s</td>
+<td>实际饱和值</td>
+</tr>
+<tr>
+<td>Bandwidth Roof (DRAM ceiling)</td>
+<td>85 GB/s</td>
+<td>memory controller 测量</td>
+</tr>
+<tr>
+<td>Bandwidth Roof (weight-stream wall-clock)</td>
+<td>51 GB/s</td>
+<td>编译器内部 50 GB/s</td>
+</tr>
+<tr>
+<td>Ridge Point</td>
+<td>141 FLOP/byte</td>
+<td>P/B</td>
+</tr>
+<tr>
+<td>On-chip Working Set Threshold</td>
+<td>2 MB (实测 ~2.28–2.34 MB)</td>
+<td>HAL 0x1b8</td>
+</tr>
+<tr>
+<td>Dispatch Floor</td>
+<td>~0.23 ms</td>
+<td>完整调用路径</td>
+</tr>
+<tr>
+<td>int8 over fp16 compute rate</td>
+<td>1.4–2x</td>
+<td>双倍 int8 模式</td>
+</tr>
+<tr>
+<td>Standalone activation-stream rate</td>
+<td>~24 GB/s</td>
+<td>单 relu/reduction</td>
+</tr>
+<tr>
+<td>Single-relu effective stream</td>
+<td>~10 GB/s</td>
+<td>受 floor 限制</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-cross-generation-capability-and-scalability">5. Cross-Generation Capability and Scalability<a class="headerlink" href="#5-cross-generation-capability-and-scalability" title="Permanent link">&para;</a></h3>
+<p><strong>跨代能力与可扩展性 (Cross-Generation Capability and Scalability) 技术剖析</strong></p>
+<p>Apple Neural Engine (ANE) 的跨代设计遵循一个核心关系：<strong>M(n) → H(n+12)</strong>，即 M 系列芯片与 A 系列芯片使用相同的 ANE 架构，偏移量为 12。例如，M1 对应 H13（A13），M5 对应 H17s（A17）。这一关系在所有已测量芯片（M1, M2, M5）上得到验证，并用于跨代预测。</p>
+<p><strong>编译器单一二进制与 28 个目标 Profile</strong></p>
+<ul>
+<li>整个 ANE 的编译器是一个 <strong>单一二进制</strong>，包含对所有芯片的支持。不存在按芯片分发的不同编译器。</li>
+<li>编译器通过一个 <strong>per-target data table (HAL: Hardware Abstraction Layer)</strong> 来区分不同芯片。该表记录了每个目标的数值限制（如最大张量维度、片上工作集大小、内核宽度）和能力标志（如纹理引擎、三角函数、随机数生成器）。</li>
+<li>共有 <strong>28 个编译器目标 profile</strong>，覆盖从 A11 到 A18 以及各种变体（base, Pro, Max, Ultra 等）。每个 profile 由架构字符串（如 h13, h13g, h17s）唯一标识。</li>
+<li>不同 profile 之间的差异完全由 HAL 表中的数据驱动，<strong>编译代码本身不变</strong>。这意味着为 M1 编译的同一个网络，在 M5 上也能编译并运行，只是性能会按核心数和时钟缩放。</li>
+</ul>
+<p><strong>操作能力分层：MinimumFamily Floors (F0–F4)</strong></p>
+<ul>
+<li>每个后端操作（如 convolution, matmul, softmax, sin）都有一个 <strong>MinimumFamily<N> trait</strong>，表示该操作在家族索引 ≥ N 的芯片上才是<strong>原生可执行</strong>的。</li>
+<li>分层具体为：</li>
+<li><strong>F0</strong>：所有家族都支持。包括卷积、矩阵乘、池化、Elementwise、Reshape、Transpose、Concat。</li>
+<li><strong>F1</strong>（A11/A12 特殊层级）：较旧的限制，如 reshape 必须退化为 flatten，divide 只能处理常量除数。</li>
+<li><strong>F2（A13 及之后）</strong>：新增 softmax, layer normalization, 所有 reductions, scaled dot-product attention, erf, sqrt 等。M1 属于此层级。</li>
+<li><strong>F3（A14 及之后）</strong>：新增 crop-resize, resample 等纹理引擎操作。</li>
+<li><strong>F4（A15 及之后）</strong>：新增 sin, cos, 全局 argmin/argmax。Dropout 和随机数生成也在此开启。</li>
+<li><strong>没有操作被分层到 F4 以上</strong>。这意味着 A16（M4）、A17（M5）、A18 在操作集合上是 A15 的严格超集，<strong>不增加新的计算原语</strong>。它们只增加核心数和时钟。</li>
+</ul>
+<p><strong>后期世代：仅增加核心数和时钟</strong></p>
+<ul>
+<li>从 A16 开始，所有目标（A16, A17, A18）的 <strong>操作集、张量维度限制（65536）、内核宽度上限（16）、纹理引擎</strong> 等完全相同。</li>
+<li>区别仅在于 NE 核心数（通过 HAL 字段 <code>0x238</code> 读取）和运行时钟。</li>
+<li>例如，M1 (H13) 基础版 4 核，M5 (H17s) 为 16 核，H17d 为 64 核。</li>
+<li>因此，一个在 M1 上可运行的程序，在不修改任何代码的情况下，在 M5 上会因更多核心和更高时钟而<strong>自动提速</strong>，而无需重新编译或调整算法。</li>
+</ul>
+<p><strong>跨代缩放的实际表现</strong></p>
+<ul>
+<li><strong>计算峰值</strong>：M1 的 matmul slope 约 12 TFLOPS fp16；M5 约为 19.6 TFLOPS。卷积峰值从 M1 的约 1.8 TFLOPS 提升到 M5 的约 14.3 TFLOPS（约 5 倍），与核心数和时钟线性缩放一致。</li>
+<li><strong>工作集阈值</strong>：M1 为 2 MB；M5 为 4.72 MB，随核心增加而扩大。</li>
+<li><strong>内存带宽</strong>：M1 约 51 GB/s (weight stream)；M5 约 145 GB/s (两个 DRAM 读通道)，与核心数大致成比例。</li>
+<li><strong>数值精度</strong>：跨代之间 fp16 结果仅在最坏情况下相差 <strong>一个 ULP</strong>（最后一位单位）。一个种子固定的小型 CNN 在 M1 和 M5 上训练 300 步后，最终测试准确率分别为 0.9080 和 0.9070，差异仅为一个样本（千分之一）。<strong>数值跨代可移植</strong>。</li>
+</ul>
+<p><strong>参数设置与 HAL 表结构</strong></p>
+<ul>
+<li>HAL 表是一个固定大小的结构体（约 0x348 字节），包含：</li>
+<li><strong>标量字段</strong>：如 <code>0x1b8</code>（最大操作数字节，即片上工作集），<code>0x238</code>（NE 核心数），<code>0x138</code>（最大张量宽度），<code>0x70</code>（3D 卷积内核深度）等。</li>
+<li><strong>能力字节区域</strong>（<code>0x48f</code> 至 <code>0x8cc</code>，约 165 字节）。每个字节作为一个位标志（<code>hal[offset] &amp; 1</code>）来启用或禁用某个特性。例如：<ul>
+<li><code>0x81d</code>：纹理引擎（M1 为 0，A14 起为 1）</li>
+<li><code>0x4a9</code>：Dropout 和随机（A15 起为 1）</li>
+<li><code>0x52d</code>：E4M3 fp8 格式（仅在 A18 上为 1）</li>
+<li><code>0x48f</code>：内核流主使能（M1 起即为 1）</li>
+</ul>
+</li>
+<li>这些设置是<strong>数据驱动的</strong>，因此编译器在编译时只需读取当前目标的 HAL 表，即可决定使用哪个代码路径。</li>
+</ul>
+<p><strong>输入输出关系与整体作用</strong></p>
+<ul>
+<li><strong>输入</strong>：一个由高级框架（如 Core ML）或直接 netplist 表达的神经网络图。</li>
+<li><strong>处理流程</strong>：编译器根据指定目标（如 <code>h13</code> 或 <code>h17s</code>）加载对应的 HAL 表。操作遵守 <code>MinimumFamily</code> 规则：如果目标家族低于操作的家族楼层，则操作被分解为由 F0 操作构成的等价序列。否则，直接生成本机任务描述符。</li>
+<li><strong>输出</strong>：一个可在指定目标（及其更高版本）上运行的二进制程序。该程序不包含关于具体目标的硬编码，仅包含 HAL 参数控制的调度方式（如核心数、tile size、内存策略）。</li>
+<li><strong>整体作用</strong>：这种设计允许开发者为最老的需要支持的目标编译一次，然后在所有后续芯片上获得<strong>即插即用的性能提升</strong>，无需重新编译或担心操作集不兼容。它保证了软件投资的长期有效性，同时使新硬件的价值（更快速度、更大内存）直接体现。对于 OTA（空中升级）或应用分发，这是一个关键特性：<strong>一个模型包即可服务于整个家族</strong>。</li>
+</ul>
+<h3 id="6-compilation-pipeline-and-program-format">6. Compilation Pipeline and Program Format<a class="headerlink" href="#6-compilation-pipeline-and-program-format" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong>：Apple Neural Engine 的编译器流水线将高层网络图通过 <strong>四个阶段</strong> 的逐步降低，最终生成一个 <strong>参数化的调度描述符</strong> (<code>.e5</code> FlatBuffer) 和 <strong>签名的硬件容器</strong> (<code>0xbeefface</code> Mach-O 变体)，后者包含的 <strong>寄存器写入流</strong>直接驱动 DMA 引擎和乘法阵列。</p>
+<ul>
+<li>
+<p><strong>编译流水线的四个阶段</strong> (如图 <img alt="" src="images/b77127eb4f56e7a610ca2df690e5bd925a45fbf66f0c6e229dee0bc1d821824d.jpg" /> 所示)：</p>
+<ul>
+<li><strong>阶段一：融合 (Fusion)</strong>：<ul>
+<li>将整个<strong>操作图</strong>折叠为单一的融合计算操作，消除中间张量的主机往返。</li>
+<li>具体融合模式包括：<strong>转置融合</strong>（转置折叠到相邻操作）、<strong>偏置与激活提升</strong>（<code>conv + bias + relu</code> 变为一个 <code>anec.convolution</code> 操作）、<strong>元素级拷贝消除</strong>。</li>
+<li><strong>参数设置</strong>：融合决策由 <code>ZinNEBypassLayer</code> 构造器决定，它规定了固定的 <strong>七槽序贯链</strong>：纹理重映射、广播、前激活、增益/偏置单元 (GOC)、后激活、输出转置、输出重量化。只有满足特定条件（如元素级加法的其中一个输入必须为常量）才能融合。</li>
+</ul>
+</li>
+<li><strong>阶段二：合法化 (Legalization)</strong>：<ul>
+<li>确保融合后的图符合<strong>硬件约束</strong>：张量秩不超过5，每个维度在硬件抽象层 (HAL) 限制内，权重要么适配 64KB 密集权重上限 (kernel-memory budget)，要么通过流式路径适配 16MB 上限。</li>
+<li>可执行性检查由<strong>50个逐层验证器</strong> (<code>_ANECValidate&lt;Op&gt;Layer</code>) 完成，它们在阶段二运行，检查操作数个数、形状和特性字节。</li>
+<li>若图无法作为一个整体运行，则在此阶段通过<strong>桥接操作切割</strong>成多个段。</li>
+</ul>
+</li>
+<li><strong>阶段三：调度与任务描述符分区 (Schedule &amp; TD Partition)</strong>：<ul>
+<li>将合法化后的层图<strong>线性化</strong>为单一执行顺序，然后根据 <strong>片上工作集预算</strong> (<code>HAL[0x1b8]</code>，M1上为 2MB) 分割成<strong>任务描述符分区</strong>。</li>
+<li><strong>调度器</strong> 使用贪心优先级队列，按固定打破平局序列（先环缓冲成员，再分支同级分数，合并同级分数，工作集感知分支测试，拓扑顺序，原始节点ID）弹出就绪节点。</li>
+<li><strong>分区边界</strong>由 <strong>峰值 L2 压力</strong>决定：当下一层的活跃范围会导致峰值压力超过 <code>HAL[0x1b8] * 分数</code>，则关闭当前分区。这保证了每个分区的中间数据可以驻留在片上 SRAM 中。</li>
+<li>同时，调度器发现可以<strong>并发执行</strong>的操作：规则限制为一个矩阵乘/卷积操作 + 一个平面引擎操作，且两者不能有生产者-消费者关系或链式关系。注意力块（softmax 在平面引擎与值矩阵乘在乘法阵列上并发）是典型例子。</li>
+</ul>
+</li>
+<li><strong>阶段四：内存与 DMA 优化 (Memory &amp; DMA Optimization)</strong>：<ul>
+<li>布局缓冲区，避免<strong>64个bank</strong> (由 <code>HAL[0x1c8]</code> 指定) 的冲突。优化器计算候选行步长，选择使每个bank请求数最小的步长（当 gcd(步长/16, 64)=1 时无冲突）。</li>
+<li>折叠填充，打包权重流，并分配<strong>张量分配类型</strong>（如：on-chip 驻留类型 0、流式类型 1、L2 链式类型 2、环缓冲类型 6）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>程序格式：双层表示</strong> (如图 <img alt="" src="images/2c655c7881463ef3a44faf1469d43f5be71761da88264d0141e4c4f323a10fd0.jpg" /> 所示)：</p>
+<ul>
+<li><strong>上层：调度描述符 (Dispatch Descriptor, <code>.e5</code> FlatBuffer)</strong>：<ul>
+<li>这是运行时可提交的<strong>操作链</strong>，具体为 <code>Cast -&gt; AneInference -&gt; Cast</code> 的形式（输入和输出格式转换包围单一的融合图）。</li>
+<li>每个操作包含<strong>参数帧</strong>和<strong>属性块</strong>。属性块是嵌套的 FlatBuffer 子描述符，其大小<strong>不随计算形状变化</strong>：一个内维为 64 的矩阵乘法与内维为 256 的矩阵乘法产生相同大小的描述符（形状是参数，不是展开的程序）。</li>
+<li>因此，调度描述符是<strong>深度不变的</strong>：一个一操作图与一个六操作融合图都缩减为单一推理操作。</li>
+<li>它跟踪的是<strong>调度段数</strong>而非操作数：桥接切割会将图切成三个段，产生三个推理操作。</li>
+</ul>
+</li>
+<li><strong>下层：硬件容器 (Hardware Container, <code>0xbeefface</code>)</strong>：<ul>
+<li>这是<strong>签名的、可加载的可执行文件</strong>，具有 Mach-O 形状和定制 magic <code>0xbeefface</code>，在 M1 上版本为 H13 代码生成 (cpusubtype 0x4)。</li>
+<li>其 <strong><code>__TEXT</code> 段</strong>包含<strong>寄存器写入程序</strong>：一个 44 字节记录的稀疏打包流，每个记录配对一个<strong>引擎寄存器地址</strong>（来自 7 个寄存器组，如 0x5500 kernel/common、0x4d00 tile DMA）与一个或两个<strong>设备地址</strong>，这些地址在加载时由加载器通过重定位槽解析。</li>
+<li>其 <strong><code>__KERN_0</code> 段</strong>包含<strong>权重系数</strong>，按 64 字节对齐的 tile 布局，每个 engine lane 一个 tile。权重以固定步长布局（卷积权重步长 0xC0，矩阵乘权重步长 0x40），允许原地修补权重而无需重新编译。</li>
+<li>容器是<strong>自描述的</strong>：符号表包含元素类型目录（24 个条目，如 fp16 类型5，int8 类型2）、stabs 风格的形状描述符（如 <code>s8192n / s1024c / s64h / s2w</code>）以及构建清单（<code>zin_ane_compiler v9.509.0</code>，目标 <code>h13g</code>）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>输入输出关系与作用</strong>：</p>
+<ul>
+<li><strong>输入</strong>：高层图（来自 Espresso 框架的 MIL 或直接手写的 netplist <code>.espresso.net</code> 格式）。编译器内部使用 <strong><code>anec.*</code> 后端方言</strong>（如 <code>anec.convolution</code>, <code>anec.matmul</code>, <code>anec.sdpa</code>）作为中间表示。</li>
+<li><strong>输出</strong>：一对文件（<code>.e5</code> 描述符 + <code>0xbeefface</code> 硬件容器），以及供内核加载器的<strong>负载时重定位</strong>。加载器将符号基址修补到设备地址，并验证签名（corecrypto + trustcache）。</li>
+<li><strong>在整体中的作用</strong>：该流水线将<strong>神经网络的语义</strong>（层、操作、可微分数据流）转化为 <strong>ANP 的固定功能状态机</strong>可以原生执行的寄存器写入序列。它是性能关键的瓶颈：融合降低了每轮调度开销（约 0.23ms），分区确保了片上驻留，稀疏寄存器写入最小化加载时间。最终的 <code>0xbeefface</code> 格式是<strong>访问控制边界</strong>——用户空间只能生成 <code>.e5</code> 描述符，硬件容器必须由系统守护进程编译和签名。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="4">4. 实验方法与实验结果<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p><strong>实验设置</strong></p>
+<ul>
+<li><strong>硬件平台与测量方法</strong>：实验主要基于两代物理芯片：<strong>M1/H13</strong>（基准）和 <strong>M5/H17s</strong>（跨代验证），中间补充了 <strong>M2/H14</strong>（A14 级）的数据点。所有性能指标均通过<strong>直接调用私有运行时</strong>（绕过 Core ML）在用户空间完成，结合<strong>静态反编译</strong>（编译器、内核驱动、固件）和<strong>实时只读检测</strong>（IORegistry、dtrace、powermetrics）交叉验证。功耗数据来自系统功率估计器 <strong>powermetrics</strong>，其报告的是<strong>模型估算值</strong>，非独立电表读数；空闲功率约 0 W，因为引擎在空闲时完全断电（rail-off）。</li>
+<li><strong>工作负载</strong>：覆盖十六类负载，包括：卷积（单层与 16 层 ResNet 栈）、矩阵乘（GEMM）分三种尺寸（dispatch-bound、带宽受限、计算受限）、注意力（短序列 ViT 与长序列 512）、归一化族、科学计算（五点差分矩阵、固定迭代线性求解）。每个负载都同时测量<strong>延迟</strong>、<strong>每秒浮点运算数</strong>（TFLOP/s）、<strong>空闲扣除的封装功耗</strong>（W）及 <strong>fp16 相对误差</strong>，并衍生出<strong>每瓦吞吐量</strong>（GFLOP/s/W）作为效率指标。</li>
+<li><strong>编译器与运行时版本</strong>：固定使用 <strong>ANECompiler 9.509.0</strong>（MIL 版本 3520.4.1）和 macOS 14+ / Python 3.10+。所有确定性断言（如位确定性、操作是否编译成功）均通过多个重复运行验证。</li>
+</ul>
+<p><strong>结果数据</strong></p>
+<ul>
+<li><strong>Roofline 边界</strong>（M1）：计算天花板约 <strong>12 fp16 TFLOP/s</strong>（融合链斜率法）、饱和大矩阵乘约 4.8 TFLOP/s。DRAM 带宽天花板约 <strong>85 GB/s</strong>（内存控制器）、实际权值流约 51 GB/s。<strong>脊点</strong>为 <strong>141 FLOP/字节</strong>。片内工作集阈值 <strong>2 MB</strong>（超过则乒乓从 DRAM 流）。每次调度的固定开销约 <strong>0.23 ms</strong>（M1）和 0.11 ms（M5）。</li>
+<li><strong>功耗效率</strong>：引擎在所有重要负载类上的功率仅为 GPU 的几分之一。16 层卷积栈在 M1 上引擎效率 <strong>2063 GFLOP/s/W</strong>，GPU 仅 142，<strong>效率比 14.5x</strong>；在 M5 上比值略高（2289 vs 175，<strong>13x</strong>）。大平方矩阵乘（inner=4096）引擎绝对功率 <strong>4.4 W</strong>，GPU <strong>32.5 W</strong>，效率比 <strong>4.0x</strong>。空闲功率 <strong>0 W</strong>，持续负载下热压力始终标记为“Nominal”，引擎保持单一时钟状态，不降频。</li>
+<li><strong>跨代缩放</strong>：M5 相比 M1 的 NE 核心数从 4 增至 16，时钟从 ~1.14 GHz 升至 ~1.89 GHz，矩阵乘斜率峰值从 ~12 提升至 ~19.6 fp16 TFLOP/s，权值流带宽从 51 增至 145 GB/s。片内工作集阈值从 ~2 MB 升至 4.72 MB。训练精度跨代几乎一致（0.9080 vs 0.9070），差异仅源于 fp16 ulp 级别累积。</li>
+<li><strong>处理器比较</strong>：引擎在卷积、视觉、短序列注意力、中等规模矩阵乘上<strong>同时领先速度和效率</strong>；GPU 在大平方矩阵乘、长序列注意力、自回归解码上速度更快；CPU 只在极小操作（低于调度固定开销）上占有优势。</li>
+<li><strong>压缩性能</strong>：int4 调色板权重在 M1 上本机流式传输，速度提升 <strong>2.37x</strong> 于 fp16；结构化稀疏（63% 零值）提升 <strong>1.55–1.64x</strong>，存储仅 0.43 倍。int8 和 blockwise 在 M1 上折叠（折叠到 fp16 无带宽收益），从 A14/M2 开始流式传输。带宽受限的矩阵乘在 A14 上 int8 延迟为 fp16 的 0.52–0.87 倍。</li>
+</ul>
+<p><strong>消融与对比实验</strong></p>
+<ul>
+<li><strong>权重压缩格式的流式 vs 折叠</strong>（与硬件代际相关的消融）：在 M1 上，只有 int4 LUT 和结构化稀疏能<strong>本机流式</strong>传输压缩字节；int8 和 blockwise 仿射则<strong>折叠</strong>为密集 fp16 后再传输，因此节省存储但不节省带宽。从 A14 起 int8 开始流式，从 A15 起 blockwise 流式，到 M5 所有四种格式均流式。这一差异由 HAL 表中的功能字节决定（0x48f 主控，0x528/0x532/0x537 等逐格式开关）。本质上是对<strong>带宽-计算平衡</strong>的消融：流式降低 DRAM 流量，适合带宽受限层；折叠则无此收益。</li>
+<li><strong>引擎 vs GPU vs CPU 的每类负载对比</strong>：相当于<strong>处理器选择消融</strong>。卷积栈在引擎上比快 3.8x、效率高 14.5x（M1）；而大平方矩阵乘 GPU 快 2.8x，但引擎效率仍高 4x。上采样与融合 stencil 的跨代消融进一步量化了不同硬件对同一算法的适应度。</li>
+<li><strong>融合 vs 非融合</strong>（调度策略消融）：将多个操作融合为单一程序与分别调度对比。融合后每个调度固定开销从 N 次降至 1 次，中间结果保持在片内。结果：32 层融合模型约单层调度延迟（约 0.19 ms），批处理 512 个样本时每样本成本从微秒级降至约 1.5 μs。融合是应对调度固定开销的主要控制手段，显著提升计算强度。</li>
+<li><strong>int8 权重路径 vs fp16</strong>（精度与性能消融）：M1 上 int8 仅折叠为 fp16（带宽无收益）；A14+ 上 int8 本机流式，带宽受限矩阵乘速度提升最高 1.9x（0.52 倍 fp16 延迟）。同时，int8 计算路径使用双倍 lane（8 OC/cycle），比 fp16 默认 4 OC/cycle 快理论上限 2 倍，但实测中 int8 权重量化后的误差约 1% 相对误差（对比 fp32），而 fp16 仅 0.02%。</li>
+<li><strong>芯片代际缩放消融</strong>：从 M1 到 M5，工作集阈值、核心数、时钟、带宽等参数变化，但 datapath 的 fp16 特性、宽累加器、操作合法性（除少数功能如 texture engine）保持一致。跨代训练精度仅差 0.001 测试集准确率（0.9080 vs 0.9070），证明数值行为高度可移植。唯一量化差异是宽度轴切片饱和阈值（M1/M2 上超过 4094 溢出，M5 无此饱和），这是由编译器路径选择不同引起的。</li>
+<li><strong>清零 vs 预填充 (nan/inf)</strong>：非数值行为消融，包括 NaN 强制转为 +∞、flush denormals inside MAC、分数乘以 0 清为 +0 等。这些边缘行为对于确保位级重现性至关重要，且与 IEEE 标准有偏差，是需要建模的。</li>
+</ul>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/body_class.js"></script>
+      
+    
+  </body>
+</html>

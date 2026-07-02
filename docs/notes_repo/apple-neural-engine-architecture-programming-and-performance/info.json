@@ -1,0 +1,16 @@
+{
+  "index": "Report_ane_merged",
+  "paper_title": "论文分析报告",
+  "metadata": {
+    "authors": [
+      "Spencer H. Bryngelson"
+    ],
+    "affiliations": [
+      "Georgia Institute of Technology"
+    ],
+    "venue": "ArXiv",
+    "year": 2026,
+    "doi": null
+  },
+  "description": "This guide provides a reverse-engineered account of the Apple Neural Engine (ANE), covering its architecture, programming interface, and performance characteristics across A11–A18 and M1–M5 chips. Key contributions include the first documented direct user-space dispatch path below Core ML, detailed roofline and energy-efficiency measurements (e.g., 3.8x faster and 9x more energy-efficient than GPU on 256-channel 3x3 convolution), and analysis of weight compression, firmware protocol, and cross-generation scaling. The work is based on static decompilation and on-device measurement, offering practical design rules and pitfalls for developers."
+}

@@ -6,6 +6,8 @@
 
 ## 2026
 
+- [Apple Neural Engine: Architecture, Programming, and Performance](../../notes_repo/apple-neural-engine-architecture-programming-and-performance/paper_notes/index.md) — ANE 逆向工程全指南（302 页）A11–M5
+- [通俗讲解版](../../notes_repo/apple-neural-engine-architecture-programming-and-performance/ELI5_notes/index.md)
 - [CVA6-RT: an Open-Source Time-Predictable RV64 Processor for Mixed-Criticality Systems](../../notes_repo/cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/paper_notes/index.md) — 开源时序可预测 RV64 处理器
 - [通俗讲解版](../../notes_repo/cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/ELI5_notes/index.md)
 - [RH+: Row-Hit-Optimized Scheduling for PIM-based LLM Inference](../../notes_repo/rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/index.md) — 面向 PIM 的 LLM 推理行命中优化调度

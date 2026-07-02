@@ -42,6 +42,7 @@ title="点击搜索"
 
 ## 最近更新
 
+- [Apple Neural Engine: Architecture, Programming, and Performance](notes_repo/apple-neural-engine-architecture-programming-and-performance/paper_notes/index.md) — arXiv 2606.22283
 - [CVA6-RT: an Open-Source Time-Predictable RV64 Processor for Mixed-Criticality Systems](notes_repo/cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/paper_notes/index.md) — paper_notes
 - [RH+: Row-Hit-Optimized Scheduling for PIM-based LLM Inference](notes_repo/rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/index.md) — paper_notes
 - [InterStellar 2.0: Fine-Grained Stream-Guided HW/SW Co-Design for Multi-Channel DRAM Performance Steering](notes_repo/interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/paper_notes/index.md) — JSA 2026
