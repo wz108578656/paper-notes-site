@@ -42,6 +42,7 @@ title="点击搜索"
 
 ## 最近更新
 
+- [Balancing DRAM Locality and Parallelism in Shared Memory CMP Systems](notes_repo/balancing-dram-locality-and-parallelism-in-shared-memory-cmp-systems/paper_notes/index.md) — HPCA 2012
 - [Apple Neural Engine: Architecture, Programming, and Performance](notes_repo/apple-neural-engine-architecture-programming-and-performance/paper_notes/index.md) — arXiv 2606.22283
 - [CVA6-RT: an Open-Source Time-Predictable RV64 Processor for Mixed-Criticality Systems](notes_repo/cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/paper_notes/index.md) — paper_notes
 - [RH+: Row-Hit-Optimized Scheduling for PIM-based LLM Inference](notes_repo/rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/index.md) — paper_notes

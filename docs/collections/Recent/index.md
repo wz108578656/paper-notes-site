@@ -6,6 +6,8 @@
 
 ## 2026
 
+- [Balancing DRAM Locality and Parallelism in Shared Memory CMP Systems](../../notes_repo/balancing-dram-locality-and-parallelism-in-shared-memory-cmp-systems/paper_notes/index.md) — HPCA 2012, DRAM bank 划分 + sub-ranking
+- [通俗讲解版](../../notes_repo/balancing-dram-locality-and-parallelism-in-shared-memory-cmp-systems/ELI5_notes/index.md)
 - [Apple Neural Engine: Architecture, Programming, and Performance](../../notes_repo/apple-neural-engine-architecture-programming-and-performance/paper_notes/index.md) — ANE 逆向工程全指南（302 页）A11–M5
 - [通俗讲解版](../../notes_repo/apple-neural-engine-architecture-programming-and-performance/ELI5_notes/index.md)
 - [CVA6-RT: an Open-Source Time-Predictable RV64 Processor for Mixed-Criticality Systems](../../notes_repo/cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/paper_notes/index.md) — 开源时序可预测 RV64 处理器
