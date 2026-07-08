@@ -504,10 +504,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#1-bank-partitioning-via-os-controlled-page-coloring" class="md-nav__link">
+  <a href="#1-bank-partitioning-via-os-physical-frame-allocation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Bank Partitioning via OS-Controlled Page Coloring
+        1. Bank Partitioning via OS Physical Frame Allocation
       
     </span>
   </a>
@@ -515,10 +515,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-cache-set-permutation-to-preserve-bank-partitioning" class="md-nav__link">
+  <a href="#2-dram-sub-ranking-to-increase-effective-banks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Cache-Set Permutation to Preserve Bank Partitioning
+        2. DRAM Sub-Ranking to Increase Effective Banks
       
     </span>
   </a>
@@ -526,10 +526,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-dram-sub-ranking-to-increase-effective-bank-count" class="md-nav__link">
+  <a href="#3-combined-bank-partitioning-and-sub-ranking" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. DRAM Sub-Ranking to Increase Effective Bank Count
+        3. Combined Bank Partitioning and Sub-Ranking
       
     </span>
   </a>
@@ -537,10 +537,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-combined-bank-partitioning-and-sub-ranking" class="md-nav__link">
+  <a href="#4-cache-set-index-permutation-to-preserve-bank-partitioning" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Combined Bank Partitioning and Sub-Ranking
+        4. Cache Set Index Permutation to Preserve Bank Partitioning
       
     </span>
   </a>
@@ -1082,10 +1082,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#1-bank-partitioning-via-os-controlled-page-coloring" class="md-nav__link">
+  <a href="#1-bank-partitioning-via-os-physical-frame-allocation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Bank Partitioning via OS-Controlled Page Coloring
+        1. Bank Partitioning via OS Physical Frame Allocation
       
     </span>
   </a>
@@ -1093,10 +1093,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-cache-set-permutation-to-preserve-bank-partitioning" class="md-nav__link">
+  <a href="#2-dram-sub-ranking-to-increase-effective-banks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Cache-Set Permutation to Preserve Bank Partitioning
+        2. DRAM Sub-Ranking to Increase Effective Banks
       
     </span>
   </a>
@@ -1104,10 +1104,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-dram-sub-ranking-to-increase-effective-bank-count" class="md-nav__link">
+  <a href="#3-combined-bank-partitioning-and-sub-ranking" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. DRAM Sub-Ranking to Increase Effective Bank Count
+        3. Combined Bank Partitioning and Sub-Ranking
       
     </span>
   </a>
@@ -1115,10 +1115,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-combined-bank-partitioning-and-sub-ranking" class="md-nav__link">
+  <a href="#4-cache-set-index-permutation-to-preserve-bank-partitioning" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Combined Bank Partitioning and Sub-Ranking
+        4. Cache Set Index Permutation to Preserve Bank Partitioning
       
     </span>
   </a>
@@ -1159,498 +1159,352 @@
 
 
 <h1 id="balancing-dram-locality-and-parallelism-in-shared-memory-cmp-systems">Balancing DRAM Locality and Parallelism in Shared Memory CMP Systems 论文解析<a class="headerlink" href="#balancing-dram-locality-and-parallelism-in-shared-memory-cmp-systems" title="Permanent link">&para;</a></h1>
-<p><a download="bpart_hpca12.pdf" href="original.pdf">📄 下载论文原文 (PDF)</a> &nbsp;|&nbsp; <a href="original.pdf" target="_blank">🔗 在线阅读</a> &nbsp;|&nbsp; <a href="https://doi.org/10.1109/HPCA.2012.6168944" target="_blank">DOI: 10.1109/HPCA.2012.6168944</a></p>
 <h2 id="0">0. 论文基本信息<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
 <p><strong>作者 (Authors)</strong>: Min Kyu Jeong, Doe Hyun Yoon, Dam Sunwoo, et al.</p>
 <p><strong>发表期刊/会议 (Journal/Conference)</strong>: unknown</p>
-<p><strong>发表年份 (Publication Year)</strong>: 2026</p>
-<p><strong>研究机构 (Affiliations)</strong>: University of Texas at Austin, Hewlett-Packard Labs, ARM Inc.</p>
+<p><strong>发表年份 (Publication Year)</strong>: 2012</p>
+<p><strong>研究机构 (Affiliations)</strong>: Dept. of Electrical and Computer Engineering, The University of Texas at Austin, Intelligent Infrastructure Lab, Hewlett-Packard Labs, ARM Inc.</p>
 <hr />
 <h2 id="1">1. 摘要<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
-<p><strong>目的</strong><br />
-- 针对共享内存CMP系统中多核访问流交错导致DRAM行缓冲局部性严重下降的问题（如Figure 1所示，lbm单独运行时行缓冲命中率98%，与4个实例混合时降至50%，与mcf混合时进一步降至35%），提出一种从根源消除行缓冲干扰的机制。<br />
-- 旨在同时优化空间局部性和银行级并行性这两个相互冲突的需求，在提升系统吞吐量的同时显著降低内存功耗。</p>
-<p><strong>方法</strong><br />
-- <strong>银行分区</strong>：通过操作系统物理帧分配算法，将独立的DRAM银行集分配给不同核心，强制隔离访问流，避免行缓冲冲突（如Figure 4所示，银行分区消除了跨线程的预充电和激活命令）。<br />
-- <strong>子排名</strong>：将传统64位宽排名拆分为32位窄子排名，以增加有效银行数量，补偿银行分区后单个核心可用的银行级并行性下降（子排名引入约4个额外CPU周期的访问延迟，但可提供更多并行机会）。<br />
-- <strong>实现细节</strong>：<br />
-  - 保持物理到DRAM地址映射不变，仅修改虚拟-物理地址映射，兼容现有内存控制器。<br />
-  - 采用XOR置换缓存集索引而非银行索引，避免银行分区被传统XOR置换破坏。<br />
-  - 使用FR-FCFS调度策略和开放行策略，模拟8核x86乱序处理器及DDR3-1600内存系统（2通道、2排名/通道、8银行/排名）。<br />
-- <strong>评估配置</strong>：对比四种方案：共享银行基线（shared）、仅银行分区（bpart）、仅子排名（sr）、两者结合（bpart+sr）。</p>
-<p><strong>结果</strong><br />
-- <strong>行缓冲命中率</strong>：银行分区使大多数基准测试的行缓冲命中率提升（如libquantum恢复了一半因干扰丢失的局部性），但lbm因可用银行数减少命中率下降；子排名会略微降低命中率（因子排名交错粒度变小）。<br />
-- <strong>系统吞吐量（Weighted Speedup）</strong>：<br />
-  - 高局部性工作负载组（HIGH）：银行分区带来最大提升（平均~9.8%），子排名单独效果微弱，组合后因额外延迟略有下降但仍优于基线。<br />
-  - 混合工作负载组（MIX）：银行分区与子排名协同效果最好，平均吞吐量提升7.4%，部分工作负载（如M1、M4）因包含mcf或lbm表现略差。<br />
-  - 低局部性工作负载组（LOW）：银行分区通过负载均衡使排队延迟降低（Figure 8），平均提升4.2%；子排名进一步改善。<br />
-  - 非内存密集型工作负载组（LOW BW）：提升较小（平均2.4%），但组合方案仍最优。<br />
-- <strong>公平性（最小加速比）</strong>：仅银行分区会显著降低低局部性基准（如mcf、omnetpp）的性能；组合子排名后恢复公平性，最小加速比提升15%。<br />
-- <strong>功耗与能效</strong>：<br />
-  - DRAM功耗：组合方案平均降低21.4%（Figure 10），因激活命令减少。<br />
-  - 系统能效（吞吐量/系统功率）：HIGH组提升~10%，MIX组提升~9%（组合优于单一方案）。<br />
-  - 仅考虑DRAM功耗时，组合方案提升20–45%（Figure 11b）。<br />
-- <strong>银行受限系统</strong>（单排名/通道）：组合方案效果更显著，系统能效提升18–25%（Figure 12）。</p>
-<p><strong>结论</strong><br />
-- 银行分区与子排名相结合是一种强大且实际可行的方案，可从根源上消除多核内存访问的交错干扰，同时维持充足的银行级并行性。<br />
-- 该方法在不同工作负载类型（高局部性、混合、低局部性、非密集型）下均能提升吞吐量、公平性和能效，尤其适用于未来核心数增长快于银行数增长的银行受限系统。<br />
-- 与仅依赖内存调度策略的优化正交，可进一步结合调度策略获得更大收益。</p>
+<p><strong>目的</strong>
+- 解决共享内存多核处理器（CMP）系统中，多线程访问流交错导致的 <strong>DRAM 行缓冲（row-buffer）</strong> 局部性显著下降问题。传统地址映射使不同线程共享 <strong>bank</strong>，引发频繁行冲突，降低带宽利用率和能效。
+- 在保护局部性的同时，需避免因 <strong>bank</strong> 分区而过度减少每线程可用的 <strong>bank</strong> 级并行性，从而平衡 <strong>locality</strong> 与 <strong>parallelism</strong> 的冲突需求。</p>
+<p><strong>方法</strong>
+- <strong>Bank 分区（bank partitioning）</strong>：扩展操作系统物理帧分配算法，利用 <strong>page coloring</strong> 技术，将属于同一 <strong>bank</strong> 的物理帧专一分配给单个线程或核心。通过控制虚拟地址到物理地址的映射，使不同线程的访问流被隔离到不相交的 <strong>bank</strong> 集合，从根源消除 <strong>row-buffer</strong> 干扰。
+  - 为避免 <strong>XOR-permuted bank indexing</strong> 破坏分区，采用 <strong>cache set index permutation</strong> 替代，确保同一 <strong>color</strong> 仍映射到预定 <strong>bank</strong> 集合。
+- <strong>内存子秩（sub-ranking）</strong>：将标准 64-bit 宽 <strong>rank</strong> 分割为多个更窄的 <strong>sub-rank</strong>（本文采用 32-bit），使每个 <strong>sub-rank</strong> 可独立控制并打开不同 <strong>row</strong>。此举在不增加物理 <strong>bank</strong> 数量的前提下，有效增加每线程可访问的独立 <strong>bank</strong> 数量，补偿分区导致的并行性损失。
+- <strong>组合策略（bpart+sr）</strong>：同时应用 <strong>bank partitioning</strong> 与 <strong>sub-ranking</strong>，在实现局部性隔离的同时恢复并行性。</p>
+<p><strong>结果</strong>
+- <strong>行缓冲命中率</strong>：在大多数密集型负载中，<strong>bank partitioning</strong> 使 <strong>row-buffer hit rate</strong> 显著回升，如 <strong>libquantum</strong> 恢复一半因干扰丢失的局部性；部分负载（如 <strong>lbm</strong>）因可用 <strong>bank</strong> 减少而轻微下降，但 <strong>sub-ranking</strong> 可缓解。
+- <strong>系统吞吐量（Weighted Speedup）</strong>：组合策略平均提升：
+  - <strong>HIGH</strong> 组（高空间局部性）：9.8%
+  - <strong>MIX</strong> 组（混合局部性）：7.4%
+  - <strong>LOW</strong> 组（低空间局部性）：4.2%
+  - <strong>LOW_BW</strong> 组（非内存密集型）：2.4%
+  - 单独使用 <strong>bank partitioning</strong> 在 <strong>LOW</strong> 组反而提升 5%，表明负载均衡作用。
+- <strong>公平性（Minimum Speedup）</strong>：<strong>bank partitioning</strong> 单独使用时，低局部性应用（如 <strong>mcf</strong>、<strong>omnetpp</strong>）的最小加速比严重下降；添加 <strong>sub-ranking</strong> 后，最小加速比平均恢复 15%，实现更公平的性能分配。
+- <strong>能效</strong>
+  - <strong>DRAM 功耗</strong>：组合方案平均降低 <strong>21.4%</strong>，主要来自减少 <strong>activate</strong> 操作及 <strong>sub-ranking</strong> 部分激活特性。
+  - <strong>系统能效（Throughput/Watt）</strong>：在 <strong>MIX</strong> 组提升 9%，在 <strong>bank</strong> 受限系统（单 <strong>rank</strong>）中提升达 18%-25%。
+  - <strong>DRAM 能效</strong>：最高提升 <strong>45%</strong>（双 <strong>rank</strong> 系统）及更高（单 <strong>rank</strong> 系统）。
+- <strong>与单独技术对比</strong>：<strong>bank partitioning</strong> 单独在局部性强的负载中表现良好，但损害并行性；<strong>sub-ranking</strong> 单独可增加并行性但略增延迟；两者结合在所有评价指标上均优于任一单项。</p>
+<p><strong>结论</strong>
+- <strong>bank partitioning</strong> 与 <strong>sub-ranking</strong> 的组合能够从根本上解决多核内存系统局部性与并行性的矛盾，同时提升性能、公平性和能效，且开销低（仅需操作系统页分配策略调整和 DRAM 模块级修改）。
+- 该方案在核心数增长快于 <strong>bank</strong> 数增长的未来 <strong>bank</strong> 受限系统中将更加重要，因为 <strong>sub-ranking</strong> 提供了一种成本有效的“虚拟 <strong>bank</strong>”扩展途径。
+- 与现有内存调度策略（如 FR-FCFS、ATLAS）正交，可进一步叠加优化。</p>
 <hr />
 <h2 id="2">2. 背景知识与核心贡献<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
 <p><strong>研究背景</strong></p>
-<p>现代主存系统依赖<strong>空间局部性</strong>获取高带宽并降低功耗成本。DRAM通过<strong>行缓冲（Row Buffer）</strong>机制利用局部性：同一行的后续访问仅需发送列地址（行缓冲命中），大幅降低延迟与能耗。然而，多核（CMP）系统共享内存时，来自独立线程的访问流在内存控制器处交错混合，导致空间局部性严重退化。以<strong>lbm</strong>为例，单实例运行时行缓冲命中率达98%，4个实例并行时降至50%，若混合<strong>mcf</strong>等低局部性程序，命中率进一步跌至35%。</p>
-<p><strong>研究动机</strong></p>
-<p>现有<strong>内存调度器</strong>（如FR-FCFS、ATLAS、TCM）通过重排序部分恢复局部性，但受限于三个根本问题：
-- 调度缓冲大小有限，无法容纳足够多的请求以重建局部性
-- 片上网络竞争增加请求到达间隔，使相邻空间请求更易错过调度窗口
-- 调度器的核心目标并非恢复局部性，而是最大化吞吐量或公平性</p>
-<p>因此需要从根源上解决问题，而非依赖调度启发式方法。</p>
-<p><strong>核心贡献</strong></p>
-<p>本文提出一种<strong>组合机制</strong>，通过平衡<strong>行缓冲局部性</strong>与<strong>Bank并行性</strong>的冲突需求，同时提升性能与能效。</p>
 <ul>
-<li><strong>银行分区（Bank Partitioning）</strong>：</li>
-<li>通过扩展OS物理帧分配算法，将<strong>独立DRAM Bank</strong>集分配给不同线程，从根本上消除线程间访问干扰</li>
-<li>实现方式：在物理地址中引入<strong>颜色（Color）位</strong>（如图3），控制Bank映射；采用<strong>缓存集索引置换</strong>替代XOR-Bank置换，避免分区被哈希破坏</li>
-<li>
-<p>效果：恢复行缓冲命中率（如<strong>libquantum</strong>恢复50%丢失局部性），提升带高局部性应用的性能与能效</p>
-</li>
-<li>
-<p><strong>子排名（Sub-Ranking）</strong>：</p>
-</li>
-<li>将宽Rank拆分为32位窄<strong>子Rank</strong>，使每个子Rank独立控制，<strong>有效增加Bank数量</strong>而无需额外成本</li>
-<li>补偿银行分区导致的<strong>每线程Bank数减少</strong>，尤其保护低局部性应用（如<strong>mcf</strong>、<strong>omnetpp</strong>）所需的并行性</li>
-<li>
-<p>选择32位子Rank平衡<strong>并行性提升</strong>与<strong>额外访问延迟</strong></p>
-</li>
-<li>
-<p><strong>协同增益</strong>：</p>
-</li>
-<li>银行分区与子排名单独应用各有缺陷：分区降低并行性，子排名增加延迟。组合后，分区消除干扰，子排名恢复并行性，实现<strong>性能、公平性、能效同步提升</strong></li>
-<li>实验显示：混合负载平均吞吐量提升7%，最慢应用速度（公平性指标）提升15%，DRAM功耗降低21.4%</li>
+<li>现代DRAM内存系统通过利用<strong>空间局部性</strong>来提供高带宽并降低功耗。具体机制包括：<strong>row-buffer</strong>（页模式）允许对同一行地址的后续请求只发送列地址，从而降低延迟和能耗。</li>
+<li>然而，在<strong>共享内存CMP</strong>系统中，随着核心数增加，多个独立线程的访问流在内存控制器处<strong>交错</strong>，导致不同线程频繁访问同一<strong>bank</strong>的同一行缓存，造成<strong>row-buffer</strong>冲突。图1以lbm为例说明：单实例时<strong>row-buffer hit rate</strong>达98%，4个lbm实例一同运行时降至50%，再混入mcf时进一步降至35%。</li>
+<li>传统的<strong>FR-FCFS</strong>等内存访问调度策略虽能部分恢复局部性，但受限于有限的调度缓冲区大小和请求到达间隔的增大，效果有限。</li>
 </ul>
-<p>该机制通过<strong>地址映射隔离</strong>解决干扰根源，通过<strong>子排名增加有效Bank</strong>弥补并行性损失，特别适用于未来<strong>Bank资源受限</strong>的多核系统。</p>
+<p><strong>研究动机</strong></p>
+<ul>
+<li>根本问题在于：现有地址映射机制将线程的物理页面均匀分布到所有bank上，导致线程间在bank层面直接竞争，从而破坏<strong>row-buffer</strong>局部性。</li>
+<li>随着核心数增长快于bank数增长（特别是嵌入式及众核系统），线程可用的<strong>bank-level parallelism</strong>变得稀缺。单纯增加rank、channel或内部bank面临成本、引脚、信号完整性等限制。</li>
+<li>需要一种方法，既能消除干扰（保持局部性），又能补偿因隔离而减少的单线程可用bank数量（维持并行性）。</li>
+</ul>
+<p><strong>核心贡献</strong></p>
+<ul>
+<li>提出<strong>bank partitioning</strong>：通过操作系统<strong>物理帧分配算法</strong>（基于页着色）将物理页面映射到互不重叠的DRAM bank集合，使不同线程的访问流完全隔离，从而消除<strong>row-buffer</strong>干扰。此方法无需修改内存控制器地址解码逻辑。</li>
+<li>提出<strong>memory sub-ranking</strong>（32-bit sub-rank）：将传统64-bit rank拆分为两个独立的32-bit sub-rank，每个sub-rank内的bank可独立操作，从而有效增加系统中的独立bank数量。这在不增加DRAM芯片数量或引脚的前提下，弥补了bank partitioning造成的每线程可用bank数减少。</li>
+<li><strong>组合方案的核心思想</strong>：利用<strong>bank partitioning</strong>隔离干扰以提升局部性，利用<strong>sub-ranking</strong>恢复并行性，两者协同工作，同时提升<strong>吞吐量</strong>、<strong>公平性</strong>（minimum speedup）和<strong>能效</strong>（throughput per Watt）。</li>
+<li>实验表明：</li>
+<li>在混合工作负载（MIX组）中，组合方案相比单独使用任一技术，能获得更优的加权加速比和最小加速比。</li>
+<li>DRAM功耗平均降低<strong>21.4%</strong>，系统能效（throughput per system power）平均提升<strong>9%</strong>（MIX组）。</li>
+<li>在bank受限系统（单rank）中，组合方案的优势更为显著，系统能效提升可达<strong>18-25%</strong>。</li>
+</ul>
 <hr />
 <h2 id="3">3. 核心技术和实现细节<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
 <h3 id="0_1">0. 技术架构概览<a class="headerlink" href="#0_1" title="Permanent link">&para;</a></h3>
-<p><strong>核心问题</strong>：多核共享内存系统中，不同线程的访存流交错导致<strong>空间局部性</strong>损失，降低了行缓冲命中率，增加了功耗和延迟。传统调度器无法根本解决。</p>
-<p><strong>整体技术架构</strong>：通过操作系统级页着色实现<strong>DRAM Bank分区</strong>，隔离线程访存流，恢复局部性；再通过<strong>内存子排名（Sub-ranking）</strong> 技术有效增加系统bank总数，补偿因分区导致的每线程bank级并行性下降。两者协同，在保持公平性的同时提升吞吐量和能效。</p>
+<p><strong>整体技术架构概述</strong></p>
+<p>本文提出一种<strong>软硬件协同</strong>的内存系统架构，旨在从根本上解决多核系统中因线程间访问交错导致的 <strong>DRAM row-buffer 局部性损失</strong>问题。核心思想是同时管理<strong>空间局部性</strong>与<strong>bank级并行性</strong>这两个相互矛盾的需求，通过两项关键技术及其联合应用实现性能与能效的双重提升。</p>
 <hr />
+<p><strong>核心组成部分</strong></p>
 <ul>
-<li><strong>第一层：DRAM Bank分区（Bank Partitioning）</strong></li>
-<li><strong>实现方式</strong>：扩展操作系统物理帧分配算法，将物理帧到DRAM bank的映射与线程（核心）绑定。<ul>
-<li>利用<strong>页着色（Page Coloring）</strong> 技术：在物理地址中引入核心ID位（CID），使不同核心分配到的物理帧落在非重叠的bank集合上。</li>
-<li>为保证行缓冲局部性，相邻物理地址映射到同一DRAM行；着色粒度与DRAM row大小对齐。</li>
-</ul>
-</li>
-<li><strong>核心收益</strong>：消除跨线程的bank访问冲突，恢复每线程的行缓冲命中率（如lbm从35%恢复至接近98%），减少预充电和激活命令，降低延迟和功耗。</li>
+<li><strong>OS级 DRAM Bank 分区 (Bank Partitioning)</strong></li>
+<li>基于<strong>物理页着色 (page coloring)</strong> 技术，由操作系统在虚拟地址到物理地址的映射阶段，将不同线程的物理页强制分配到不相交的 <strong>DRAM bank</strong> 集合中。</li>
+<li>如图 3 所示，物理地址中的某一位（如 bit 14）用于标记“颜色”，核心 0 与核心 1 拥有不同的颜色，从而保证其访问的 bank 不重叠，彻底消除 bank 级别的访问干扰。</li>
+<li>与常规的 XOR 基 bank 索引不同，本方案<strong>置换 cache set 索引</strong>而非 bank 索引，从而在保持分区效果的同时避免破坏 cache 行内的 bank 分布均匀性。</li>
 <li>
-<p><strong>副作用</strong>：每线程可用的bank总数减少，可能降低<strong>bank级并行性</strong>，尤其对低空间局部性应用（如mcf）不利。</p>
+<p>该机制无需修改内存控制器中的地址解码逻辑，完全由 OS 的物理帧分配算法实现，具有低实现成本和高灵活性。</p>
 </li>
 <li>
-<p><strong>第二层：DRAM子排名（Sub-ranking）</strong></p>
+<p><strong>DRAM Sub-Ranking</strong></p>
 </li>
-<li><strong>技术原理</strong>：将传统64-bit宽rank拆分为多个更窄的独立子排名（如32-bit子排名）。<ul>
-<li>每个子排名内bank独立控制，可保持不同行开放，从而等效增加系统bank数量。</li>
-</ul>
-</li>
-<li><strong>平衡设计</strong>：选择32-bit子排名，在提供足够bank并行性的同时，避免过窄子排名带来的额外访问延迟和地址总线压力。</li>
-<li>
-<p><strong>核心收益</strong>：在不增加物理DIMM数量、不增加芯片引脚、不改变DRAM内部结构的前提下，为每个线程提供更多可并行访问的bank，弥补bank分区造成的并行性损失。</p>
-</li>
-<li>
-<p><strong>第三层：Bank分区 + 子排名（bpart+sr）协同</strong></p>
-</li>
-<li><strong>互补关系</strong>：bank分区恢复局部性，子排名恢复并行性；两者分别优化了内存系统的两个核心冲突指标（局部性与并行性）。</li>
-<li><strong>实现细节</strong>：<ul>
-<li>bank分区的地址映射中，子排名视为独立bank，颜色分配算法将子排名也纳入分区集合。</li>
-<li>缓存组索引置换（Cache Set Index Permutation）替代传统的XOR bank索引置换，确保着色映射不受原有XOR排列干扰。</li>
-</ul>
-</li>
-<li>
-<p><strong>整体效果</strong>：</p>
-<ul>
-<li>吞吐量（加权加速比）提升：高局部性负载组平均+9.8%，混合负载组+7.4%，低局部性负载组+4.2%。</li>
-<li>公平性（最小加速比）提升：相比纯bank分区，子排名使低局部性应用性能恢复，最小加速比平均提升15%。</li>
-<li>DRAM功耗降低平均21.4%，系统能效（吞吐量/系统功率）提升在bank受限系统中可达25%。</li>
-</ul>
-</li>
-<li>
-<p><strong>评估环境与指标</strong></p>
-</li>
-<li><strong>模拟平台</strong>：Zesto（x86 OoO处理器模拟器）+ 自研DRAM模拟器。</li>
-<li><strong>配置</strong>：8核4GHz，2通道×2rank/channel×8bank/rank，DDR3-1600，FR-FCFS调度。</li>
-<li><strong>基准工作负载</strong>：SPEC CPU2006多程序混合，按空间局部性分为HIGH、MIX、LOW、LOW_BW四组。</li>
-<li><strong>关键度量</strong>：加权加速比（系统吞吐量）、最小加速比（公平性）、行缓冲命中率、DRAM功耗、系统能效（吞吐量/功率）。</li>
-</ul>
-<h3 id="1-bank-partitioning-via-os-controlled-page-coloring">1. Bank Partitioning via OS-Controlled Page Coloring<a class="headerlink" href="#1-bank-partitioning-via-os-controlled-page-coloring" title="Permanent link">&para;</a></h3>
-<p><strong>核心实现原理</strong></p>
-<ul>
-<li>利用操作系统物理帧分配中的 <strong>页着色（Page Coloring）</strong> 机制，将 <strong>DRAM bank 索引</strong> 编码为物理地址中的 <strong>颜色位</strong>。</li>
-<li>每个核心被分配一组互斥的颜色，对应一组特定的 bank。当核心申请物理页时，OS 仅从该核心的颜色集合中选择空闲帧，从而保证不同核心的访问流落在不同 bank，从根源上消除行缓冲干扰。</li>
-<li>该机制完全在 OS 的虚拟-物理地址映射层实现，无需修改内存控制器或 DRAM 硬件。地址解码逻辑保持不变，硬件的 bank 划分对处理器透明。</li>
-</ul>
-<p><strong>算法流程与参数设置</strong></p>
-<ul>
-<li><strong>物理地址格式</strong>：在物理帧号中插入 <strong>颜色位</strong>。例如，对于 4 bank 系统（图 3a），bit 14 用于核心 ID（颜色），bit 13 和 bit 12 用于 bank 索引。核心 0 只能使用颜色 0（bank {0,1}），核心 1 只能使用颜色 1（bank {2,3}）。</li>
-<li><strong>静态分区策略</strong>：为每个核心分配相等数量的颜色。例如，8 核系统拥有 32 个 bank（2 通道 × 2  rank × 8 bank），每个核心分配 4 个颜色（即 4 个 bank 组）。该策略无需运行时 profiling，对动态工作负载变化鲁棒性强。</li>
-<li><strong>与缓存索引置换的协同</strong>：常规 XOR 置换会破坏颜色与 bank 的绑定关系。论文采用 <strong>缓存集合索引置换</strong> 代替 bank 索引置换，确保同一颜色内的缓存行仍映射到同一组 bank，同时避免缓存集合被分区（即不同核心仍可共享缓存集合）。</li>
-<li><strong>溢出机制</strong>：若核心用尽自己的颜色帧，OS 可分配其他颜色的帧，但会牺牲隔离性。论文将此溢出处理留作未来工作。</li>
-</ul>
-<p><strong>输入输出关系</strong></p>
-<ul>
-<li><strong>输入</strong>：核心 ID（或进程标识）、虚拟页号。</li>
-<li><strong>处理</strong>：OS 页着色算法根据核心 ID 选择对应颜色的空闲物理帧，更新页表。映射规则确保物理帧号的颜色位始终属于该核心的允许集。</li>
-<li><strong>输出</strong>：物理页帧号。该帧号的 bank 位（颜色位 + 内部 bank 位）决定了其在 DRAM 中的物理位置，并自动绑定到核心对应的 bank 组。</li>
-<li><strong>在整体系统中的作用</strong>：作为 <strong>银行分区（Bank Partitioning）</strong> 的实现基础。它隔离了线程的访问流，大幅提升了高空间 locality 应用的行缓冲命中率。同时，它将减少每个线程可用的 bank 并行度，为后续 <strong>子排名（Sub‑ranking）</strong> 技术的引入提供补偿的必要性。</li>
-</ul>
-<p><strong>与子排名的协同</strong></p>
-<ul>
-<li>银行分区降低每线程 bank 并行度，可能损害低 locality 应用的性能。子排名将一个物理 rank 拆分为多个独立子 rank（如 32‑bit 子 rank），有效增加系统中的 bank 总数，从而补偿被分区削弱的并行性。</li>
-<li>组合后，对于混合型 workload（如 MIX 组），可实现 <strong>加权加速比提升 7%</strong>、<strong>最小加速比提升 15%</strong>（公平性指标），同时 <strong>DRAM 功耗平均降低 21.4%</strong>。</li>
-</ul>
-<p><strong>关键性能数据示例</strong></p>
-<table>
-<thead>
-<tr>
-<th>指标</th>
-<th>Bpart 单独</th>
-<th>Sr 单独</th>
-<th>Bpart+Sr</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>高 locality 组加权加速比</td>
-<td>+12%</td>
-<td>+2%</td>
-<td>+10%</td>
-</tr>
-<tr>
-<td>混合组加权加速比</td>
-<td>+5%</td>
-<td>+4%</td>
-<td>+7%</td>
-</tr>
-<tr>
-<td>最小加速比（MIX 组平均）</td>
-<td>-8%</td>
-<td>+2%</td>
-<td>+7%</td>
-</tr>
-<tr>
-<td>DRAM 功耗节省</td>
-<td>-10%</td>
-<td>-15%</td>
-<td>-21%</td>
-</tr>
-<tr>
-<td>（数据基于图 7、图 9、图 10 汇总）</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>实现优点总结</strong></p>
-<ul>
-<li><strong>低开销</strong>：仅需修改 OS 的物理帧分配逻辑，无硬件改动。</li>
-<li><strong>鲁棒性</strong>：静态分区无需 profiling，适应 workload 变化。</li>
-<li><strong>可组合性</strong>：与现有缓存置换、内存调度策略正交，可叠加子排名进一步优化。</li>
-<li><strong>可扩展性</strong>：随着核心数增加（银行数增长较慢），该方案愈发关键（参见图 12 单 rank 系统效率提升 18–25%）。</li>
-</ul>
-<h3 id="2-cache-set-permutation-to-preserve-bank-partitioning">2. Cache-Set Permutation to Preserve Bank Partitioning<a class="headerlink" href="#2-cache-set-permutation-to-preserve-bank-partitioning" title="Permanent link">&para;</a></h3>
-<p><strong>核心问题</strong>：传统的 <strong>XOR-permuted bank indexing</strong> 是一种广泛用于减少 DRAM bank 冲突的优化方法，但它会破坏基于颜色的 <strong>bank partitioning</strong>。因为 XOR-permutation 会修改物理地址中直接对应 bank 的位（即颜色位），导致原本属于同一 core 的帧被散射到所有 bank，失去了隔离性。</p>
-<p><strong>解决方案</strong>：采用 <strong>Mi et al.[13]</strong> 提出的技术，即 <strong>不置换 bank 索引，而是置换 cache set 索引</strong>。这样做的核心思想是：</p>
-<ul>
-<li><strong>保留 bank 索引位</strong>：物理地址中用于选择 DRAM bank 的位保持不变（由颜色位直接决定），从而每个 core 的帧仍然被限制在其分配的颜色组（特定的 bank 集合）内，实现了 bank 分区。</li>
-<li><strong>置换 cache set 索引</strong>：对用于索引 cache set 的物理地址位进行可逆的置换（例如 XOR 操作）。这使得原本会映射到同一个 cache set 的连续地址被分散到不同的 cache set，从而减少 cache 冲突。</li>
-<li><strong>缓存与 DRAM 的解耦</strong>：通过上述设计，bank 分区和缓存性能优化不再相互制约。单个 core 的 bank 组固定，但其缓存行（cache lines）可以均匀分布在所有 cache set 上，避免了因分区导致的局部缓存集压力过载。</li>
+<li>硬件层面将每个传统 <strong>64-bit wide rank</strong> 拆分为多个更窄的独立 <strong>sub-rank</strong>（本文采用 <strong>32-bit sub-rank</strong>）。</li>
+<li>每个 sub-rank 对应一组 DRAM chip，拥有独立的 row-buffer 和命令控制能力。这使得系统中有效 bank 数量成倍增加（例如 2 sub-ranks/rank 使 bank 数翻倍），且不依赖添加更多 DIMM 或 rank。</li>
+<li>Sub-ranking 原本是为降低激活功耗而设计，本文则利用其<strong>提高每个线程可用的 bank 级并行性</strong>，以补偿 bank 分区带来的 bank 数减少。</li>
+<li>选择 32-bit 宽度以平衡并行性增益与额外访问延迟（相比 16-bit 或 8-bit sub-rank，延迟增加较小，且不增加地址总线压力）。</li>
 </ul>
 <hr />
-<p><strong>实现原理与算法流程</strong>：</p>
+<p><strong>组件交互与工作流程</strong></p>
+<ol>
+<li><strong>问题识别</strong>：多核系统中，不同线程的访问流在共享 bank 上交错，导致 row-buffer 频繁切换，局部性显著下降（如图 1 所示，lbm 的 row-buffer hit rate 从 98% 降至 35%）。</li>
+<li><strong>局部性保护</strong>：通过 <strong>bank 分区</strong>强制隔离访问流，确保每个线程的请求只命中其专属 bank。这使 row-buffer hit rate 大幅回升（如图 6 所示，libquantum 恢复超过一半损失的空间局部性）。</li>
+<li><strong>并行性补偿</strong>：分区后每个线程可用 bank 数减少（如 8 线程平分 16 bank，每线程仅 2 bank），可能损害低局部性应用的性能。<strong>Sub-ranking</strong> 将每个 rank 拆分成两个独立 sub-rank，使系统有效 bank 总数翻倍（如从 32 增至 64），从而每个线程获得更多并行度，隐藏行冲突延迟。</li>
+<li><strong>协同作用</strong>：两技术同时部署时，<code>bpart</code> 消除局部性干扰，<code>sr</code> 提供额外并行性，两者互为补充。实验证明，单独使用 <code>bpart</code> 对低局部性应用不公平（最小加速比下降），单独使用 <code>sr</code> 无法解决局部性干扰，而 <strong>bpart+sr 组合</strong> 同时在吞吐量、公平性和能效上优于任一单独方案（如图 7、9、10 所示）。</li>
+</ol>
+<hr />
+<p><strong>关键设计决策与创新</strong></p>
 <ul>
-<li><strong>输入</strong>：物理地址（Physical Address）。</li>
-<li><strong>参数设置</strong>：</li>
-<li>固定一组 <strong>颜色位</strong>（Color Bits），用于指定 core 所属的 bank 集合。例如，在简单系统中，bit 14 表示 core ID，决定 bank 0-1 或 2-3（如图 3(a) 所示）。</li>
-<li>选择一个 <strong>置换函数</strong>（Permutation Function），通常为 XOR 与一个预设掩码（mask）的组合，作用于物理地址中原本用于生成 cache set index 的位段。该函数需要是双射的，以保证所有 cache set 被均匀使用。</li>
-<li><strong>算法步骤</strong>：</li>
-<li>提取物理地址中的 <strong>颜色位</strong>，直接映射到 DRAM bank 索引（保持不变）。</li>
-<li>提取物理地址中的 <strong>cache set 相关位</strong>，应用置换函数，得到最终的 cache set index。</li>
-<li>其余位（如 row, column）按照常规 DRAM 地址映射提取。</li>
-<li><strong>输出</strong>：</li>
-<li><strong>DRAM 地址</strong>：包括 bank, rank, channel, row, column，其中 bank 由颜色位直接决定。</li>
-<li><strong>Cache set index</strong>：由置换后的值决定，用于 L2/L3 缓存的集合选择。</li>
-<li><strong>在整体系统中的作用</strong>：</li>
-<li>实现 <strong>银行分区</strong>（bank partitioning），隔离不同 core 的访问流，消除 row-buffer 干扰（见图 4）。</li>
-<li>同时，通过 <strong>置换 cache set index</strong>，避免了因 bank 分区可能导致的额外缓存冲突（例如，原本连续内存的地址由于颜色固定而集中在少数 cache set）。该技术使得每个 core 的缓存访问模式更加均匀，补偿了银行分区对缓存行为的影响。</li>
-<li>与 <strong>sub-ranking</strong> 结合时，可进一步抵消 bank 分区带来的并行度损失，实现兼顾 locality 与 parallelism 的最终方案。</li>
+<li><strong>无需硬件修改</strong>：bank 分区完全由 OS 控制，sub-ranking 依赖现有模块侧控制器（如 MC-DIMM 或 Mini-Rank），整体方案对 DRAM controller 和 DRAM 芯片无额外要求。</li>
+<li><strong>静态分区与动态鲁棒性</strong>：使用核间均分颜色的静态分区策略，避免运行时 profile 开销，对工作负载变化天然健壮。</li>
+<li><strong>缓存索引置换</strong>：在保留 XOR 基 bank 索引优点的同时，通过置换 cache set 索引而非 bank 索引，确保分区效果不被消解。</li>
+<li><strong>联合调优</strong>：通过两个独立的调节旋钮（partitioning 控制局部性，sub-ranking 控制并行性），达成性能/功耗/公平性的帕累托最优。</li>
 </ul>
 <hr />
-<p><strong>为何不采用传统 XOR-permuted bank indexing</strong>：</p>
-<ul>
-<li>传统方法：<code>bank_index = original_bank XOR (some bits from tag)</code>。这会直接改写颜色位，导致一个 core 的帧分布在所有 bank，bank 分区失效。</li>
-<li>本方法：<code>set_index = original_set_index XOR (some bits)</code>。颜色位不受影响，bank 分区得到保留；同时，缓存访问的均匀性通过置换 set 索引来保证，达到了同样的减少 bank 冲突和缓存冲突的效果。</li>
-</ul>
+<p><strong>系统架构图示例</strong>（基于图 3 与图 4）</p>
+<p><img alt="" src="images/9c2c2548f6e1407744108577945acf3f00bde5c4c775a0d1e639495bb1490add.jpg" /> <em>Figure 3: Address mapping scheme that partitions banks between processes. Figure 4: Benefits of bank partitioning. The upper diagram corresponds to Figure 2(c), and the lower diagram corresponds to Figure 3(c). A, R, P, and D stand for activate, read, precharge, and data, respectively. The row-buffer is initially empty.</em>
+<em>图 4 展示了 bank 分区前后的命令序列对比：分区后消除了跨线程的 precharge 和重复 activate，从而提升吞吐量与能效。</em></p>
 <hr />
-<p><strong>数据/表格参考</strong>（来自论文中的配置对比）：</p>
-<table>
-<thead>
-<tr>
-<th>配置</th>
-<th>bank 分区</th>
-<th>缓存集合置换</th>
-<th>效果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>shared</strong> (基线)</td>
-<td>无</td>
-<td>无 XOR-permuted bank index</td>
-<td>高度行缓冲干扰</td>
-</tr>
-<tr>
-<td><strong>bpart</strong> (仅分区)</td>
-<td>有</td>
-<td>使用 cache-set permutation</td>
-<td>减少行缓冲干扰，但可能缓存冲突</td>
-</tr>
-<tr>
-<td><strong>sr</strong> (仅 sub-ranking)</td>
-<td>无</td>
-<td>无</td>
-<td>增加并行度但无隔离</td>
-</tr>
-<tr>
-<td><strong>bpart+sr</strong> (本方案)</td>
-<td>有</td>
-<td>使用 cache-set permutation</td>
-<td>同时实现隔离、并行度、缓存公平</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<p><strong>图片引用</strong>（根据文档内容关联）：</p>
-<ul>
-<li>图 3 (a) 和 (b) 展示了 bank 分区的地址映射，其中颜色位（CIDP 或 Colors）直接映射到 bank 索引。</li>
-<li>图 6 显示了 bank 分区（bpart）在各基准中提升了 row-buffer hit rate，但结合 sub-ranking 后略有下降——这正是 cache-set permutation 协同工作的结果。</li>
-</ul>
-<h3 id="3-dram-sub-ranking-to-increase-effective-bank-count">3. DRAM Sub-Ranking to Increase Effective Bank Count<a class="headerlink" href="#3-dram-sub-ranking-to-increase-effective-bank-count" title="Permanent link">&para;</a></h3>
-<p><strong>核心思想</strong><br />
-DRAM Sub-Ranking通过将宽Rank（64-bit）拆分为更窄的独立子Rank，使多个子Rank能同时保持不同的活跃行，从而在不增加物理芯片数量的前提下<strong>有效增加系统中的独立Bank数量</strong>。该技术主要被用于补偿Bank Partitioning带来的每线程Bank并行度损失，并同时降低DRAM功耗。</p>
+<p><strong>总结</strong></p>
+<p>整体技术架构可抽象为两层：<strong>OS 层的访问隔离层</strong>（通过着色实现 bank 级独占） + <strong>硬件层的并行度增强层</strong>（通过 sub-ranking 倍增有效 bank 数）。两层协同解决多核内存系统的根本矛盾——空间局部性与 bank 级并行性的冲突，为未来核数持续增长的 CMP 系统提供了一种低开销、高效率的解决方案。</p>
+<h3 id="1-bank-partitioning-via-os-physical-frame-allocation">1. Bank Partitioning via OS Physical Frame Allocation<a class="headerlink" href="#1-bank-partitioning-via-os-physical-frame-allocation" title="Permanent link">&para;</a></h3>
+<p><strong>核心技术原理</strong><br />
+- <strong>目标</strong>：消除多核共享内存系统中不同线程对 <strong>row-buffer</strong> 的干扰，即阻止多个线程的访问流交错到同一 <strong>bank</strong>。<br />
+- <strong>实现途径</strong>：在操作系统物理帧分配（Physical Frame Allocation）阶段加入 <strong>bank 着色（bank coloring）</strong> 逻辑。物理帧的 <strong>Frame Number</strong> 中包含若干位（如 Figure 3(a) 中的 <strong>CIDP</strong> 位），这些位直接对应 DRAM 地址中的 <strong>bank</strong> 字段。OS 为每个核心（或线程）维护一个专属的物理帧池，池中帧的 <strong>bank ID</strong> 位被约束在特定的子集内。例如，4-bank 系统中，Core 0 只能分配 bank {0,1} 对应的帧，Core 1 只能分配 bank {2,3} 对应的帧。<br />
+- <strong>关键依赖</strong>：物理帧与 DRAM 地址的映射关系保持不变（即 DRAM 地址解码逻辑无需修改），仅通过 OS 的帧分配策略实现隔离。  </p>
+<p><strong>算法流程与参数设置</strong><br />
+- <strong>帧着色码（Color Code）定义</strong>：<br />
+  - 从物理地址中抽取若干比特作为 <strong>color identifier</strong>（例如 Figure 3(a) 中的 bit 14）。<br />
+  - 每个 color 对应一个 <strong>bank 组</strong>，组内 bank 数量为总 bank 数除以颜色数（等分）。<br />
+- <strong>OS 分配流程</strong>：<br />
+  1. 当线程请求物理帧时，OS 根据其核心 ID（或进程 ID）选择对应的 <strong>color</strong>。<br />
+  2. 从该 color 对应的空闲帧列表中分配一个帧。若列表为空，则允许跨 color 分配（牺牲隔离性）。<br />
+  3. 修改页表，将虚拟页映射到该物理帧。<br />
+- <strong>参数设置</strong>：<br />
+  - <strong>Color 数量</strong>：等于核心数（或更精细的按需分区）。论文评估中使用静态等分，每个核心获得相同数量的 bank。<br />
+  - <strong>Bank 组划分</strong>：需要保证同一组内的 bank 在物理 DRAM 中分布在不同的 rank 和 channel 上以维持并行度（但论文中采用连续 bank 划分，如 Figure 3(a) 的简单示例）。<br />
+- <strong>补充机制</strong>：<br />
+  - 必须禁用 <strong>XOR-permuted bank indexing</strong>（一种常见的 bank 混淆技术），否则颜色会被破坏。替代方案：将 XOR 移到 <strong>cache set index</strong> 上，保持 bank 颜色不变。  </p>
+<p><strong>输入输出关系</strong><br />
+- <strong>输入</strong>：<br />
+  - 虚拟地址（含 Virtual Page Number）。<br />
+  - 当前线程的核心 ID（或调度上下文）。<br />
+- <strong>输出</strong>：<br />
+  - 物理帧号，其中包含 color 信息，该信息直接决定了帧所在的 DRAM bank。<br />
+  - 更新后的页表（映射虚拟页-&gt;物理帧）。<br />
+- <strong>整体作用</strong>：<br />
+  - <strong>隔离性</strong>：不同线程的访问流必然落在不同的 bank 组，从而避免行缓冲冲突。如 Figure 4 所示，bank 划分后，P0 和 P1 对同一 bank 的交替访问被消除，节省了不必要的 <strong>activate</strong> 和 <strong>precharge</strong> 命令。<br />
+  - <strong>副作用</strong>：每个线程可用的 bank 数减少，可能导致 bank 级并行度下降（尤其对低空间局部性应用）。论文通过结合 <strong>sub-ranking</strong>（有效增加 bank 数）来补偿。<br />
+  - <strong>性能与功耗</strong>：提升行缓冲命中率（如 Figure 6 中 libquantum 的命中率恢复近半），降低激活能耗，同时通过减少等待提高系统吞吐量（Weighted Speedup 提升 4-12%）。  </p>
+<p><strong>与整体系统架构的关联</strong><br />
+- 当与 <strong>sub-ranking</strong> 联合使用时，bank 划分的缺陷（并行度不足）被弥补，形成“隔离+并行”的双重优化。<br />
+- 方案仅需修改 OS 内存分配器和页表管理，不涉及硬件改动，部署成本低。<br />
+- 对现有内存控制器调度策略透明（如 FR-FCFS 仍可使用），并可与其正交叠加。<br />
+- 图示可参考 Figure 3(c)（虚拟页布局）和 Figure 4（命令时序对比）。其中 Figure 4 证实了 bank 划分能消除多余的 <strong>precharge</strong> 和 <strong>activate</strong> 命令：<br />
+<img alt="" src="images/9c2c2548f6e1407744108577945acf3f00bde5c4c775a0d1e639495bb1490add.jpg" /> <em>Figure 3: Address mapping scheme that partitions banks between processes. Figure 4: Benefits of bank partitioning. The upper diagram corresponds to Figure 2(c), and the lower diagram corresponds to Figure 3(c). A, R, P, and D stand for activate, read, precharge, and data, respectively. The row-buffer is initially empty.</em></p>
+<h3 id="2-dram-sub-ranking-to-increase-effective-banks">2. DRAM Sub-Ranking to Increase Effective Banks<a class="headerlink" href="#2-dram-sub-ranking-to-increase-effective-banks" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong><br />
+DRAM Sub-Ranking 的核心思想是将传统 64-bit 宽的 <strong>rank</strong> 拆分为多个更窄且独立的 <strong>sub-rank</strong>（例如 32-bit），从而在<strong>不增加物理设备（如 DIMM 或内部 bank）</strong>的前提下，有效提升系统可用的独立 bank 数量。该技术旨在补偿 <strong>bank partitioning</strong> 所带来的每线程 bank 并行度下降，同时降低 DRAM 激活功耗。</p>
 <hr />
 <p><strong>实现原理</strong></p>
 <ul>
-<li>
-<p><strong>硬件拆分</strong><br />
-  一个传统的64-bit Rank由8个x8 DRAM芯片并行组成，所有芯片在同一时刻必须保持同一行（Row）开放。Sub-Ranking通过控制信号（如Chip Enable）将Rank拆分为若干宽度减半的子Rank。<br />
-  以文中采用的<strong>32-bit子Rank</strong>为例：一个64-bit Rank被分成两个32-bit子Rank，每个子Rank由4个x8芯片组成。这两个子Rank可以<strong>独立选择开启或关闭</strong>，并且可以各自激活不同的Row。</p>
-</li>
-<li>
-<p><strong>独立控制机制</strong><br />
-  内存控制器或模块侧控制器（如MC-DIMM方案）分别为每个子Rank发送独立的行激活（ACT）和列选择（READ/WRITE）命令。因此，原本在一个Rank内<strong>必须同步操作</strong>的8个内部Bank，现在变为两个子Rank之间的Bank可以异步操作，每个子Rank内部的8个Bank仍保持传统时序约束，但两个子Rank的Bank可<strong>完全并行</strong>。<br />
-  → 有效独立Bank数量翻倍（从8变为16）。</p>
-</li>
+<li><strong>传统 rank 的组织</strong>：一个 rank 内的所有 DRAM <strong>chip</strong> 共享地址/命令总线，并同步工作。它们在同一时刻访问同一行（activation），导致所有 bank 的 <strong>row-buffer</strong> 内容一致，无法独立处理不同行。</li>
+<li><strong>Sub-Ranking 拆分</strong>：通过独立的 <strong>chip-enable</strong> 信号，将一个宽 rank 拆分为若干窄 <strong>sub-rank</strong>。例如，将 64-bit 的 rank 拆分为两个 32-bit 的 sub-rank，每个 sub-rank 由一半数量的 chip 组成。</li>
+<li><strong>独立控制</strong>：每个 sub-rank 可以独立接收 activation 命令，因此不同 sub-rank 可以保持不同的 <strong>row-buffer</strong> 内容。这使得原本一个 rank 内“同组”的 bank（例如 8 个 bank）现在可以被进一步细分：每个 sub-rank 内部仍保留原有数量的内部 bank，但整体 bank 的独立控制粒度变细。</li>
+<li><strong>地址映射调整</strong>：物理地址到 DRAM 地址的映射需将 sub-rank 索引嵌入到地址位中，通常位于 bank 索引之上或与之交织，以保证请求均匀分布到各个 sub-rank。</li>
 </ul>
+<p><strong>参数设置</strong></p>
+<ul>
+<li>文档选择 <strong>32-bit sub-rank</strong>（即每个 sub-rank 数据宽度为 32-bit，原 64-bit rank 拆成 2 个）。</li>
+<li>理由如下项列举：</li>
+<li><strong>平衡延迟与并行度</strong>：32-bit sub-rank 引入的额外读延迟较小（约 4 CPU 周期），而 16-bit 和 8-bit sub-rank 会引入 40 和 80 个 CPU 周期，显著增加访问延迟。</li>
+<li><strong>地址总线压力</strong>：更窄的 sub-rank 需要更频繁地发送命令以完成相同数据量的传输，可能冲击地址总线带宽。32-bit 可避免额外总线变更。</li>
+<li><strong>硬件开销最小</strong>：只需增加芯片使能信号，无需修改 DRAM 内部结构或增加引脚。</li>
+</ul>
+<p><strong>输入输出关系及整体作用</strong></p>
+<ul>
+<li><strong>输入</strong>：来自内存控制器的物理地址请求序列。</li>
+<li><strong>输出</strong>：每个 sub-rank 内部独立执行 activation/precharge/CAS 操作，形成更多独立的请求并行处理路径。</li>
+<li><strong>在整体架构中的作用</strong>：</li>
+<li><strong>补偿并行度损失</strong>：当采用 bank partitioning 将不同线程隔离至不同 bank 时，每线程可用的 bank 数减少。Sub-ranking 通过增加有效 bank 计数（每个 rank 内可独立操作的行数翻倍）来恢复并行度。</li>
+<li><strong>降低功耗</strong>：每次访问只激活一个 sub-rank 内的部分 chip，而非整个 rank，从而减少激活功率（activate power）。文档数据显示，sub-ranking 与 bank partitioning 结合可使 DRAM 功耗平均降低 <strong>21.4%</strong>。</li>
+<li><strong>协同提升公平性</strong>：对低空间局部性线程（如 mcf、omnetpp），sub-ranking 能提供更多并行 bank，避免其在 bank partitioning 下性能大幅下降，从而改善最小加速比（minimum speedup）。</li>
+</ul>
+<p><strong>算法/机制流程</strong></p>
+<ol>
+<li><strong>地址解码</strong>：内存控制器根据物理地址（经 OS 页分配和 cache 组索引置换后）解析出 <strong>channel</strong>、<strong>rank</strong>、<strong>sub-rank</strong>、<strong>bank</strong>、<strong>row</strong>、<strong>column</strong>。</li>
+<li><strong>请求调度</strong>：FR-FCFS 调度器在排序队列中同时考虑 sub-rank 状态。若某 sub-rank 当前 row-buffer 命中则优先服务；否则可切到同一 sub-rank 的另一 bank 或不同 sub-rank。</li>
+<li><strong>命令发出</strong>：对目标 sub-rank 发送独立的 <strong>activate</strong> 命令，随后发送 <strong>CAS</strong> 读取写入。由于 sub-rank 间互不干扰，多个线程可同时在不同 sub-rank 上执行行激活。</li>
+<li><strong>功率优化</strong>：每个请求只激活其所属 sub-rank 内的 chip，其余 sub-rank 的 chip 处于空闲（precharge power-down）状态，从而节省静态与动态功率。</li>
+</ol>
+<p><strong>输入与输出的关系示例</strong></p>
+<p>假设一个系统有 1 个 channel、1 个 rank（8 个内部 bank）和 32-bit sub-ranking（2 个 sub-rank）。传统配置中，最多可同时有 8 个行缓冲命中？但 sub-ranking 后，每个 sub-rank 内部的 8 个 bank 可以独立保持行，因此理论上可同时保持 <strong>2 × 8 = 16</strong> 个行（但实际受限于请求调度和时序）。输入请求的地址中 sub-rank 位将决定哪个子集 chip 参与，使得并行度翻倍。</p>
+<p><strong>与 bank partitioning 的协同关系</strong></p>
+<ul>
+<li><strong>Bank partitioning</strong> 负责在虚拟页分配阶段将不同线程的物理页限制在特定 bank 集合（颜色），消除行缓冲干扰。</li>
+<li><strong>Sub-ranking</strong> 负责在物理层面为每个线程提供更多独立的行缓冲槽（通过子等级拆分），弥补 bank partitioning 导致的并行度损失。</li>
+<li>两者配合可同时实现：高<strong>行缓冲命中率</strong>（来自隔离）和高<strong>并行度</strong>（来自子等级），并显著降低功耗。</li>
+</ul>
+<h3 id="3-combined-bank-partitioning-and-sub-ranking">3. Combined Bank Partitioning and Sub-Ranking<a class="headerlink" href="#3-combined-bank-partitioning-and-sub-ranking" title="Permanent link">&para;</a></h3>
 <hr />
-<p><strong>参数设置与权衡</strong></p>
-<ul>
-<li><strong>子Rank宽度选择</strong><br />
-  论文评估了8-bit、16-bit、32-bit三种宽度，最终选择<strong>32-bit</strong>，原因：  </li>
-<li>8-bit子Rank：完成一次64B Cache Line访问需要8个数据传输周期（相比标准4周期），在4GHz处理器上产生<strong>80 CPU周期</strong>的额外延迟，且地址总线压力剧增。  </li>
-<li>16-bit子Rank：额外延迟<strong>40 CPU周期</strong>，地址总线仍面临时序紧张。  </li>
-<li>
-<p>32-bit子Rank：额外延迟<strong>20 CPU周期</strong>以内（具体未给出，但明显小于16-bit），且不增加地址总线带宽需求。</p>
-</li>
-<li>
-<p><strong>额外延迟的影响</strong><br />
-  32-bit子Rank每次访问需要多占用数据总线时间（因为需要发送更多列地址和数据片），但在<strong>Row-Buffer Miss</strong>为主的场景下，该延迟远小于Miss延迟（约33 cycle），因此性能损失可接受。而在<strong>Row-Buffer Hit</strong>密集的场景（如Bank Partitioning后），额外延迟会相对显著，但通过并行性补偿后整体仍为增益。</p>
-</li>
-</ul>
-<hr />
-<p><strong>输入输出关系及在整体架构中的作用</strong></p>
-<ul>
-<li><strong>输入</strong>  </li>
-<li>原始DRAM配置：例如2 Channel × 2 Rank/Channel × 8 Bank/Rank = 32个物理Bank。  </li>
-<li>
-<p>采用Bank Partitioning后，每个Core分配<strong>固定子集</strong>（如8 Core各获得4个Bank），则每线程Bank数大幅减少。</p>
-</li>
-<li>
-<p><strong>输出</strong>  </p>
-</li>
-<li>每个Rank被拆分为2个子Rank，每个子Rank拥有8个内部Bank且可独立操作。因此等效独立Bank数变为：2 Channel × (2 Rank × 2 Sub-Rank) × 8 Bank = 64个有效Bank。  </li>
-<li>
-<p>每线程可用Bank数从4提升至8（若每个Core被分配1个Sub-Rank中的4个Bank？实际分区方式可能跨子Rank，但关键点是整体并行度翻倍）。</p>
-</li>
-<li>
-<p><strong>在整体架构中的角色</strong>  </p>
-</li>
-<li><strong>补偿Bank Partitioning的副作用</strong>：Bank Partitioning隔离了访问流但限制了每线程的Bank并行度，对低空间局部性应用（如mcf, omnetpp）造成性能损失。Sub-Ranking将这些应用的可用Bank数恢复至接近原水平，从而<strong>消除不公平性</strong>（见图9最低加速比恢复）。  </li>
-<li><strong>协同降低功耗</strong>：Sub-Ranking每次只激活子Rank对应的部分DRAM芯片（32-bit vs 64-bit），直接降低数据读取和预充电功耗。结合Bank Partitioning减少的Row激活次数，整体DRAM功耗降低平均<strong>21.4%</strong>（图10）。  </li>
-<li><strong>性能增益</strong>：对于混合型负载（MIX组），Bank Partitioning + Sub-Ranking的加权加速比平均提升<strong>7.4%</strong>，且最小加速比（公平性）提升<strong>15%</strong>。</li>
-</ul>
-<hr />
-<p><strong>图片引用说明</strong></p>
-<ul>
-<li>图5（<code>images/a0ca35619bd2b24ecff3a24b34fb878cec97e68a8ee424fa9e90b3302203ab93.jpg</code>）展示了大多数应用在8~16 Banks时达到性能饱和，而lbm等需要更多Banks，论证了Sub-Ranking提供的额外Bank数的必要性。  </li>
-<li>图10（<code>images/b78d0325c9fae1c4d07e36eb944eaaf0cced2f37bf66cb9471dcff0fabd62cd0.jpg</code>）显示了Sub-Ranking单独可降低DRAM功耗约15%，与Bank Partitioning结合后降至近70%基线水平，验证了功耗协同效应。</li>
-</ul>
-<h3 id="4-combined-bank-partitioning-and-sub-ranking">4. Combined Bank Partitioning and Sub-Ranking<a class="headerlink" href="#4-combined-bank-partitioning-and-sub-ranking" title="Permanent link">&para;</a></h3>
-<p><strong>核心实现原理</strong></p>
-<ul>
-<li><strong>Bank Partitioning（银行分区）</strong>：通过修改操作系统的物理页帧分配逻辑，将物理地址中的特定比特位（如核心ID）直接映射到DRAM Bank地址位。这样，不同核心的访问流被强制分配到互不相交的Bank集合，消除跨线程的Row-Buffer干扰。</li>
-<li>地址映射示例：物理地址中新增“颜色”（Color）字段，如 <code>(CIDP + PFN)</code> 共同确定Bank编号。不同核心只能使用属于自己的颜色集合。详见 <code>Figure 3</code>（文档中Figure 3的文字描述）。</li>
-<li>实现方式：无需改变内存控制器解码逻辑，仅依赖OS页着色（Page Coloring）。同时使用 <strong>XOR-置换缓存组索引</strong>替代传统的XOR-置换Bank索引，以保持分区效果。</li>
-<li><strong>Sub-Ranking（子秩）</strong>：将传统64-bit宽Rank拆分为多个独立控制的窄Sub-Rank（如32-bit）。每个Sub-Rank拥有自己的芯片使能信号，可独立执行Activate、Read/Write、Precharge命令，等效于增加系统的独立Bank数量。</li>
-<li>本方案选择 <strong>32-bit Sub-Rank</strong>，以平衡额外延迟（约4个CPU周期）与并行度收益。</li>
-<li><strong>组合机制</strong>：Bank Partitioning牺牲了每个线程可用的Bank数量（因为每个线程只能访问部分Bank），而Sub-Ranking通过提高有效Bank总数来补偿这一损失。两者作为两个独立的调节旋钮，共同平衡<strong>Row-Buffer局部性</strong>和<strong>Bank级并行性</strong>这对矛盾需求。</li>
-</ul>
+<p><strong>实现原理与核心逻辑</strong></p>
+<p>Combined Bank Partitioning and Sub-Ranking 的核心思想是 <strong>将冲突的线程调度到不同的 DRAM bank 集合中</strong>，同时通过 <strong>细粒度的 sub-rank 控制</strong>来弥补因分区而损失的 bank 级并行性。其根本动机在于：现代 CMP 系统中，多线程的访问流在共享 bank 上被交插，导致 row-buffer 命中率急剧下降（如图1中 lbm 的命中率从 98% 降至 35%）。传统的地址映射将所有线程的物理帧均匀散布在所有 bank 上，造成连续的 row-hit 被其他线程的 row-conflict 破坏。Bank Partitioning 从根本上切断这种干扰，而 Sub-Ranking 则利用更细的 rank 内部分区，有效增加系统可用的独立 bank 数量，从而满足低局部性线程对并行性的需求。</p>
 <p><strong>算法流程与参数设置</strong></p>
 <ul>
-<li><strong>Bank Partitioning 流程</strong>：</li>
-<li>OS为每个核心定义一组“颜色”（即Bank集合），采用静态均匀分配（每个核心获得等量Bank）。</li>
-<li>当核心请求物理帧时，OS的页分配算法仅从该核心对应的颜色池中选择帧，确保不同核心的物理页映射到不同Bank。</li>
-<li>若核心耗尽自身颜色池的帧，OS可“溢出”到其他颜色的帧，但会降低隔离效果。</li>
-<li><strong>Sub-Ranking 流程</strong>：</li>
-<li>内存控制器向DRAM模块发送命令时，将传统Rank内所有芯片的CEN信号按Sub-Rank粒度独立控制。</li>
-<li>每个Sub-Rank可持有不同的Row激活状态，支持并发访问。</li>
-<li><strong>参数设置</strong>：</li>
-<li><strong>分区粒度</strong>：每个核心分配 <strong>1个Rank内的连续Bank</strong>（例如8-bank系统下，4核心各得2 Bank）。</li>
-<li><strong>Sub-Rank宽度</strong>：固定为 <strong>32-bit</strong>，以避免过度增加访问延迟和地址总线压力。</li>
-<li><strong>调度策略</strong>：FR-FCFS + Open Page，与基线一致。</li>
-<li><strong>缓存置换</strong>：采用Cache Set Index XOR，代替Bank Index XOR，以保留分区效果。</li>
+<li><strong>Bank Partitioning 层 (OS 侧)</strong>:</li>
+<li><strong>输入</strong>：虚拟地址，进程 ID (core ID)。</li>
+<li><strong>操作</strong>：修改物理帧分配算法，在物理地址中嵌入一个“颜色 (color)”位域（如图3a/b中的 CIDP 或 Colors 字段）。该位域直接映射到 DRAM 地址中的 bank 索引。每个 core 被分配一组互斥的颜色，因此其所有物理页只会落入对应的 bank 集合。</li>
+<li><strong>关键参数</strong>：颜色数量等于<strong>可并行的线程数</strong>。为确保公平，每个核心获得相同数量的颜色（即等量 bank）。当某核心耗尽自己的颜色帧时，OS 可溢出到其他颜色，但会牺牲隔离性。</li>
+<li>
+<p><strong>输出</strong>：物理帧的 DRAM 地址被约束到特定的 bank 子集，不同线程的访问流不再共享同一个 bank（如图3c）。</p>
+</li>
+<li>
+<p><strong>Sub-Ranking 层 (硬件侧)</strong>:</p>
+</li>
+<li><strong>输入</strong>：来自 memory controller 的行/列地址与 chip select 信号。</li>
+<li><strong>操作</strong>：将传统 64-bit 宽的 rank 拆分为多个 32-bit 宽的 sub-rank（论文选择32-bit，避免过大的地址总线压力和延迟）。每个 sub-rank 拥有独立的 <strong>activate（激活）与 precharge（预充电）</strong> 路径，即它们可以同时保持不同的 open row。</li>
+<li><strong>关键参数</strong>：sub-rank 宽度（32-bit）和数量（例如，一个 rank 被拆成2个 sub-rank，每 sub-rank 控制4个内部 bank）。</li>
+<li><strong>输出</strong>：系统有效 bank 数翻倍（因为原先一个 rank 内所有 bank 共用 row-buffer 状态，现在每个 sub-rank 内部可保持独立的 row）。对采用 bank partition 的线程而言，虽然其可访问的 bank 总数减半，但 sub-ranking 使每个 rank 内的独立行缓存单元数量增加，从而部分恢复并行性。</li>
 </ul>
-<p><strong>输入输出关系</strong></p>
+<p><strong>输入输出关系及整体作用</strong></p>
 <ul>
-<li><strong>输入</strong>：来自多个核心的访存请求（物理地址流）。Bank Partitioning通过OS页分配将地址流按核心分类；Sub-Ranking将每个Rank内的地址进一步分解为Sub-Rank级命令。</li>
-<li><strong>输出</strong>：DRAM模块接收的Activate、Read/Write、Precharge命令序列及其时序。</li>
-<li><strong>整体作用</strong>：</li>
-<li><strong>缩短Row-Buffer空泡</strong>：隔离后，每个线程的局部性得以保留，Row-Buffer命中率显著提升（如 <code>Figure 6</code> 所示：libquantum恢复约50%的丢失命中率）。</li>
-<li><strong>维持Bank级并行</strong>：Sub-Ranking使每个线程仍拥有足够多的并行Bank（即使原本被分区），避免低局部性应用的性能退化（如 <code>Figure 5</code> 显示多数应用在8–16 Bank时饱和，Sub-Ranking可将有效Bank数提升至与基线相当）。</li>
-<li><strong>功率效率</strong>：Row-Buffer命中减少Activate次数，Sub-Ranking降低每次访问激活的芯片数量，两者叠加使DRAM功耗平均下降 <strong>21.4%</strong>（ <code>Figure 10</code>），系统功耗效率（Throughput/Watt）提升 <strong>7–10%</strong>（ <code>Figure 11</code>）。</li>
+<li><strong>输入</strong>：多个线程的 LLC miss 生成的 memory request stream，这些 stream 原本在共享 bank 上被任意交插。</li>
+<li><strong>处理</strong>：</li>
+<li>OS 分配物理帧时确保同一线程的请求落地到一组固定的 bank（例如 Core0 → bank0, bank1；Core1 → bank2, bank3）。</li>
+<li>内存控制器按 FR-FCFS 或类似策略调度，但由于 bank 已分区，调度队列中的请求不会因不同线程的 row 冲突而频繁触发 <strong>activate/precharge</strong> 切换。</li>
+<li>当某个线程因分区导致可用 bank 减少，使得并发请求无法充分并行时，sub-ranking 发挥补偿作用：在同一个 rank 内，两个不同的 sub-rank 可以同时服务该线程的不同 bank 请求，有效隐藏 tRCD + tRP 延迟。</li>
+<li><strong>输出</strong>：</li>
+<li><strong>性能</strong>：如图7，对于高局部性负载 (HIGH 组)，bpart+sr 比 baseline 提升 9.8% 加权加速比；对于混合负载 (MIX 组) 提升 7.4%；对于低局部性负载 (LOW 组) 仍提升 4.2%。</li>
+<li><strong>公平性</strong>：如图9，bank partitioning 单独使用时，mcf/omnetpp 等低局部性应用的 min speedup 显著下降；加入 sub-ranking 后，min speedup 恢复甚至超过 baseline，表明两种技术互补。</li>
+<li><strong>功耗</strong>：如图10，DRAM 功耗降低 21.4%，主要来自 <strong>activate 命令数减少</strong>（bank partitioning 提高 row-hit 率）和 <strong>每次激活只涉及部分子 rank 的芯片</strong>（sub-ranking 减少参与芯片数）。系统效率（Throughput/Watt）在 bank-limited 系统中提升达 18-25%（如图12）。</li>
 </ul>
-<p><strong>关键指标与量化验证</strong></p>
+<p><strong>为何不能只用一种技术？</strong></p>
+<ul>
+<li><strong>仅有 Bank Partitioning</strong>：低局部性线程（如 mcf）因可用 bank 减少而加剧 bank 队列拥塞，进而退化性能（图7 LOW 组中 bpart 效果微弱甚至负收益）。同时，如图8显示，低局部性负载的请求排队延迟因分区而变高。</li>
+<li><strong>仅有 Sub-Ranking</strong>：sub-ranking 本身会增加访问延迟（每笔读请求需多占用 data bus 周期数），且 row-buffer 命中率因 burst 减小而略有下降（图6）。对于高局部性线程，额外延迟抵消了并行性收益，导致性能提升有限（图7 HIGH 组 sr 几乎无改善）。</li>
+</ul>
+<p>只有当两者结合时，<strong>bank partitioning 提供了局部性保障，而 sub-ranking 提供了并行性补偿</strong>，二者协同在性能、公平性和能效上实现帕累托改进。论文的核心贡献正是揭示了这种平衡策略，并通过图2和图3的映射对比、图4的时序对比、以及图6-12的量化结果验证了其有效性。</p>
+<h3 id="4-cache-set-index-permutation-to-preserve-bank-partitioning">4. Cache Set Index Permutation to Preserve Bank Partitioning<a class="headerlink" href="#4-cache-set-index-permutation-to-preserve-bank-partitioning" title="Permanent link">&para;</a></h3>
+<p><strong>核心观点</strong>
+Cache Set Index Permutation 是一种在软件层面（OS 页着色）与硬件层面（XOR 置换）之间达成折中的关键技术。它解决了 <strong>XOR-permuted bank indexing</strong> 会破坏基于 <strong>color</strong> 的 <strong>bank</strong> 分区这一根本矛盾，使得 <strong>bank partitioning</strong> 能够在现代处理器中同时保留 <strong>cache bank conflict</strong> 缓解能力。</p>
+<hr />
+<p><strong>实现原理与算法流程</strong></p>
+<ul>
+<li><strong>传统 XOR-permuted bank indexing</strong>  </li>
+<li>物理地址中的 <strong>bank index</strong> 位通常会与 <strong>cache tag</strong> 的一部分进行 XOR 运算，从而将同一 <strong>cache set</strong> 中的不同 <strong>cache line</strong> 分布到多个 <strong>bank</strong>。  </li>
+<li>这种做法的目的是避免因 <strong>cache conflict miss</strong> 和 <strong>write-back</strong> 集中在同一个 <strong>bank</strong> 上而产生 <strong>row-conflict</strong>，提升 <strong>row-buffer</strong> 利用率和吞吐量。  </li>
+<li>
+<p>然而，<strong>XOR 置换作用于 bank index</strong> 会破坏基于 <strong>color</strong> 的 <strong>bank</strong> 分区：因为 <strong>color</strong> 的定义通常依赖物理地址中固定的 <strong>bank</strong> 位（如 <code>bit[14]</code> 表示 core ID），而 XOR 打乱了这些位，导致同一 <strong>color</strong> 的内存帧被随机映射到所有 <strong>bank</strong>，隔离性失效。</p>
+</li>
+<li>
+<p><strong>Cache Set Index Permutation 的核心替换</strong>  </p>
+</li>
+<li>不篡改 DRAM 地址映射中的 <strong>bank index</strong> 位（保持物理帧到 DRAM 的映射不变，即 <strong>color</strong> 依然能直接对应到一组固定的 <strong>bank</strong>）。  </li>
+<li>取而代之的是，对 <strong>cache set index</strong> 的位进行 XOR 置换。  </li>
+<li>具体做法：将物理地址中原本用于 <strong>cache set index</strong> 的位与 <strong>cache tag</strong> 的某些位进行 XOR，生成新的 <strong>set index</strong>。  </li>
+<li>
+<p>由于 <strong>DRAM bank index</strong> 不受影响，<strong>color</strong> 所对应的内存帧仍然全部落在预设的 <strong>bank</strong> 集合内，从而维持了 <strong>bank partitioning</strong> 的隔离效果。</p>
+</li>
+<li>
+<p><strong>算法输入输出关系</strong>  </p>
+</li>
+<li><strong>输入</strong>：原始物理地址，包含：  <ul>
+<li><strong>Cache tag</strong>（高地址位）  </li>
+<li><strong>Cache set index</strong>（中间位）  </li>
+<li><strong>Block offset</strong>（低位）  </li>
+<li><strong>DRAM bank index</strong>（通常位于 <strong>set index</strong> 的某些位，或被 XOR 作用于 <strong>set index</strong> 的区域）  </li>
+</ul>
+</li>
+<li><strong>处理</strong>：  <ol>
+<li>从物理地址中提取 <strong>cache set index</strong> 的原始值（记为 <code>set_original</code>）和 <strong>cache tag</strong> 的部分位（记为 <code>tag_subset</code>）。  </li>
+<li>计算 <code>set_permuted = (set_original) XOR (tag_subset)  // 或更复杂的置换函数</code>。  </li>
+<li>将 <code>set_permuted</code> 替换掉原始的 <strong>set index</strong>，用于 <strong>cache tag</strong> 比较和 <strong>cache set</strong> 选择。  </li>
+</ol>
+</li>
+<li><strong>输出</strong>：  <ul>
+<li><strong>缓存索引</strong>：<code>set_permuted</code>（用于访问 <strong>cache tag/data array</strong>）。  </li>
+<li><strong>DRAM bank index</strong>：保持不变（仍由物理地址中未置换的位决定）。  </li>
+</ul>
+</li>
+<li><strong>效果</strong>：  <ul>
+<li>同一 <strong>cache set</strong> 中的多个 <strong>cache line</strong> 在物理地址中仍可能被映射到不同的 <strong>DRAM bank</strong>（因为它们的物理地址不同，对应的原始 <strong>set index</strong> 不同，经过置换后仍然可能落在不同的 <strong>bank</strong>）。  </li>
+<li>但所有属于同一 <strong>color</strong> 的物理帧始终只出现在固定的 <strong>bank</strong> 子集内，因为 <strong>bank index</strong> 未被扰乱。</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><strong>参数设置与硬件/软件协力</strong></p>
+<ul>
+<li><strong>参数设计</strong>  </li>
+<li><strong>置换函数选择</strong>：通常使用 XOR，但也可采用更复杂的哈希（如位混洗），以尽量均匀地分散 <strong>cache conflict</strong> 对应的 <strong>bank</strong> 索引。  </li>
+<li><strong>参与 XOR 的 tag 位范围</strong>：需要保证置换后的 <strong>set index</strong> 能覆盖所有 <strong>cache set</strong>，且 <strong>tag_subset</strong> 的选择应避免与 <strong>bank index</strong> 位重叠，以免间接影响 <strong>bank</strong> 映射。  </li>
+<li>
+<p><strong>页着色接口</strong>：OS 在分配物理帧时仍使用基于 <strong>color</strong> 的策略，物理地址的 <strong>bank index</strong> 位（如 <code>bit[14:13]</code>）被固定为特定值。该机制与 <strong>cache set permutation</strong> 完全解耦。</p>
+</li>
+<li>
+<p><strong>在整体系统中的角色</strong>  </p>
+</li>
+<li><strong>保持 thread 隔离</strong>：不同 <strong>core</strong> 的 <strong>bank</strong> 集互不重叠，消除 <strong>row-buffer</strong> 干扰（如 lbm 的高命中率不会因 mcf 的随机访问而下降）。  </li>
+<li><strong>防止 bank 热点</strong>：同一 <strong>cache set</strong> 内的不同 <strong>line</strong> 即使发生冲突，也会被分散到多个 <strong>bank</strong>，避免单个 <strong>bank</strong> 上的 <strong>row-conflict</strong> 压力。  </li>
+<li><strong>与 sub-ranking 协同</strong>：当 <strong>bank</strong> 数量因分区而减少时，<strong>sub-ranking</strong> 提供更多有效 <strong>bank</strong>，而 <strong>cache set permutation</strong> 则确保这些 <strong>bank</strong> 得到均衡利用。  </li>
+<li><strong>代价</strong>：需要修改缓存控制器（或硬件）中的 <strong>address decoding</strong> 逻辑；OS 的页着色算法不变，仅物理帧分配策略需与 <strong>color</strong> 定义一致。</li>
+</ul>
+<hr />
+<p><strong>表格：三种方案对比</strong></p>
 <table>
 <thead>
 <tr>
-<th>指标</th>
-<th>仅Bank Partitioning</th>
-<th>仅Sub-Ranking</th>
-<th>组合方案</th>
-<th>说明</th>
+<th>方案</th>
+<th>对 <strong>bank index</strong> 的影响</th>
+<th>对 <strong>bank partitioning</strong> 的影响</th>
+<th><strong>cache set</strong> 内分布</th>
+<th>主要缺点</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Row-Buffer命中率（高局部性应用）</strong></td>
-<td>+15～30%</td>
-<td>-5～10%</td>
-<td>+10～25%</td>
-<td>局部性恢复优于Sub-Ranking的微损失</td>
+<td>无置换（默认）</td>
+<td>固定</td>
+<td>天然支持（但可能导致同一 <strong>set</strong> 的所有 <strong>line</strong> 映射到单个 <strong>bank</strong>）</td>
+<td>集中，易引发 <strong>bank conflict</strong></td>
+<td>缓存冲突导致大量 <strong>row-conflict</strong></td>
 </tr>
 <tr>
-<td><strong>加权加速比（混合负载）</strong></td>
-<td>+5～8%</td>
-<td>+2～4%</td>
-<td>+7～12%</td>
-<td>组合方案在混合负载中协同增效</td>
+<td>XOR-permuted bank indexing</td>
+<td>被置换</td>
+<td>破坏（<strong>color</strong> 失去意义）</td>
+<td>分散，缓解 <strong>bank conflict</strong></td>
+<td>使 <strong>bank partitioning</strong> 失效</td>
 </tr>
 <tr>
-<td><strong>最小加速比（公平性）</strong></td>
-<td>-2～5%（低局部性应用受损）</td>
-<td>+1%</td>
-<td>+15%</td>
-<td>组合方案恢复公平性</td>
-</tr>
-<tr>
-<td><strong>DRAM功耗</strong></td>
-<td>-10～15%</td>
-<td>-15～20%</td>
-<td>-20～45%</td>
-<td>取决于系统Bank限制程度</td>
+<td>Cache Set Index Permutation</td>
+<td>不变</td>
+<td>保留（<strong>color</strong> 有效）</td>
+<td>分散（通过置换 <strong>set index</strong> 间接实现）</td>
+<td>需要硬件支持置换逻辑；<strong>set index</strong> 位宽可能有限，置换效果受限于 <strong>set</strong> 数目</td>
 </tr>
 </tbody>
 </table>
-<p><strong>在整体系统中的作用</strong></p>
-<ul>
-<li><strong>解决核心矛盾</strong>：多核环境下，传统Bank交错映射导致线程间Row-Buffer频繁冲突。Bank Partitioning从根源上切断干扰，但牺牲并行性。Sub-Ranking则在不增加硬件成本的前提下恢复并行性。两者结合，使系统能同时享受高局部性和高并行性。</li>
-<li><strong>对可扩展性的贡献</strong>：随着核心数增长快于Bank数增长（Bank限制型系统），组合方案的优势更加凸显（ <code>Figure 12</code> 显示单Rank系统下系统效率提升达25%）。它为未来多核/众核架构提供了一种经济、高效的DRAM隔离与加速手段。</li>
-<li><strong>正交于调度策略</strong>：可与现有的内存控制器调度策略（如FR-FCFS、ATLAS、TCM）叠加，进一步提升性能。</li>
-</ul>
+<hr />
+<p><strong>图片引用说明</strong><br />
+本文中未提供直接展示 <strong>cache set permutation</strong> 的示意图。图 3 展示了 <strong>bank partitioning</strong> 的地址映射，但其核心是物理帧分配与 <strong>bank</strong> 位的关系。<strong>Cache Set Index Permutation</strong> 的作用在于保证图 3 中的 <strong>color</strong> 映射不被传统的 XOR 置换破坏，而是通过对 <strong>set index</strong> 的置换实现类似效果。可参考文档中图 2、图 3 的对比来理解该机制的上下文。</p>
 <hr />
 <h2 id="4">4. 实验方法与实验结果<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
 <p><strong>实验设置</strong></p>
 <ul>
-<li><strong>模拟平台</strong>：使用 <strong>Zesto</strong>（x86 out-of-order 处理器模拟器）和自研 <strong>DRAM 模拟器</strong>。物理帧分配逻辑被扩展以实现 Bank 分区。</li>
-<li><strong>系统配置</strong>：8 核 4GHz，私有 L1（32KB）/L2（256KB），共享 8MB L3。内存控制器采用 <strong>FR-FCFS</strong> 调度、开放行策略，具有 64 项读/写队列。</li>
-<li><strong>内存配置</strong>：<strong>2 通道，每通道 2 个 Rank，每 Rank 8 个 Bank</strong>（共 32 个 Bank）。采用 <strong>DDR3-1600</strong>，每 Rank 8×8 芯片。另对 <strong>1-Rank 系统</strong>（每通道 1 Rank）进行了实验以模拟 Bank 受限场景。</li>
-<li><strong>工作负载</strong>：多程序负载（Multi-programmed）来自 <strong>SPEC CPU2006</strong>，根据 LLC MPKI 和行缓冲命中率分为四组：</li>
-<li><strong>HIGH</strong>：高空间局部性（lbm, milc, soplex, libquantum, leslie3d）</li>
-<li><strong>MIX</strong>：混合高低局部性</li>
-<li><strong>LOW</strong>：低空间局部性（mcf, omnetpp）</li>
-<li><strong>LOW_BW</strong>：非内存密集型</li>
-<li>每组包含多个具体的负载组合（如 H1~H5, M1~M7 等），每个组合复制 8 次以运行在 8 核上。使用 <strong>SimPoint</strong> 提取 2 亿条指令的代表性片段。</li>
-<li><strong>评估指标</strong>：</li>
-<li><strong>Weighted Speedup (WS)</strong>：衡量系统吞吐量，公式为各应用共享 IPC 与单跑 IPC 之比的和。</li>
-<li><strong>Minimum Speedup</strong>：最小加速比，衡量公平性。</li>
-<li><strong>系统效率</strong>：WS 除以系统总功率（CPU + DRAM），以及 WS 除以 DRAM 功率。</li>
-<li>功率模型：DRAM 使用 Micron 模型，CPU 动态功率与 IPC 成正比。</li>
-<li><strong>实验配置</strong>：对比四种配置：</li>
-<li><strong>shared</strong>：传统共享 Bank</li>
-<li><strong>bpart</strong>：Bank 分区（每核分配连续 Bank）</li>
-<li><strong>sr</strong>：Sub-ranking（32-bit 子秩，将每个 Rank 分为两个独立子秩）</li>
-<li><strong>bpart+sr</strong>：两者结合</li>
+<li>使用Zesto进行cycle-level x86 out-of-order处理器模拟，结合内部DRAM模拟器。物理帧分配逻辑被扩展以实现<strong>bank partitioning</strong>（每个核分配到互斥的bank集合）。DRAM模拟器支持<strong>sub-ranking</strong>，建模命令总线、数据总线竞争和所有DDR3时序约束。</li>
+<li>系统参数：8核，4GHz，4-wide out-of-order；L1私有多级缓存，L2私有多级，L3 8MB共享；内存控制器采用FR-FCFS调度、open row policy，64-entry读写队列；主存配置为2 channel、2 rank/channel、8 bank/rank，使用8x8 DDR3-1600 chips/rank。</li>
+<li>对比四种配置：<strong>shared</strong>（基线共享bank）、<strong>bpart</strong>（bank partition，每个核获得连续bank）、<strong>sr</strong>（每rank拆分为两个独立sub-rank）、<strong>bpart+sr</strong>（两者结合）。</li>
+<li>功耗模型：DRAM使用Micron功耗模型，处理器使用基于IPC的动态功耗（TDP 125W，50%静态、50%动态正比于IPC）。</li>
+<li>工作负载：多程序SPEC CPU2006，通过SimPoint提取200M指令代表点。按memory intensity和row-buffer locality分为HIGH（高空间局部性）、MIX（混合）、LOW（低空间局部性）、LOW_BW（非内存密集型）。每个workload复制到8个核。</li>
+<li>主要指标：Weighted Speedup (WS)衡量系统吞吐量，Minimum Speedup衡量公平性，系统效率为WS/系统功耗。</li>
 </ul>
-<hr />
-<p><strong>结果数据</strong></p>
-<p><strong>行缓冲命中率（Figure 6）</strong></p>
+<p><strong>结果数据分析</strong></p>
 <ul>
-<li><strong>bpart</strong> 显著提升了大多数应用的行缓冲命中率，尤其 <strong>libquantum</strong> 恢复了一半因干扰丢失的局部性。</li>
-<li>例外：<strong>lbm</strong> 的命中率反而下降，因为其局部性依赖于大量 Bank，而分区减少了可用 Bank 数。</li>
-<li><strong>sr</strong> 本身会降低命中率（子秩交织粒度 64B 导致首次访问无命中），但与 bpart 结合后命中率仅轻微下降。</li>
+<li><strong>Row-buffer Hit Rate（图6）</strong>：bank partitioning普遍提升大多数benchmark的row-buffer hit rate，如libquantum恢复一半丢失的局部性。但lbm的hit rate下降，因为其空间局部性对bank数量敏感。sub-ranking单独应用会降低hit rate（因sub-rank间粒度变细，最初两次64B访问无法保持打开行）。结合bpart+sr时，hit rate略低于bpart单独应用。</li>
+<li><strong>系统吞吐量（图7）</strong>：HIGH组：bpart显著提升（恢复局部性），sr贡献不大，bpart+sr因增加额外延迟反而略低于bpart。MIX组：bpart+sr产生协同增益（多数workload提升），个别例外（M1只有一个低局部性应用受益于sr；M4含lbm受影响）。LOW组：bpart反而提升5%性能（因缓解bank负载不均衡，降低排队延迟，图8）。LOW_BW组趋势类似，但LB4因lbm和mcf受bpart负面影响而下降7.6%，sr可恢复部分性能。总体平均WS提升：HIGH 9.8%，MIX 7.4%，LOW 4.2%，LOW_BW 2.4%。</li>
+<li><strong>公平性（Minimum Speedup，图9）</strong>：bpart单独在MIX和部分LOW_BW中导致低局部性benchmark（mcf、omnetpp）显著减速（最小加速比下降）。bpart+sr可恢复公平性，同时提升系统吞吐量。</li>
+<li><strong>功耗与系统效率（图10, 11）</strong>：bpart降低DRAM功耗（减少activation），sr通过只激活部分chip进一步降低。bpart+sr将DRAM功耗平均降低21.4%。系统效率（WS/系统功耗）在MIX组中bpart+sr最佳（平均提升9%），而bpart或sr单独仅6%或4%。若仅考虑DRAM功耗，bpart+sr提升达45%（图11b）。在bank受限系统（1 rank/channel，图12）中，bpart+sr系统效率提升更显著（HIGH 18%，MIX 19%，LOW 25%，LOW_BW 7%）。</li>
 </ul>
-<p><strong>系统吞吐量（Figure 7）</strong></p>
+<p><strong>消融实验</strong></p>
 <ul>
-<li><strong>HIGH 组</strong>：bpart 带来 <strong>10-15%</strong> 的吞吐提升，sr 影响不大，bpart+sr 略有下降（因 sr 增加延迟对行缓冲命中为主的负载不利）。</li>
-<li><strong>MIX 组</strong>：bpart+sr 产生 <strong>协同增益</strong>，平均提升 <strong>7.4%</strong>，优于二者单独使用。例外：含 lbm 的 M2、M4 表现稍弱。</li>
-<li><strong>LOW 组</strong>：bpart 反而提升 <strong>~5%</strong>，原因是分区均衡了 Bank 负载，降低了排队延迟（Figure 8）。sr 进一步提高。bpart+sr 平均提升 <strong>4.2%</strong>。</li>
-<li><strong>LOW_BW 组</strong>：改进幅度较小（平均 <strong>2.4%</strong>），但趋势一致。</li>
-</ul>
-<p><strong>最小加速比（公平性，Figure 9）</strong></p>
-<ul>
-<li>单独 bpart 在 MIX 组中显著降低了最小加速比（如 mcf, omnetpp 等低局部性程序因 Bank 减少而受损）。</li>
-<li><strong>bpart+sr</strong> 恢复了这些程序的性能，最小加速比提升 <strong>15%</strong> 以上，公平性优于单独 bpart。</li>
-</ul>
-<p><strong>DRAM 功耗（Figure 10）</strong></p>
-<ul>
-<li>bpart 减少激活次数，功耗略有降低。</li>
-<li>sr 通过激活更少的芯片大幅降低功耗。</li>
-<li><strong>bpart+sr</strong> 使 DRAM 功耗平均降低 <strong>21.4%</strong>，在各负载组中均表现最佳。</li>
-</ul>
-<p><strong>系统效率（Figure 11）</strong></p>
-<ul>
-<li><strong>吞吐量 / 系统功率</strong>：</li>
-<li>HIGH 组：bpart 提升 <strong>~10%</strong>，sr 无帮助。</li>
-<li>MIX 组：bpart+sr 提升 <strong>9%</strong>，优于单独 bpart（6%）和 sr（4%）。</li>
-<li>LOW_BW 组：bpart+sr 仍为最佳（除 LB4 外）。</li>
-<li><strong>吞吐量 / DRAM 功率</strong>（Figure 11b）：</li>
-<li>改进幅度更大，bpart+sr 提升高达 <strong>45%</strong>，大部分负载在 <strong>20-45%</strong> 范围内。</li>
-</ul>
-<p><strong>Bank 受限系统（1-Rank 每通道，Figure 12）</strong></p>
-<ul>
-<li>系统效率提升更加显著：bpart+sr 平均提升 <strong>18-25%</strong>（各组），DRAM 功率效率提升 <strong>约 50%</strong> 相对于整个系统测量结果。</li>
-</ul>
-<hr />
-<p><strong>消融实验分析</strong></p>
-<p>文档通过对比四种配置（shared, bpart, sr, bpart+sr）实质上构成了 <strong>消融研究</strong>。核心发现可归纳为：</p>
-<ul>
-<li><strong>Bank 分区单独作用</strong>：有效恢复局部性，提升高局部性负载的吞吐量和效率，但 <strong>牺牲低局部性负载</strong>（公平性下降），且对 lbm 这类对 Bank 数量敏感的负载不利。</li>
-<li><strong>Sub-ranking 单独作用</strong>：通过增加有效 Bank 数提升低局部性负载性能，并显著降低功耗，但会轻微增加访问延迟，对高局部性负载帮助有限。</li>
-<li><strong>两者结合</strong>：</li>
-<li><strong>协同增益</strong>：bpart+sr 在混合负载（MIX）中实现最佳吞吐和公平性，因为 sr 补偿了 bpart 造成的 Bank 损失，而 bpart 保持了高局部性负载的效率。</li>
-<li><strong>功率优势叠加</strong>：DRAM 功耗降低幅度接近两者之和（约 21% vs. 各自单独约 10%）。</li>
-<li><strong>公平性恢复</strong>：bpart 导致的最小加速比下降被 sr 完全弥补，使得组合方案在公平性上接近甚至优于 shared 基线。</li>
-<li><strong>Bank 受限系统敏感性</strong>：当 Bank 数量更少（1-Rank）时，bpart+sr 的收益成倍放大（系统效率提升 18-25% vs. 正常系统的 9-10%），证实了该技术在未来高核低 Bank 系统中的重要性。</li>
+<li>通过对比四种配置（shared、bpart、sr、bpart+sr）构成完整消融。没有单独做“去除bpart仅保留sr”变体，但已有sr组。此外，评估了不同核心数（8核）和bank受限配置（单rank）作为敏感性分析。</li>
+<li>关键发现：bpart提升局部性但损失parallelism；sr提升parallelism但增加延迟；bpart+sr互补，在混合工作负载中最佳，对低局部性workload也改善公平性。单独应用任一种都会在特定场景下性能或公平性退化。</li>
 </ul>
 <hr />
 

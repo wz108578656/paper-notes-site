@@ -9,13 +9,13 @@
       "et al."
     ],
     "affiliations": [
-      "University of Texas at Austin",
-      "Hewlett-Packard Labs",
+      "Dept. of Electrical and Computer Engineering, The University of Texas at Austin",
+      "Intelligent Infrastructure Lab, Hewlett-Packard Labs",
       "ARM Inc."
     ],
     "venue": "unknown",
-    "year": 2026,
+    "year": 2012,
     "doi": null
   },
-  "description": "提出结合DRAM bank分区和子排名（sub-ranking）的方法，通过OS页着色隔离线程访问流，消除行缓冲干扰，并用子排名增加有效bank数以补偿并行性损失。实验表明，与单独技术相比，组合方案在多程序负载下平均提升加权加速比7%以上，降低DRAM功耗21%，且最小加速比提升15%，兼顾性能、公平性和能效。"
+  "description": "针对CMP系统中多线程内存访问交错导致DRAM行缓冲区局部性下降和功耗增加的问题，提出银行分区与子排名（sub-ranking）的组合技术。通过操作系统页着色实现银行分区隔离线程访问流，同时利用子排名有效增加银行数量以补偿并行性损失。实验表明，对于高局部性负载性能提升10-15%，混合负载加权加速比提升7%，最小加速比（公平性）提升15%，DRAM功耗降低20-45%，实现性能与能效的协同优化。"
 }
