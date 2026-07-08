@@ -1,0 +1,21 @@
+{
+  "index": "balancing-dram-locality-and-parallelism-in-shared-memory-cmp-systems",
+  "paper_title": "Balancing DRAM Locality and Parallelism in Shared Memory CMP Systems",
+  "metadata": {
+    "authors": [
+      "Min Kyu Jeong",
+      "Doe Hyun Yoon",
+      "Dam Sunwoo",
+      "et al."
+    ],
+    "affiliations": [
+      "University of Texas at Austin",
+      "Hewlett-Packard Labs",
+      "ARM Inc."
+    ],
+    "venue": "unknown",
+    "year": 2026,
+    "doi": null
+  },
+  "description": "提出结合DRAM bank分区和子排名（sub-ranking）的方法，通过OS页着色隔离线程访问流，消除行缓冲干扰，并用子排名增加有效bank数以补偿并行性损失。实验表明，与单独技术相比，组合方案在多程序负载下平均提升加权加速比7%以上，降低DRAM功耗21%，且最小加速比提升15%，兼顾性能、公平性和能效。"
+}

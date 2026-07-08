@@ -1,0 +1,1715 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://wz108578656.github.io/paper-notes-site/notes_repo/balancing-dram-locality-and-parallelism-in-shared-memory-cmp-systems/paper_notes/">
+      
+      
+        <link rel="prev" href="../../../collections/Recent/">
+      
+      
+        <link rel="next" href="../ELI5_notes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>DRAM Locality & Parallelism (论文笔记) - Paper Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#balancing-dram-locality-and-parallelism-in-shared-memory-cmp-systems" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="Paper Notes" class="md-header__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Paper Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DRAM Locality & Parallelism (论文笔记)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="amber"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Paper Notes" class="md-nav__button md-logo" aria-label="Paper Notes" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    Paper Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/wz108578656/paper-notes-site" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../collections/Recent/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recent
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Recent
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DRAM Locality & Parallelism (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DRAM Locality & Parallelism (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 论文基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 背景知识与核心贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心技术和实现细节
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 核心技术和实现细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 技术架构概览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-bank-partitioning-via-os-controlled-page-coloring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bank Partitioning via OS-Controlled Page Coloring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cache-set-permutation-to-preserve-bank-partitioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cache-Set Permutation to Preserve Bank Partitioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dram-sub-ranking-to-increase-effective-bank-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. DRAM Sub-Ranking to Increase Effective Bank Count
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-combined-bank-partitioning-and-sub-ranking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Combined Bank Partitioning and Sub-Ranking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实验方法与实验结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DRAM Locality & Parallelism (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apple-neural-engine-architecture-programming-and-performance/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apple Neural Engine (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apple-neural-engine-architecture-programming-and-performance/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apple Neural Engine (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CVA6-RT (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cva6-rt-an-open-source-time-predictable-rv64-processor-for-mixed-criticality-systems/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CVA6-RT (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RH+ (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rh-row-hit-optimized-scheduling-for-pim-based-llm-inference/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RH+ (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar 2.0 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../interstellar-20-fine-grained-streamguided-hwsw-co-design-for-multi-channel-dram-performance-steering/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    InterStellar 2.0 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../a-configurable-risc-v-co-processor-with-instruction-controlled-stream-based-accelerators/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RISC-V Co-Processor (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../the-memory-processing-unit-a-generalized-interface-for-end-to-end-in-memory-execution/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPU (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/paper_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (论文笔记)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cd27-mediated-regulatory-t-cell-depletion-and-effector-t-cell-costimulation-both-contribute-to-antitumor-efficacy/ELI5_notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CD27 (通俗版)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 论文基本信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 摘要
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 背景知识与核心贡献
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 核心技术和实现细节
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 核心技术和实现细节">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#0_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 技术架构概览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-bank-partitioning-via-os-controlled-page-coloring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bank Partitioning via OS-Controlled Page Coloring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cache-set-permutation-to-preserve-bank-partitioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cache-Set Permutation to Preserve Bank Partitioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dram-sub-ranking-to-increase-effective-bank-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. DRAM Sub-Ranking to Increase Effective Bank Count
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-combined-bank-partitioning-and-sub-ranking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Combined Bank Partitioning and Sub-Ranking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实验方法与实验结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="balancing-dram-locality-and-parallelism-in-shared-memory-cmp-systems">Balancing DRAM Locality and Parallelism in Shared Memory CMP Systems 论文解析<a class="headerlink" href="#balancing-dram-locality-and-parallelism-in-shared-memory-cmp-systems" title="Permanent link">&para;</a></h1>
+<p><a download="bpart_hpca12.pdf" href="original.pdf">📄 下载论文原文 (PDF)</a> &nbsp;|&nbsp; <a href="original.pdf" target="_blank">🔗 在线阅读</a> &nbsp;|&nbsp; <a href="https://doi.org/10.1109/HPCA.2012.6168944" target="_blank">DOI: 10.1109/HPCA.2012.6168944</a></p>
+<h2 id="0">0. 论文基本信息<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<p><strong>作者 (Authors)</strong>: Min Kyu Jeong, Doe Hyun Yoon, Dam Sunwoo, et al.</p>
+<p><strong>发表期刊/会议 (Journal/Conference)</strong>: unknown</p>
+<p><strong>发表年份 (Publication Year)</strong>: 2026</p>
+<p><strong>研究机构 (Affiliations)</strong>: University of Texas at Austin, Hewlett-Packard Labs, ARM Inc.</p>
+<hr />
+<h2 id="1">1. 摘要<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p><strong>目的</strong><br />
+- 针对共享内存CMP系统中多核访问流交错导致DRAM行缓冲局部性严重下降的问题（如Figure 1所示，lbm单独运行时行缓冲命中率98%，与4个实例混合时降至50%，与mcf混合时进一步降至35%），提出一种从根源消除行缓冲干扰的机制。<br />
+- 旨在同时优化空间局部性和银行级并行性这两个相互冲突的需求，在提升系统吞吐量的同时显著降低内存功耗。</p>
+<p><strong>方法</strong><br />
+- <strong>银行分区</strong>：通过操作系统物理帧分配算法，将独立的DRAM银行集分配给不同核心，强制隔离访问流，避免行缓冲冲突（如Figure 4所示，银行分区消除了跨线程的预充电和激活命令）。<br />
+- <strong>子排名</strong>：将传统64位宽排名拆分为32位窄子排名，以增加有效银行数量，补偿银行分区后单个核心可用的银行级并行性下降（子排名引入约4个额外CPU周期的访问延迟，但可提供更多并行机会）。<br />
+- <strong>实现细节</strong>：<br />
+  - 保持物理到DRAM地址映射不变，仅修改虚拟-物理地址映射，兼容现有内存控制器。<br />
+  - 采用XOR置换缓存集索引而非银行索引，避免银行分区被传统XOR置换破坏。<br />
+  - 使用FR-FCFS调度策略和开放行策略，模拟8核x86乱序处理器及DDR3-1600内存系统（2通道、2排名/通道、8银行/排名）。<br />
+- <strong>评估配置</strong>：对比四种方案：共享银行基线（shared）、仅银行分区（bpart）、仅子排名（sr）、两者结合（bpart+sr）。</p>
+<p><strong>结果</strong><br />
+- <strong>行缓冲命中率</strong>：银行分区使大多数基准测试的行缓冲命中率提升（如libquantum恢复了一半因干扰丢失的局部性），但lbm因可用银行数减少命中率下降；子排名会略微降低命中率（因子排名交错粒度变小）。<br />
+- <strong>系统吞吐量（Weighted Speedup）</strong>：<br />
+  - 高局部性工作负载组（HIGH）：银行分区带来最大提升（平均~9.8%），子排名单独效果微弱，组合后因额外延迟略有下降但仍优于基线。<br />
+  - 混合工作负载组（MIX）：银行分区与子排名协同效果最好，平均吞吐量提升7.4%，部分工作负载（如M1、M4）因包含mcf或lbm表现略差。<br />
+  - 低局部性工作负载组（LOW）：银行分区通过负载均衡使排队延迟降低（Figure 8），平均提升4.2%；子排名进一步改善。<br />
+  - 非内存密集型工作负载组（LOW BW）：提升较小（平均2.4%），但组合方案仍最优。<br />
+- <strong>公平性（最小加速比）</strong>：仅银行分区会显著降低低局部性基准（如mcf、omnetpp）的性能；组合子排名后恢复公平性，最小加速比提升15%。<br />
+- <strong>功耗与能效</strong>：<br />
+  - DRAM功耗：组合方案平均降低21.4%（Figure 10），因激活命令减少。<br />
+  - 系统能效（吞吐量/系统功率）：HIGH组提升~10%，MIX组提升~9%（组合优于单一方案）。<br />
+  - 仅考虑DRAM功耗时，组合方案提升20–45%（Figure 11b）。<br />
+- <strong>银行受限系统</strong>（单排名/通道）：组合方案效果更显著，系统能效提升18–25%（Figure 12）。</p>
+<p><strong>结论</strong><br />
+- 银行分区与子排名相结合是一种强大且实际可行的方案，可从根源上消除多核内存访问的交错干扰，同时维持充足的银行级并行性。<br />
+- 该方法在不同工作负载类型（高局部性、混合、低局部性、非密集型）下均能提升吞吐量、公平性和能效，尤其适用于未来核心数增长快于银行数增长的银行受限系统。<br />
+- 与仅依赖内存调度策略的优化正交，可进一步结合调度策略获得更大收益。</p>
+<hr />
+<h2 id="2">2. 背景知识与核心贡献<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p><strong>研究背景</strong></p>
+<p>现代主存系统依赖<strong>空间局部性</strong>获取高带宽并降低功耗成本。DRAM通过<strong>行缓冲（Row Buffer）</strong>机制利用局部性：同一行的后续访问仅需发送列地址（行缓冲命中），大幅降低延迟与能耗。然而，多核（CMP）系统共享内存时，来自独立线程的访问流在内存控制器处交错混合，导致空间局部性严重退化。以<strong>lbm</strong>为例，单实例运行时行缓冲命中率达98%，4个实例并行时降至50%，若混合<strong>mcf</strong>等低局部性程序，命中率进一步跌至35%。</p>
+<p><strong>研究动机</strong></p>
+<p>现有<strong>内存调度器</strong>（如FR-FCFS、ATLAS、TCM）通过重排序部分恢复局部性，但受限于三个根本问题：
+- 调度缓冲大小有限，无法容纳足够多的请求以重建局部性
+- 片上网络竞争增加请求到达间隔，使相邻空间请求更易错过调度窗口
+- 调度器的核心目标并非恢复局部性，而是最大化吞吐量或公平性</p>
+<p>因此需要从根源上解决问题，而非依赖调度启发式方法。</p>
+<p><strong>核心贡献</strong></p>
+<p>本文提出一种<strong>组合机制</strong>，通过平衡<strong>行缓冲局部性</strong>与<strong>Bank并行性</strong>的冲突需求，同时提升性能与能效。</p>
+<ul>
+<li><strong>银行分区（Bank Partitioning）</strong>：</li>
+<li>通过扩展OS物理帧分配算法，将<strong>独立DRAM Bank</strong>集分配给不同线程，从根本上消除线程间访问干扰</li>
+<li>实现方式：在物理地址中引入<strong>颜色（Color）位</strong>（如图3），控制Bank映射；采用<strong>缓存集索引置换</strong>替代XOR-Bank置换，避免分区被哈希破坏</li>
+<li>
+<p>效果：恢复行缓冲命中率（如<strong>libquantum</strong>恢复50%丢失局部性），提升带高局部性应用的性能与能效</p>
+</li>
+<li>
+<p><strong>子排名（Sub-Ranking）</strong>：</p>
+</li>
+<li>将宽Rank拆分为32位窄<strong>子Rank</strong>，使每个子Rank独立控制，<strong>有效增加Bank数量</strong>而无需额外成本</li>
+<li>补偿银行分区导致的<strong>每线程Bank数减少</strong>，尤其保护低局部性应用（如<strong>mcf</strong>、<strong>omnetpp</strong>）所需的并行性</li>
+<li>
+<p>选择32位子Rank平衡<strong>并行性提升</strong>与<strong>额外访问延迟</strong></p>
+</li>
+<li>
+<p><strong>协同增益</strong>：</p>
+</li>
+<li>银行分区与子排名单独应用各有缺陷：分区降低并行性，子排名增加延迟。组合后，分区消除干扰，子排名恢复并行性，实现<strong>性能、公平性、能效同步提升</strong></li>
+<li>实验显示：混合负载平均吞吐量提升7%，最慢应用速度（公平性指标）提升15%，DRAM功耗降低21.4%</li>
+</ul>
+<p>该机制通过<strong>地址映射隔离</strong>解决干扰根源，通过<strong>子排名增加有效Bank</strong>弥补并行性损失，特别适用于未来<strong>Bank资源受限</strong>的多核系统。</p>
+<hr />
+<h2 id="3">3. 核心技术和实现细节<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<h3 id="0_1">0. 技术架构概览<a class="headerlink" href="#0_1" title="Permanent link">&para;</a></h3>
+<p><strong>核心问题</strong>：多核共享内存系统中，不同线程的访存流交错导致<strong>空间局部性</strong>损失，降低了行缓冲命中率，增加了功耗和延迟。传统调度器无法根本解决。</p>
+<p><strong>整体技术架构</strong>：通过操作系统级页着色实现<strong>DRAM Bank分区</strong>，隔离线程访存流，恢复局部性；再通过<strong>内存子排名（Sub-ranking）</strong> 技术有效增加系统bank总数，补偿因分区导致的每线程bank级并行性下降。两者协同，在保持公平性的同时提升吞吐量和能效。</p>
+<hr />
+<ul>
+<li><strong>第一层：DRAM Bank分区（Bank Partitioning）</strong></li>
+<li><strong>实现方式</strong>：扩展操作系统物理帧分配算法，将物理帧到DRAM bank的映射与线程（核心）绑定。<ul>
+<li>利用<strong>页着色（Page Coloring）</strong> 技术：在物理地址中引入核心ID位（CID），使不同核心分配到的物理帧落在非重叠的bank集合上。</li>
+<li>为保证行缓冲局部性，相邻物理地址映射到同一DRAM行；着色粒度与DRAM row大小对齐。</li>
+</ul>
+</li>
+<li><strong>核心收益</strong>：消除跨线程的bank访问冲突，恢复每线程的行缓冲命中率（如lbm从35%恢复至接近98%），减少预充电和激活命令，降低延迟和功耗。</li>
+<li>
+<p><strong>副作用</strong>：每线程可用的bank总数减少，可能降低<strong>bank级并行性</strong>，尤其对低空间局部性应用（如mcf）不利。</p>
+</li>
+<li>
+<p><strong>第二层：DRAM子排名（Sub-ranking）</strong></p>
+</li>
+<li><strong>技术原理</strong>：将传统64-bit宽rank拆分为多个更窄的独立子排名（如32-bit子排名）。<ul>
+<li>每个子排名内bank独立控制，可保持不同行开放，从而等效增加系统bank数量。</li>
+</ul>
+</li>
+<li><strong>平衡设计</strong>：选择32-bit子排名，在提供足够bank并行性的同时，避免过窄子排名带来的额外访问延迟和地址总线压力。</li>
+<li>
+<p><strong>核心收益</strong>：在不增加物理DIMM数量、不增加芯片引脚、不改变DRAM内部结构的前提下，为每个线程提供更多可并行访问的bank，弥补bank分区造成的并行性损失。</p>
+</li>
+<li>
+<p><strong>第三层：Bank分区 + 子排名（bpart+sr）协同</strong></p>
+</li>
+<li><strong>互补关系</strong>：bank分区恢复局部性，子排名恢复并行性；两者分别优化了内存系统的两个核心冲突指标（局部性与并行性）。</li>
+<li><strong>实现细节</strong>：<ul>
+<li>bank分区的地址映射中，子排名视为独立bank，颜色分配算法将子排名也纳入分区集合。</li>
+<li>缓存组索引置换（Cache Set Index Permutation）替代传统的XOR bank索引置换，确保着色映射不受原有XOR排列干扰。</li>
+</ul>
+</li>
+<li>
+<p><strong>整体效果</strong>：</p>
+<ul>
+<li>吞吐量（加权加速比）提升：高局部性负载组平均+9.8%，混合负载组+7.4%，低局部性负载组+4.2%。</li>
+<li>公平性（最小加速比）提升：相比纯bank分区，子排名使低局部性应用性能恢复，最小加速比平均提升15%。</li>
+<li>DRAM功耗降低平均21.4%，系统能效（吞吐量/系统功率）提升在bank受限系统中可达25%。</li>
+</ul>
+</li>
+<li>
+<p><strong>评估环境与指标</strong></p>
+</li>
+<li><strong>模拟平台</strong>：Zesto（x86 OoO处理器模拟器）+ 自研DRAM模拟器。</li>
+<li><strong>配置</strong>：8核4GHz，2通道×2rank/channel×8bank/rank，DDR3-1600，FR-FCFS调度。</li>
+<li><strong>基准工作负载</strong>：SPEC CPU2006多程序混合，按空间局部性分为HIGH、MIX、LOW、LOW_BW四组。</li>
+<li><strong>关键度量</strong>：加权加速比（系统吞吐量）、最小加速比（公平性）、行缓冲命中率、DRAM功耗、系统能效（吞吐量/功率）。</li>
+</ul>
+<h3 id="1-bank-partitioning-via-os-controlled-page-coloring">1. Bank Partitioning via OS-Controlled Page Coloring<a class="headerlink" href="#1-bank-partitioning-via-os-controlled-page-coloring" title="Permanent link">&para;</a></h3>
+<p><strong>核心实现原理</strong></p>
+<ul>
+<li>利用操作系统物理帧分配中的 <strong>页着色（Page Coloring）</strong> 机制，将 <strong>DRAM bank 索引</strong> 编码为物理地址中的 <strong>颜色位</strong>。</li>
+<li>每个核心被分配一组互斥的颜色，对应一组特定的 bank。当核心申请物理页时，OS 仅从该核心的颜色集合中选择空闲帧，从而保证不同核心的访问流落在不同 bank，从根源上消除行缓冲干扰。</li>
+<li>该机制完全在 OS 的虚拟-物理地址映射层实现，无需修改内存控制器或 DRAM 硬件。地址解码逻辑保持不变，硬件的 bank 划分对处理器透明。</li>
+</ul>
+<p><strong>算法流程与参数设置</strong></p>
+<ul>
+<li><strong>物理地址格式</strong>：在物理帧号中插入 <strong>颜色位</strong>。例如，对于 4 bank 系统（图 3a），bit 14 用于核心 ID（颜色），bit 13 和 bit 12 用于 bank 索引。核心 0 只能使用颜色 0（bank {0,1}），核心 1 只能使用颜色 1（bank {2,3}）。</li>
+<li><strong>静态分区策略</strong>：为每个核心分配相等数量的颜色。例如，8 核系统拥有 32 个 bank（2 通道 × 2  rank × 8 bank），每个核心分配 4 个颜色（即 4 个 bank 组）。该策略无需运行时 profiling，对动态工作负载变化鲁棒性强。</li>
+<li><strong>与缓存索引置换的协同</strong>：常规 XOR 置换会破坏颜色与 bank 的绑定关系。论文采用 <strong>缓存集合索引置换</strong> 代替 bank 索引置换，确保同一颜色内的缓存行仍映射到同一组 bank，同时避免缓存集合被分区（即不同核心仍可共享缓存集合）。</li>
+<li><strong>溢出机制</strong>：若核心用尽自己的颜色帧，OS 可分配其他颜色的帧，但会牺牲隔离性。论文将此溢出处理留作未来工作。</li>
+</ul>
+<p><strong>输入输出关系</strong></p>
+<ul>
+<li><strong>输入</strong>：核心 ID（或进程标识）、虚拟页号。</li>
+<li><strong>处理</strong>：OS 页着色算法根据核心 ID 选择对应颜色的空闲物理帧，更新页表。映射规则确保物理帧号的颜色位始终属于该核心的允许集。</li>
+<li><strong>输出</strong>：物理页帧号。该帧号的 bank 位（颜色位 + 内部 bank 位）决定了其在 DRAM 中的物理位置，并自动绑定到核心对应的 bank 组。</li>
+<li><strong>在整体系统中的作用</strong>：作为 <strong>银行分区（Bank Partitioning）</strong> 的实现基础。它隔离了线程的访问流，大幅提升了高空间 locality 应用的行缓冲命中率。同时，它将减少每个线程可用的 bank 并行度，为后续 <strong>子排名（Sub‑ranking）</strong> 技术的引入提供补偿的必要性。</li>
+</ul>
+<p><strong>与子排名的协同</strong></p>
+<ul>
+<li>银行分区降低每线程 bank 并行度，可能损害低 locality 应用的性能。子排名将一个物理 rank 拆分为多个独立子 rank（如 32‑bit 子 rank），有效增加系统中的 bank 总数，从而补偿被分区削弱的并行性。</li>
+<li>组合后，对于混合型 workload（如 MIX 组），可实现 <strong>加权加速比提升 7%</strong>、<strong>最小加速比提升 15%</strong>（公平性指标），同时 <strong>DRAM 功耗平均降低 21.4%</strong>。</li>
+</ul>
+<p><strong>关键性能数据示例</strong></p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>Bpart 单独</th>
+<th>Sr 单独</th>
+<th>Bpart+Sr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高 locality 组加权加速比</td>
+<td>+12%</td>
+<td>+2%</td>
+<td>+10%</td>
+</tr>
+<tr>
+<td>混合组加权加速比</td>
+<td>+5%</td>
+<td>+4%</td>
+<td>+7%</td>
+</tr>
+<tr>
+<td>最小加速比（MIX 组平均）</td>
+<td>-8%</td>
+<td>+2%</td>
+<td>+7%</td>
+</tr>
+<tr>
+<td>DRAM 功耗节省</td>
+<td>-10%</td>
+<td>-15%</td>
+<td>-21%</td>
+</tr>
+<tr>
+<td>（数据基于图 7、图 9、图 10 汇总）</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>实现优点总结</strong></p>
+<ul>
+<li><strong>低开销</strong>：仅需修改 OS 的物理帧分配逻辑，无硬件改动。</li>
+<li><strong>鲁棒性</strong>：静态分区无需 profiling，适应 workload 变化。</li>
+<li><strong>可组合性</strong>：与现有缓存置换、内存调度策略正交，可叠加子排名进一步优化。</li>
+<li><strong>可扩展性</strong>：随着核心数增加（银行数增长较慢），该方案愈发关键（参见图 12 单 rank 系统效率提升 18–25%）。</li>
+</ul>
+<h3 id="2-cache-set-permutation-to-preserve-bank-partitioning">2. Cache-Set Permutation to Preserve Bank Partitioning<a class="headerlink" href="#2-cache-set-permutation-to-preserve-bank-partitioning" title="Permanent link">&para;</a></h3>
+<p><strong>核心问题</strong>：传统的 <strong>XOR-permuted bank indexing</strong> 是一种广泛用于减少 DRAM bank 冲突的优化方法，但它会破坏基于颜色的 <strong>bank partitioning</strong>。因为 XOR-permutation 会修改物理地址中直接对应 bank 的位（即颜色位），导致原本属于同一 core 的帧被散射到所有 bank，失去了隔离性。</p>
+<p><strong>解决方案</strong>：采用 <strong>Mi et al.[13]</strong> 提出的技术，即 <strong>不置换 bank 索引，而是置换 cache set 索引</strong>。这样做的核心思想是：</p>
+<ul>
+<li><strong>保留 bank 索引位</strong>：物理地址中用于选择 DRAM bank 的位保持不变（由颜色位直接决定），从而每个 core 的帧仍然被限制在其分配的颜色组（特定的 bank 集合）内，实现了 bank 分区。</li>
+<li><strong>置换 cache set 索引</strong>：对用于索引 cache set 的物理地址位进行可逆的置换（例如 XOR 操作）。这使得原本会映射到同一个 cache set 的连续地址被分散到不同的 cache set，从而减少 cache 冲突。</li>
+<li><strong>缓存与 DRAM 的解耦</strong>：通过上述设计，bank 分区和缓存性能优化不再相互制约。单个 core 的 bank 组固定，但其缓存行（cache lines）可以均匀分布在所有 cache set 上，避免了因分区导致的局部缓存集压力过载。</li>
+</ul>
+<hr />
+<p><strong>实现原理与算法流程</strong>：</p>
+<ul>
+<li><strong>输入</strong>：物理地址（Physical Address）。</li>
+<li><strong>参数设置</strong>：</li>
+<li>固定一组 <strong>颜色位</strong>（Color Bits），用于指定 core 所属的 bank 集合。例如，在简单系统中，bit 14 表示 core ID，决定 bank 0-1 或 2-3（如图 3(a) 所示）。</li>
+<li>选择一个 <strong>置换函数</strong>（Permutation Function），通常为 XOR 与一个预设掩码（mask）的组合，作用于物理地址中原本用于生成 cache set index 的位段。该函数需要是双射的，以保证所有 cache set 被均匀使用。</li>
+<li><strong>算法步骤</strong>：</li>
+<li>提取物理地址中的 <strong>颜色位</strong>，直接映射到 DRAM bank 索引（保持不变）。</li>
+<li>提取物理地址中的 <strong>cache set 相关位</strong>，应用置换函数，得到最终的 cache set index。</li>
+<li>其余位（如 row, column）按照常规 DRAM 地址映射提取。</li>
+<li><strong>输出</strong>：</li>
+<li><strong>DRAM 地址</strong>：包括 bank, rank, channel, row, column，其中 bank 由颜色位直接决定。</li>
+<li><strong>Cache set index</strong>：由置换后的值决定，用于 L2/L3 缓存的集合选择。</li>
+<li><strong>在整体系统中的作用</strong>：</li>
+<li>实现 <strong>银行分区</strong>（bank partitioning），隔离不同 core 的访问流，消除 row-buffer 干扰（见图 4）。</li>
+<li>同时，通过 <strong>置换 cache set index</strong>，避免了因 bank 分区可能导致的额外缓存冲突（例如，原本连续内存的地址由于颜色固定而集中在少数 cache set）。该技术使得每个 core 的缓存访问模式更加均匀，补偿了银行分区对缓存行为的影响。</li>
+<li>与 <strong>sub-ranking</strong> 结合时，可进一步抵消 bank 分区带来的并行度损失，实现兼顾 locality 与 parallelism 的最终方案。</li>
+</ul>
+<hr />
+<p><strong>为何不采用传统 XOR-permuted bank indexing</strong>：</p>
+<ul>
+<li>传统方法：<code>bank_index = original_bank XOR (some bits from tag)</code>。这会直接改写颜色位，导致一个 core 的帧分布在所有 bank，bank 分区失效。</li>
+<li>本方法：<code>set_index = original_set_index XOR (some bits)</code>。颜色位不受影响，bank 分区得到保留；同时，缓存访问的均匀性通过置换 set 索引来保证，达到了同样的减少 bank 冲突和缓存冲突的效果。</li>
+</ul>
+<hr />
+<p><strong>数据/表格参考</strong>（来自论文中的配置对比）：</p>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>bank 分区</th>
+<th>缓存集合置换</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>shared</strong> (基线)</td>
+<td>无</td>
+<td>无 XOR-permuted bank index</td>
+<td>高度行缓冲干扰</td>
+</tr>
+<tr>
+<td><strong>bpart</strong> (仅分区)</td>
+<td>有</td>
+<td>使用 cache-set permutation</td>
+<td>减少行缓冲干扰，但可能缓存冲突</td>
+</tr>
+<tr>
+<td><strong>sr</strong> (仅 sub-ranking)</td>
+<td>无</td>
+<td>无</td>
+<td>增加并行度但无隔离</td>
+</tr>
+<tr>
+<td><strong>bpart+sr</strong> (本方案)</td>
+<td>有</td>
+<td>使用 cache-set permutation</td>
+<td>同时实现隔离、并行度、缓存公平</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>图片引用</strong>（根据文档内容关联）：</p>
+<ul>
+<li>图 3 (a) 和 (b) 展示了 bank 分区的地址映射，其中颜色位（CIDP 或 Colors）直接映射到 bank 索引。</li>
+<li>图 6 显示了 bank 分区（bpart）在各基准中提升了 row-buffer hit rate，但结合 sub-ranking 后略有下降——这正是 cache-set permutation 协同工作的结果。</li>
+</ul>
+<h3 id="3-dram-sub-ranking-to-increase-effective-bank-count">3. DRAM Sub-Ranking to Increase Effective Bank Count<a class="headerlink" href="#3-dram-sub-ranking-to-increase-effective-bank-count" title="Permanent link">&para;</a></h3>
+<p><strong>核心思想</strong><br />
+DRAM Sub-Ranking通过将宽Rank（64-bit）拆分为更窄的独立子Rank，使多个子Rank能同时保持不同的活跃行，从而在不增加物理芯片数量的前提下<strong>有效增加系统中的独立Bank数量</strong>。该技术主要被用于补偿Bank Partitioning带来的每线程Bank并行度损失，并同时降低DRAM功耗。</p>
+<hr />
+<p><strong>实现原理</strong></p>
+<ul>
+<li>
+<p><strong>硬件拆分</strong><br />
+  一个传统的64-bit Rank由8个x8 DRAM芯片并行组成，所有芯片在同一时刻必须保持同一行（Row）开放。Sub-Ranking通过控制信号（如Chip Enable）将Rank拆分为若干宽度减半的子Rank。<br />
+  以文中采用的<strong>32-bit子Rank</strong>为例：一个64-bit Rank被分成两个32-bit子Rank，每个子Rank由4个x8芯片组成。这两个子Rank可以<strong>独立选择开启或关闭</strong>，并且可以各自激活不同的Row。</p>
+</li>
+<li>
+<p><strong>独立控制机制</strong><br />
+  内存控制器或模块侧控制器（如MC-DIMM方案）分别为每个子Rank发送独立的行激活（ACT）和列选择（READ/WRITE）命令。因此，原本在一个Rank内<strong>必须同步操作</strong>的8个内部Bank，现在变为两个子Rank之间的Bank可以异步操作，每个子Rank内部的8个Bank仍保持传统时序约束，但两个子Rank的Bank可<strong>完全并行</strong>。<br />
+  → 有效独立Bank数量翻倍（从8变为16）。</p>
+</li>
+</ul>
+<hr />
+<p><strong>参数设置与权衡</strong></p>
+<ul>
+<li><strong>子Rank宽度选择</strong><br />
+  论文评估了8-bit、16-bit、32-bit三种宽度，最终选择<strong>32-bit</strong>，原因：  </li>
+<li>8-bit子Rank：完成一次64B Cache Line访问需要8个数据传输周期（相比标准4周期），在4GHz处理器上产生<strong>80 CPU周期</strong>的额外延迟，且地址总线压力剧增。  </li>
+<li>16-bit子Rank：额外延迟<strong>40 CPU周期</strong>，地址总线仍面临时序紧张。  </li>
+<li>
+<p>32-bit子Rank：额外延迟<strong>20 CPU周期</strong>以内（具体未给出，但明显小于16-bit），且不增加地址总线带宽需求。</p>
+</li>
+<li>
+<p><strong>额外延迟的影响</strong><br />
+  32-bit子Rank每次访问需要多占用数据总线时间（因为需要发送更多列地址和数据片），但在<strong>Row-Buffer Miss</strong>为主的场景下，该延迟远小于Miss延迟（约33 cycle），因此性能损失可接受。而在<strong>Row-Buffer Hit</strong>密集的场景（如Bank Partitioning后），额外延迟会相对显著，但通过并行性补偿后整体仍为增益。</p>
+</li>
+</ul>
+<hr />
+<p><strong>输入输出关系及在整体架构中的作用</strong></p>
+<ul>
+<li><strong>输入</strong>  </li>
+<li>原始DRAM配置：例如2 Channel × 2 Rank/Channel × 8 Bank/Rank = 32个物理Bank。  </li>
+<li>
+<p>采用Bank Partitioning后，每个Core分配<strong>固定子集</strong>（如8 Core各获得4个Bank），则每线程Bank数大幅减少。</p>
+</li>
+<li>
+<p><strong>输出</strong>  </p>
+</li>
+<li>每个Rank被拆分为2个子Rank，每个子Rank拥有8个内部Bank且可独立操作。因此等效独立Bank数变为：2 Channel × (2 Rank × 2 Sub-Rank) × 8 Bank = 64个有效Bank。  </li>
+<li>
+<p>每线程可用Bank数从4提升至8（若每个Core被分配1个Sub-Rank中的4个Bank？实际分区方式可能跨子Rank，但关键点是整体并行度翻倍）。</p>
+</li>
+<li>
+<p><strong>在整体架构中的角色</strong>  </p>
+</li>
+<li><strong>补偿Bank Partitioning的副作用</strong>：Bank Partitioning隔离了访问流但限制了每线程的Bank并行度，对低空间局部性应用（如mcf, omnetpp）造成性能损失。Sub-Ranking将这些应用的可用Bank数恢复至接近原水平，从而<strong>消除不公平性</strong>（见图9最低加速比恢复）。  </li>
+<li><strong>协同降低功耗</strong>：Sub-Ranking每次只激活子Rank对应的部分DRAM芯片（32-bit vs 64-bit），直接降低数据读取和预充电功耗。结合Bank Partitioning减少的Row激活次数，整体DRAM功耗降低平均<strong>21.4%</strong>（图10）。  </li>
+<li><strong>性能增益</strong>：对于混合型负载（MIX组），Bank Partitioning + Sub-Ranking的加权加速比平均提升<strong>7.4%</strong>，且最小加速比（公平性）提升<strong>15%</strong>。</li>
+</ul>
+<hr />
+<p><strong>图片引用说明</strong></p>
+<ul>
+<li>图5（<code>images/a0ca35619bd2b24ecff3a24b34fb878cec97e68a8ee424fa9e90b3302203ab93.jpg</code>）展示了大多数应用在8~16 Banks时达到性能饱和，而lbm等需要更多Banks，论证了Sub-Ranking提供的额外Bank数的必要性。  </li>
+<li>图10（<code>images/b78d0325c9fae1c4d07e36eb944eaaf0cced2f37bf66cb9471dcff0fabd62cd0.jpg</code>）显示了Sub-Ranking单独可降低DRAM功耗约15%，与Bank Partitioning结合后降至近70%基线水平，验证了功耗协同效应。</li>
+</ul>
+<h3 id="4-combined-bank-partitioning-and-sub-ranking">4. Combined Bank Partitioning and Sub-Ranking<a class="headerlink" href="#4-combined-bank-partitioning-and-sub-ranking" title="Permanent link">&para;</a></h3>
+<p><strong>核心实现原理</strong></p>
+<ul>
+<li><strong>Bank Partitioning（银行分区）</strong>：通过修改操作系统的物理页帧分配逻辑，将物理地址中的特定比特位（如核心ID）直接映射到DRAM Bank地址位。这样，不同核心的访问流被强制分配到互不相交的Bank集合，消除跨线程的Row-Buffer干扰。</li>
+<li>地址映射示例：物理地址中新增“颜色”（Color）字段，如 <code>(CIDP + PFN)</code> 共同确定Bank编号。不同核心只能使用属于自己的颜色集合。详见 <code>Figure 3</code>（文档中Figure 3的文字描述）。</li>
+<li>实现方式：无需改变内存控制器解码逻辑，仅依赖OS页着色（Page Coloring）。同时使用 <strong>XOR-置换缓存组索引</strong>替代传统的XOR-置换Bank索引，以保持分区效果。</li>
+<li><strong>Sub-Ranking（子秩）</strong>：将传统64-bit宽Rank拆分为多个独立控制的窄Sub-Rank（如32-bit）。每个Sub-Rank拥有自己的芯片使能信号，可独立执行Activate、Read/Write、Precharge命令，等效于增加系统的独立Bank数量。</li>
+<li>本方案选择 <strong>32-bit Sub-Rank</strong>，以平衡额外延迟（约4个CPU周期）与并行度收益。</li>
+<li><strong>组合机制</strong>：Bank Partitioning牺牲了每个线程可用的Bank数量（因为每个线程只能访问部分Bank），而Sub-Ranking通过提高有效Bank总数来补偿这一损失。两者作为两个独立的调节旋钮，共同平衡<strong>Row-Buffer局部性</strong>和<strong>Bank级并行性</strong>这对矛盾需求。</li>
+</ul>
+<p><strong>算法流程与参数设置</strong></p>
+<ul>
+<li><strong>Bank Partitioning 流程</strong>：</li>
+<li>OS为每个核心定义一组“颜色”（即Bank集合），采用静态均匀分配（每个核心获得等量Bank）。</li>
+<li>当核心请求物理帧时，OS的页分配算法仅从该核心对应的颜色池中选择帧，确保不同核心的物理页映射到不同Bank。</li>
+<li>若核心耗尽自身颜色池的帧，OS可“溢出”到其他颜色的帧，但会降低隔离效果。</li>
+<li><strong>Sub-Ranking 流程</strong>：</li>
+<li>内存控制器向DRAM模块发送命令时，将传统Rank内所有芯片的CEN信号按Sub-Rank粒度独立控制。</li>
+<li>每个Sub-Rank可持有不同的Row激活状态，支持并发访问。</li>
+<li><strong>参数设置</strong>：</li>
+<li><strong>分区粒度</strong>：每个核心分配 <strong>1个Rank内的连续Bank</strong>（例如8-bank系统下，4核心各得2 Bank）。</li>
+<li><strong>Sub-Rank宽度</strong>：固定为 <strong>32-bit</strong>，以避免过度增加访问延迟和地址总线压力。</li>
+<li><strong>调度策略</strong>：FR-FCFS + Open Page，与基线一致。</li>
+<li><strong>缓存置换</strong>：采用Cache Set Index XOR，代替Bank Index XOR，以保留分区效果。</li>
+</ul>
+<p><strong>输入输出关系</strong></p>
+<ul>
+<li><strong>输入</strong>：来自多个核心的访存请求（物理地址流）。Bank Partitioning通过OS页分配将地址流按核心分类；Sub-Ranking将每个Rank内的地址进一步分解为Sub-Rank级命令。</li>
+<li><strong>输出</strong>：DRAM模块接收的Activate、Read/Write、Precharge命令序列及其时序。</li>
+<li><strong>整体作用</strong>：</li>
+<li><strong>缩短Row-Buffer空泡</strong>：隔离后，每个线程的局部性得以保留，Row-Buffer命中率显著提升（如 <code>Figure 6</code> 所示：libquantum恢复约50%的丢失命中率）。</li>
+<li><strong>维持Bank级并行</strong>：Sub-Ranking使每个线程仍拥有足够多的并行Bank（即使原本被分区），避免低局部性应用的性能退化（如 <code>Figure 5</code> 显示多数应用在8–16 Bank时饱和，Sub-Ranking可将有效Bank数提升至与基线相当）。</li>
+<li><strong>功率效率</strong>：Row-Buffer命中减少Activate次数，Sub-Ranking降低每次访问激活的芯片数量，两者叠加使DRAM功耗平均下降 <strong>21.4%</strong>（ <code>Figure 10</code>），系统功耗效率（Throughput/Watt）提升 <strong>7–10%</strong>（ <code>Figure 11</code>）。</li>
+</ul>
+<p><strong>关键指标与量化验证</strong></p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>仅Bank Partitioning</th>
+<th>仅Sub-Ranking</th>
+<th>组合方案</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Row-Buffer命中率（高局部性应用）</strong></td>
+<td>+15～30%</td>
+<td>-5～10%</td>
+<td>+10～25%</td>
+<td>局部性恢复优于Sub-Ranking的微损失</td>
+</tr>
+<tr>
+<td><strong>加权加速比（混合负载）</strong></td>
+<td>+5～8%</td>
+<td>+2～4%</td>
+<td>+7～12%</td>
+<td>组合方案在混合负载中协同增效</td>
+</tr>
+<tr>
+<td><strong>最小加速比（公平性）</strong></td>
+<td>-2～5%（低局部性应用受损）</td>
+<td>+1%</td>
+<td>+15%</td>
+<td>组合方案恢复公平性</td>
+</tr>
+<tr>
+<td><strong>DRAM功耗</strong></td>
+<td>-10～15%</td>
+<td>-15～20%</td>
+<td>-20～45%</td>
+<td>取决于系统Bank限制程度</td>
+</tr>
+</tbody>
+</table>
+<p><strong>在整体系统中的作用</strong></p>
+<ul>
+<li><strong>解决核心矛盾</strong>：多核环境下，传统Bank交错映射导致线程间Row-Buffer频繁冲突。Bank Partitioning从根源上切断干扰，但牺牲并行性。Sub-Ranking则在不增加硬件成本的前提下恢复并行性。两者结合，使系统能同时享受高局部性和高并行性。</li>
+<li><strong>对可扩展性的贡献</strong>：随着核心数增长快于Bank数增长（Bank限制型系统），组合方案的优势更加凸显（ <code>Figure 12</code> 显示单Rank系统下系统效率提升达25%）。它为未来多核/众核架构提供了一种经济、高效的DRAM隔离与加速手段。</li>
+<li><strong>正交于调度策略</strong>：可与现有的内存控制器调度策略（如FR-FCFS、ATLAS、TCM）叠加，进一步提升性能。</li>
+</ul>
+<hr />
+<h2 id="4">4. 实验方法与实验结果<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p><strong>实验设置</strong></p>
+<ul>
+<li><strong>模拟平台</strong>：使用 <strong>Zesto</strong>（x86 out-of-order 处理器模拟器）和自研 <strong>DRAM 模拟器</strong>。物理帧分配逻辑被扩展以实现 Bank 分区。</li>
+<li><strong>系统配置</strong>：8 核 4GHz，私有 L1（32KB）/L2（256KB），共享 8MB L3。内存控制器采用 <strong>FR-FCFS</strong> 调度、开放行策略，具有 64 项读/写队列。</li>
+<li><strong>内存配置</strong>：<strong>2 通道，每通道 2 个 Rank，每 Rank 8 个 Bank</strong>（共 32 个 Bank）。采用 <strong>DDR3-1600</strong>，每 Rank 8×8 芯片。另对 <strong>1-Rank 系统</strong>（每通道 1 Rank）进行了实验以模拟 Bank 受限场景。</li>
+<li><strong>工作负载</strong>：多程序负载（Multi-programmed）来自 <strong>SPEC CPU2006</strong>，根据 LLC MPKI 和行缓冲命中率分为四组：</li>
+<li><strong>HIGH</strong>：高空间局部性（lbm, milc, soplex, libquantum, leslie3d）</li>
+<li><strong>MIX</strong>：混合高低局部性</li>
+<li><strong>LOW</strong>：低空间局部性（mcf, omnetpp）</li>
+<li><strong>LOW_BW</strong>：非内存密集型</li>
+<li>每组包含多个具体的负载组合（如 H1~H5, M1~M7 等），每个组合复制 8 次以运行在 8 核上。使用 <strong>SimPoint</strong> 提取 2 亿条指令的代表性片段。</li>
+<li><strong>评估指标</strong>：</li>
+<li><strong>Weighted Speedup (WS)</strong>：衡量系统吞吐量，公式为各应用共享 IPC 与单跑 IPC 之比的和。</li>
+<li><strong>Minimum Speedup</strong>：最小加速比，衡量公平性。</li>
+<li><strong>系统效率</strong>：WS 除以系统总功率（CPU + DRAM），以及 WS 除以 DRAM 功率。</li>
+<li>功率模型：DRAM 使用 Micron 模型，CPU 动态功率与 IPC 成正比。</li>
+<li><strong>实验配置</strong>：对比四种配置：</li>
+<li><strong>shared</strong>：传统共享 Bank</li>
+<li><strong>bpart</strong>：Bank 分区（每核分配连续 Bank）</li>
+<li><strong>sr</strong>：Sub-ranking（32-bit 子秩，将每个 Rank 分为两个独立子秩）</li>
+<li><strong>bpart+sr</strong>：两者结合</li>
+</ul>
+<hr />
+<p><strong>结果数据</strong></p>
+<p><strong>行缓冲命中率（Figure 6）</strong></p>
+<ul>
+<li><strong>bpart</strong> 显著提升了大多数应用的行缓冲命中率，尤其 <strong>libquantum</strong> 恢复了一半因干扰丢失的局部性。</li>
+<li>例外：<strong>lbm</strong> 的命中率反而下降，因为其局部性依赖于大量 Bank，而分区减少了可用 Bank 数。</li>
+<li><strong>sr</strong> 本身会降低命中率（子秩交织粒度 64B 导致首次访问无命中），但与 bpart 结合后命中率仅轻微下降。</li>
+</ul>
+<p><strong>系统吞吐量（Figure 7）</strong></p>
+<ul>
+<li><strong>HIGH 组</strong>：bpart 带来 <strong>10-15%</strong> 的吞吐提升，sr 影响不大，bpart+sr 略有下降（因 sr 增加延迟对行缓冲命中为主的负载不利）。</li>
+<li><strong>MIX 组</strong>：bpart+sr 产生 <strong>协同增益</strong>，平均提升 <strong>7.4%</strong>，优于二者单独使用。例外：含 lbm 的 M2、M4 表现稍弱。</li>
+<li><strong>LOW 组</strong>：bpart 反而提升 <strong>~5%</strong>，原因是分区均衡了 Bank 负载，降低了排队延迟（Figure 8）。sr 进一步提高。bpart+sr 平均提升 <strong>4.2%</strong>。</li>
+<li><strong>LOW_BW 组</strong>：改进幅度较小（平均 <strong>2.4%</strong>），但趋势一致。</li>
+</ul>
+<p><strong>最小加速比（公平性，Figure 9）</strong></p>
+<ul>
+<li>单独 bpart 在 MIX 组中显著降低了最小加速比（如 mcf, omnetpp 等低局部性程序因 Bank 减少而受损）。</li>
+<li><strong>bpart+sr</strong> 恢复了这些程序的性能，最小加速比提升 <strong>15%</strong> 以上，公平性优于单独 bpart。</li>
+</ul>
+<p><strong>DRAM 功耗（Figure 10）</strong></p>
+<ul>
+<li>bpart 减少激活次数，功耗略有降低。</li>
+<li>sr 通过激活更少的芯片大幅降低功耗。</li>
+<li><strong>bpart+sr</strong> 使 DRAM 功耗平均降低 <strong>21.4%</strong>，在各负载组中均表现最佳。</li>
+</ul>
+<p><strong>系统效率（Figure 11）</strong></p>
+<ul>
+<li><strong>吞吐量 / 系统功率</strong>：</li>
+<li>HIGH 组：bpart 提升 <strong>~10%</strong>，sr 无帮助。</li>
+<li>MIX 组：bpart+sr 提升 <strong>9%</strong>，优于单独 bpart（6%）和 sr（4%）。</li>
+<li>LOW_BW 组：bpart+sr 仍为最佳（除 LB4 外）。</li>
+<li><strong>吞吐量 / DRAM 功率</strong>（Figure 11b）：</li>
+<li>改进幅度更大，bpart+sr 提升高达 <strong>45%</strong>，大部分负载在 <strong>20-45%</strong> 范围内。</li>
+</ul>
+<p><strong>Bank 受限系统（1-Rank 每通道，Figure 12）</strong></p>
+<ul>
+<li>系统效率提升更加显著：bpart+sr 平均提升 <strong>18-25%</strong>（各组），DRAM 功率效率提升 <strong>约 50%</strong> 相对于整个系统测量结果。</li>
+</ul>
+<hr />
+<p><strong>消融实验分析</strong></p>
+<p>文档通过对比四种配置（shared, bpart, sr, bpart+sr）实质上构成了 <strong>消融研究</strong>。核心发现可归纳为：</p>
+<ul>
+<li><strong>Bank 分区单独作用</strong>：有效恢复局部性，提升高局部性负载的吞吐量和效率，但 <strong>牺牲低局部性负载</strong>（公平性下降），且对 lbm 这类对 Bank 数量敏感的负载不利。</li>
+<li><strong>Sub-ranking 单独作用</strong>：通过增加有效 Bank 数提升低局部性负载性能，并显著降低功耗，但会轻微增加访问延迟，对高局部性负载帮助有限。</li>
+<li><strong>两者结合</strong>：</li>
+<li><strong>协同增益</strong>：bpart+sr 在混合负载（MIX）中实现最佳吞吐和公平性，因为 sr 补偿了 bpart 造成的 Bank 损失，而 bpart 保持了高局部性负载的效率。</li>
+<li><strong>功率优势叠加</strong>：DRAM 功耗降低幅度接近两者之和（约 21% vs. 各自单独约 10%）。</li>
+<li><strong>公平性恢复</strong>：bpart 导致的最小加速比下降被 sr 完全弥补，使得组合方案在公平性上接近甚至优于 shared 基线。</li>
+<li><strong>Bank 受限系统敏感性</strong>：当 Bank 数量更少（1-Rank）时，bpart+sr 的收益成倍放大（系统效率提升 18-25% vs. 正常系统的 9-10%），证实了该技术在未来高核低 Bank 系统中的重要性。</li>
+</ul>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/body_class.js"></script>
+      
+    
+  </body>
+</html>
